@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>智能助手 · 深蓝版</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: #0b1a2f; display: flex; justify-content: center; padding: 16px; min-height: 100vh; }
+        #app { max-width: 1400px; width: 100%; background: #0f2140; border-radius: 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); overflow: hidden; display: flex; flex-direction: column; height: 100vh; max-height: 100vh; }
+
+        .auth-container { display: flex; justify-content: center; align-items: center; min-height: 600px; padding: 24px; background: #0f2140; }
+        .auth-card { background: #1a2f4f; border-radius: 28px; padding: 40px 32px; max-width: 420px; width: 100%; box-shadow: 0 8px 30px rgba(0,0,0,0.3); border: 1px solid #2a4a6a; }
+        .auth-card h2 { font-weight: 600; font-size: 24px; margin-bottom: 8px; color: #e8f0fe; }
+        .auth-card p { color: #9bb7d4; font-size: 14px; margin-bottom: 28px; }
+        .auth-input { width: 100%; padding: 14px 16px; border: 1.5px solid #2a4a6a; border-radius: 16px; font-size: 15px; margin-bottom: 16px; transition: 0.2s; background: #0f2140; color: #e8f0fe; }
+        .auth-input:focus { border-color: #4a8af4; background: #162d50; outline: none; box-shadow: 0 0 0 3px rgba(74,138,244,0.2); }
+        .auth-btn { width: 100%; padding: 14px; background: #1a5bbf; color: white; border: none; border-radius: 40px; font-weight: 600; font-size: 16px; cursor: pointer; transition: 0.2s; }
+        .auth-btn:hover { background: #2a6df4; }
+        .auth-switch { margin-top: 18px; text-align: center; color: #9bb7d4; font-size: 14px; }
+        .auth-switch span { color: #4a8af4; font-weight: 600; cursor: pointer; }
+
+        .main-layout { display: flex; flex-direction: column; height: 100%; flex: 1; min-height: 0; background: #0f2140; }
+        .top-bar { padding: 16px 24px; background: #0f2140; border-bottom: 1px solid #1a3555; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; flex-shrink: 0; }
+        .top-bar .brand { font-weight: 700; font-size: 20px; color: #e8f0fe; display: flex; align-items: center; gap: 8px; }
+        .top-bar .brand i { color: #4a8af4; }
+        .top-search { flex: 1; min-width: 200px; display: flex; background: #0a1a32; border-radius: 40px; padding: 4px 4px 4px 18px; align-items: center; border: 1px solid #1a3555; transition: 0.2s; }
+        .top-search:focus-within { border-color: #4a8af4; background: #0f2140; box-shadow: 0 0 0 3px rgba(74,138,244,0.15); }
+        .top-search input { border: none; background: transparent; padding: 10px 0; flex: 1; font-size: 14px; outline: none; color: #e8f0fe; }
+        .top-search input::placeholder { color: #6a8aaa; }
+        .top-search i { color: #6a8aaa; font-size: 14px; }
+        .top-search button { background: #1a5bbf; border: none; color: white; padding: 8px 18px; border-radius: 40px; font-weight: 500; cursor: pointer; font-size: 13px; }
+        .top-search button:hover { background: #2a6df4; }
+        .user-badge { display: flex; align-items: center; gap: 12px; background: #0a1a32; padding: 6px 16px 6px 12px; border-radius: 40px; border: 1px solid #1a3555; flex-shrink: 0; color: #e8f0fe; }
+        .user-badge i { color: #4a8af4; }
+        .user-badge #logoutBtn { cursor: pointer; color: #8ab0d4; }
+        .user-badge #logoutBtn:hover { color: #ff6b6b; }
+
+        .body-wrap { display: flex; flex: 1; min-height: 0; overflow: hidden; }
+        .sidebar { width: 220px; background: #0a1a32; border-right: 1px solid #1a3555; padding: 20px 0; overflow-y: auto; flex-shrink: 0; height: 100%; }
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #2a4a6a; border-radius: 8px; }
+        .sidebar-item { padding: 12px 24px; display: flex; align-items: center; gap: 14px; color: #9bb7d4; font-weight: 500; cursor: pointer; transition: 0.1s; border-left: 3px solid transparent; }
+        .sidebar-item i { width: 20px; color: #6a8aaa; }
+        .sidebar-item.active { background: #0f2140; border-left-color: #4a8af4; color: #e8f0fe; box-shadow: inset 0 0 0 1px #1a3555; }
+        .sidebar-item:hover { background: #0f2140; color: #e8f0fe; }
+
+        .content { flex: 1; padding: 24px; overflow-y: auto; background: #0f2140; height: 100%; }
+        .content::-webkit-scrollbar { width: 6px; }
+        .content::-webkit-scrollbar-thumb { background: #2a4a6a; border-radius: 8px; }
+
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 16px; margin-bottom: 28px; }
+        .stat-card { background: #0a1a32; border-radius: 20px; padding: 18px 16px; border: 1px solid #1a3555; }
+        .stat-card .label { font-size: 13px; color: #6a8aaa; }
+        .stat-card .value { font-size: 26px; font-weight: 700; color: #e8f0fe; margin-top: 4px; }
+
+        .filter-bar { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; align-items: center; position: relative; }
+        .filter-bar select, .filter-bar input { padding: 10px 14px; border-radius: 40px; border: 1.5px solid #1a3555; background: #0a1a32; color: #e8f0fe; font-size: 13px; }
+        .filter-bar select option { background: #0a1a32; }
+        .filter-bar input::placeholder { color: #6a8aaa; }
+        .filter-bar .btn { background: #1a5bbf; color: white; border: none; padding: 10px 20px; border-radius: 40px; font-weight: 500; cursor: pointer; font-size: 13px; transition: 0.2s; }
+        .filter-bar .btn:hover { background: #2a6df4; }
+        .filter-bar .btn-primary { background: #2a6df4; }
+        .filter-bar .btn-primary:hover { background: #4a8af4; }
+        .filter-bar .btn-success { background: #1a8a4a; }
+        .filter-bar .btn-success:hover { background: #2aaa5a; }
+        .filter-bar .btn-warning { background: #c97d2a; }
+        .filter-bar .btn-warning:hover { background: #e89a3a; }
+        .filter-bar .btn-danger { background: #b33a3a; }
+        .filter-bar .btn-danger:hover { background: #d44a4a; }
+
+        .search-results-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #0a1a32; border: 1px solid #1a3555; border-radius: 16px; max-height: 200px; overflow-y: auto; z-index: 50; margin-top: 4px; padding: 8px 0; display: none; }
+        .search-results-dropdown .result-item { padding: 8px 16px; color: #d0dce8; font-size: 13px; border-bottom: 1px solid #1a3555; cursor: pointer; }
+        .search-results-dropdown .result-item:hover { background: #0f2140; }
+
+        .table-wrap { overflow-x: auto; max-height: 500px; overflow-y: auto; }
+        .table-wrap::-webkit-scrollbar { width: 6px; }
+        .table-wrap::-webkit-scrollbar-thumb { background: #2a4a6a; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th { text-align: left; padding: 12px 10px; background: #0a1a32; color: #9bb7d4; font-weight: 600; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid #1a3555; }
+        td { padding: 12px 10px; border-bottom: 1px solid #1a3555; color: #d0dce8; }
+        .badge { background: #1a3555; color: #4a8af4; padding: 4px 12px; border-radius: 40px; font-size: 12px; font-weight: 600; }
+        .badge-success { background: #1a4a3a; color: #4aca7a; }
+        .badge-danger { background: #4a2a2a; color: #ff6b6b; }
+        .badge-warning { background: #4a3a1a; color: #e8c84a; }
+        .action-icon { margin: 0 6px; color: #6a8aaa; cursor: pointer; font-size: 15px; transition: 0.2s; }
+        .action-icon:hover { color: #e8f0fe; }
+        .action-icon.success { color: #4aca7a; }
+        .action-icon.success:hover { color: #6ada9a; }
+        .action-icon.danger { color: #ff6b6b; }
+        .action-icon.danger:hover { color: #ff8a8a; }
+
+        .pagination { display: flex; gap: 8px; margin-top: 24px; align-items: center; flex-wrap: wrap; color: #9bb7d4; }
+        .pagination select { padding: 6px 12px; border-radius: 30px; border: 1px solid #1a3555; background: #0a1a32; color: #e8f0fe; }
+
+        .hidden { display: none; }
+        .flex-col { display: flex; flex-direction: column; gap: 12px; }
+        .drop-zone { border: 2px dashed #1a3555; border-radius: 20px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; background: #0a1a32; }
+        .drop-zone:hover, .drop-zone.dragover { border-color: #4a8af4; background: #0f2140; }
+        .drop-zone i { color: #4a8af4; }
+        .drop-zone p { color: #6a8aaa; font-size: 13px; }
+        .drop-zone img { max-width: 100%; max-height: 150px; margin-top: 8px; border-radius: 12px; }
+
+        .uncompleted-list { max-height: 300px; overflow-y: auto; background: #0a1a32; border-radius: 16px; padding: 12px; border: 1px solid #1a3555; }
+        .uncompleted-list::-webkit-scrollbar { width: 4px; }
+        .uncompleted-list::-webkit-scrollbar-thumb { background: #2a4a6a; border-radius: 8px; }
+        .uncompleted-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid #1a3555; color: #d0dce8; }
+        .uncompleted-item:last-child { border-bottom: none; }
+
+        .salary-image { max-width: 100px; max-height: 100px; border-radius: 8px; cursor: pointer; border: 1px solid #1a3555; }
+        .salary-image:hover { opacity: 0.8; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 999; }
+        .modal-box { background: #0f2140; border-radius: 28px; max-width: 600px; width: 90%; padding: 28px; max-height: 80vh; overflow-y: auto; border: 1px solid #1a3555; }
+        .modal-box h3 { color: #e8f0fe; margin-bottom: 16px; }
+        .modal-box img { max-width: 100%; border-radius: 12px; }
+        .modal-box button { margin-top: 16px; padding: 8px 24px; border-radius: 40px; border: none; background: #1a5bbf; color: white; cursor: pointer; }
+        .modal-box button:hover { background: #2a6df4; }
+
+        .progress-bar-wrap { display: flex; align-items: center; gap: 12px; margin: 8px 0; }
+        .progress-bar-label { width: 40px; color: #9bb7d4; font-size: 13px; font-weight: 600; }
+        .progress-bar-track { flex: 1; height: 8px; background: #1a3555; border-radius: 8px; overflow: hidden; position: relative; cursor: pointer; }
+        .progress-bar-fill { height: 100%; border-radius: 8px; transition: width 0.3s; }
+        .progress-bar-fill.em0 { background: #4a8af4; }
+        .progress-bar-fill.em1 { background: #4aca7a; }
+        .progress-bar-fill.em2 { background: #e8c84a; }
+        .progress-bar-fill.em3 { background: #ff6b6b; }
+        .progress-tooltip { position: absolute; top: -28px; left: 50%; transform: translateX(-50%); background: #0a1a32; color: #e8f0fe; padding: 2px 10px; border-radius: 8px; font-size: 12px; white-space: nowrap; border: 1px solid #1a3555; display: none; }
+        .progress-bar-track:hover .progress-tooltip { display: block; }
+
+        .client-grid { display: grid; grid-template-columns: 1fr; gap: 8px; max-height: 500px; overflow-y: auto; padding-right: 4px; }
+        .client-grid::-webkit-scrollbar { width: 4px; }
+        .client-grid::-webkit-scrollbar-thumb { background: #2a4a6a; border-radius: 8px; }
+        .client-card { background: #0a1a32; border: 1px solid #1a3555; border-radius: 16px; padding: 12px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+        .client-card .field { color: #d0dce8; font-size: 13px; }
+        .client-card .field strong { color: #9bb7d4; }
+
+        .ocr-layout { display: flex; gap: 20px; flex-wrap: wrap; }
+        .ocr-left { flex: 2; min-width: 300px; }
+        .ocr-right { flex: 1; min-width: 220px; background: #0a1a32; border-radius: 16px; padding: 16px; border: 1px solid #1a3555; max-height: 600px; overflow-y: auto; }
+        .ocr-right::-webkit-scrollbar { width: 4px; }
+        .ocr-right::-webkit-scrollbar-thumb { background: #2a4a6a; border-radius: 8px; }
+
+        .history-item { display: flex; justify-content: space-between; padding: 6px 8px; border-bottom: 1px solid #1a3555; font-size: 13px; color: #d0dce8; }
+        .history-item .match { color: #4aca7a; }
+        .history-item .nomatch { color: #ff6b6b; }
+
+        .pyramid-tree { display: flex; flex-direction: column; align-items: center; }
+        .pyramid-level { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px 40px; padding: 8px 0; position: relative; }
+        .pyramid-level::after { content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); width: 2px; height: 16px; background: #1a3555; }
+        .pyramid-node { background: #0a1a32; border: 1px solid #1a3555; border-radius: 12px; padding: 6px 16px; color: #d0dce8; font-size: 13px; position: relative; }
+        .pyramid-node .level-tag { color: #4a8af4; font-weight: 700; margin-right: 6px; }
+        .pyramid-node .superior-arrow { color: #6a8aaa; margin: 0 4px; }
+
+        .position-card { background: #0a1a32; border: 1px solid #1a3555; border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+        .position-card .pos-title { color: #4a8af4; font-weight: 700; font-size: 16px; }
+        .position-card .pos-detail { color: #d0dce8; font-size: 13px; margin: 4px 0; }
+        .position-card .pos-action { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+
+        .script-selector { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+        .script-selector select { padding: 10px 20px; border-radius: 40px; border: 1.5px solid #1a3555; background: #0a1a32; color: #e8f0fe; font-size: 14px; }
+        .script-template-box { background: #0a1a32; border: 1px solid #1a3555; border-radius: 16px; padding: 16px; max-height: 400px; overflow-y: auto; }
+        .script-template-item { padding: 10px 12px; border-bottom: 1px solid #1a3555; cursor: pointer; color: #d0dce8; }
+        .script-template-item:hover { background: #0f2140; }
+        .script-template-item .label { color: #4a8af4; font-weight: 600; }
+
+        @media (max-width: 768px) { .sidebar { width: 60px; } .sidebar-item span { display: none; } .sidebar-item { padding: 12px 16px; } .top-bar { flex-direction: column; align-items: stretch; } .ocr-layout { flex-direction: column; } }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div id="authContainer" class="auth-container">
+        <div class="auth-card">
+            <h2 id="authTitle">📋 注册</h2>
+            <p id="authSub">创建您的智能助手账户</p>
+            <input id="authPhone" class="auth-input" placeholder="手机号 (3位及以上)" type="text">
+            <input id="authPassword" class="auth-input" placeholder="密码 (6位)" type="password">
+            <button id="authActionBtn" class="auth-btn">注册</button>
+            <div class="auth-switch">已有账号？ <span id="toggleAuth">登录</span></div>
+            <div id="authMessage" style="margin-top:12px; font-size:14px; color:#ff6b6b;"></div>
+        </div>
+    </div>
+
+    <div id="mainApp" class="main-layout hidden">
+        <div class="top-bar">
+            <div class="brand"><i class="fas fa-robot"></i> 智能助手</div>
+            <div class="top-search"><i class="fas fa-search"></i><input id="globalSearch" placeholder="全局搜索 号码后4位/等级..."><button id="globalSearchBtn"><i class="fas fa-arrow-right"></i></button></div>
+            <div class="user-badge"><i class="fas fa-user-circle"></i> <span id="userDisplay">管理员</span> <i class="fas fa-sign-out-alt" id="logoutBtn"></i></div>
+        </div>
+        <div class="body-wrap">
+            <div class="sidebar" id="sidebarMenu">
+                <div class="sidebar-item active" data-tab="dashboard"><i class="fas fa-chart-pie"></i><span>主页</span></div>
+                <div class="sidebar-item" data-tab="clients"><i class="fas fa-users"></i><span>客户管理</span></div>
+                <div class="sidebar-item" data-tab="inventory"><i class="fas fa-boxes"></i><span>库存管理</span></div>
+                <div class="sidebar-item" data-tab="orders"><i class="fas fa-file-invoice"></i><span>订单识别</span></div>
+                <div class="sidebar-item" data-tab="salary"><i class="fas fa-money-bill-wave"></i><span>薪水提款</span></div>
+                <div class="sidebar-item" data-tab="scripts"><i class="fas fa-comment-dots"></i><span>话术生成</span></div>
+                <div class="sidebar-item" data-tab="positions"><i class="fas fa-briefcase"></i><span>职位薪水</span></div>
+                <div class="sidebar-item" data-tab="tree"><i class="fas fa-sitemap"></i><span>团队关系树</span></div>
+            </div>
+            <div class="content" id="contentArea"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function(){
+    let currentUser = null;
+    let users = JSON.parse(localStorage.getItem('smart_users')) || [];
+    let clients = JSON.parse(localStorage.getItem('smart_clients')) || [];
+    let inventory = JSON.parse(localStorage.getItem('smart_inventory')) || [];
+    let orders = JSON.parse(localStorage.getItem('smart_orders')) || [];
+    let salaryRecords = JSON.parse(localStorage.getItem('smart_salary')) || [];
+    let ocrHistory = JSON.parse(localStorage.getItem('smart_ocr_history')) || [];
+    let positions = JSON.parse(localStorage.getItem('smart_positions')) || {
+        intern: { name: '实习经理', bonus: 1500, bonusType: '一次性奖励', members: 3 },
+        formal: { name: '正式经理', bonus: 5000, bonusType: '每月固定收入', members: 8 },
+        regional: { name: '区域经理', bonus: 8000, bonusType: '每月固定收入', members: 20 },
+        market: { name: '市场经理', bonus: 12000, bonusType: '每月固定收入', members: 45 },
+        general: { name: '区域总经理', bonus: 20000, bonusType: '每月固定收入', members: 80 }
+    };
+    let positionStatus = JSON.parse(localStorage.getItem('smart_position_status')) || {};
+    // 话术模板库
+    let scriptTemplates = JSON.parse(localStorage.getItem('smart_script_templates')) || {
+        recommend: {
+            label: '推荐申请',
+            templates: [
+                '推荐申请话术-推荐恭喜话术1',
+                '推荐申请话术-推荐恭喜话术2',
+                '推荐申请话术-推荐恭喜话术3'
+            ]
+        },
+        lottery: {
+            label: '抽奖申请',
+            templates: [
+                '抽奖申请话术-抽奖申请恭喜1',
+                '抽奖申请话术-抽奖申请恭喜2',
+                '抽奖申请话术-抽奖申请恭喜3'
+            ]
+        },
+        upgrade: {
+            label: '升级恭喜',
+            templates: [
+                '恭喜话术1',
+                '恭喜话术2',
+                '恭喜话术3'
+            ]
+        }
+    };
+    let currentTab = 'dashboard';
+    let authMode = 'register';
+
+    function saveAll(){
+        localStorage.setItem('smart_users', JSON.stringify(users));
+        localStorage.setItem('smart_clients', JSON.stringify(clients));
+        localStorage.setItem('smart_inventory', JSON.stringify(inventory));
+        localStorage.setItem('smart_orders', JSON.stringify(orders));
+        localStorage.setItem('smart_salary', JSON.stringify(salaryRecords));
+        localStorage.setItem('smart_ocr_history', JSON.stringify(ocrHistory));
+        localStorage.setItem('smart_positions', JSON.stringify(positions));
+        localStorage.setItem('smart_position_status', JSON.stringify(positionStatus));
+        localStorage.setItem('smart_script_templates', JSON.stringify(scriptTemplates));
+        const now = Date.now();
+        const thirtyDays = 30*24*60*60*1000;
+        users = users.filter(u => (now - u.lastLogin) < thirtyDays);
+        if(currentUser && !users.find(u=>u.phone===currentUser.phone)) {
+            currentUser = null;
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('authContainer').classList.remove('hidden');
+        }
+        localStorage.setItem('smart_users', JSON.stringify(users));
+    }
+
+    function syncInventoryFromClients(){
+        const clientPhones = new Set(clients.map(c=>c.phone));
+        clients.forEach(c => {
+            if(!inventory.find(i=>i.phone===c.phone)){
+                inventory.push({ ...c, deleted: false, addedAt: new Date().toISOString() });
+            }
+        });
+        inventory.forEach(i => {
+            if(!clientPhones.has(i.phone) && !i.deleted){
+                i.deleted = true;
+            }
+        });
+        saveAll();
+    }
+
+    function getTodayCompleted(phone){
+        return orders.some(o => o.phone === phone && o.date === new Date().toDateString() && o.completed);
+    }
+
+    function computeLevelsAndPositions(){
+        const map = {};
+        clients.forEach(c => { map[c.phone] = { ...c, children: [] }; });
+        clients.forEach(c => {
+            if(c.superior && map[c.superior]) {
+                map[c.superior].children.push(c.phone);
+            }
+        });
+        const roots = clients.filter(c => !c.superior || !map[c.superior]);
+        const levelMap = {};
+        function assignLevel(phone, level){
+            levelMap[phone] = level;
+            if(map[phone] && map[phone].children){
+                map[phone].children.forEach(child => assignLevel(child, level + 1));
+            }
+        }
+        roots.forEach(r => assignLevel(r.phone, 0));
+        clients.forEach(c => {
+            const lv = levelMap[c.phone];
+            c.levelTag = lv !== undefined ? String.fromCharCode(65 + lv) : '?';
+            c.levelNum = lv !== undefined ? lv : -1;
+        });
+
+        const superiorCount = {};
+        clients.forEach(c => {
+            if(c.superior) {
+                superiorCount[c.superior] = (superiorCount[c.superior] || 0) + 1;
+            }
+        });
+
+        const posMap = {};
+        clients.forEach(c => {
+            const count = superiorCount[c.phone] || 0;
+            let pos = null;
+            if(count >= 80) pos = 'general';
+            else if(count >= 45) pos = 'market';
+            else if(count >= 20) pos = 'regional';
+            else if(count >= 8) pos = 'formal';
+            else if(count >= 3) pos = 'intern';
+            c.position = pos;
+            c.teamCount = count;
+            if(pos) {
+                c.positionName = positions[pos]?.name || pos;
+                c.positionBonus = positions[pos]?.bonus || 0;
+                c.positionBonusType = positions[pos]?.bonusType || '';
+            } else {
+                c.positionName = null;
+                c.positionBonus = 0;
+                c.positionBonusType = '';
+            }
+        });
+        saveAll();
+    }
+
+    function renderAuth(){
+        const title = document.getElementById('authTitle');
+        const sub = document.getElementById('authSub');
+        const btn = document.getElementById('authActionBtn');
+        const toggle = document.getElementById('toggleAuth');
+        if(authMode === 'register'){
+            title.innerText = '📋 注册';
+            sub.innerText = '创建您的智能助手账户';
+            btn.innerText = '注册';
+            toggle.innerText = '登录';
+        } else {
+            title.innerText = '🔐 登录';
+            sub.innerText = '登录您的智能助手';
+            btn.innerText = '登录';
+            toggle.innerText = '注册';
+        }
+    }
+
+    document.getElementById('toggleAuth').addEventListener('click', function(){
+        authMode = (authMode === 'register' ? 'login' : 'register');
+        renderAuth();
+        document.getElementById('authMessage').innerText = '';
+    });
+
+    document.getElementById('authActionBtn').addEventListener('click', function(){
+        const phone = document.getElementById('authPhone').value.trim();
+        const password = document.getElementById('authPassword').value.trim();
+        const msg = document.getElementById('authMessage');
+        msg.innerText = '';
+        if(phone.length < 3){ msg.innerText = '手机号至少3位'; return; }
+        if(password.length !== 6){ msg.innerText = '密码必须6位'; return; }
+        if(authMode === 'register'){
+            if(users.find(u=>u.phone===phone)){ msg.innerText = '该手机号已注册'; return; }
+            users.push({ phone, password, lastLogin: Date.now() });
+            saveAll();
+            msg.innerText = '注册成功，请登录';
+            authMode = 'login';
+            renderAuth();
+        } else {
+            const user = users.find(u=>u.phone===phone && u.password===password);
+            if(!user){ msg.innerText = '手机号或密码错误'; return; }
+            user.lastLogin = Date.now();
+            currentUser = user;
+            saveAll();
+            document.getElementById('authContainer').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            document.getElementById('userDisplay').innerText = phone;
+            syncInventoryFromClients();
+            computeLevelsAndPositions();
+            renderTab(currentTab);
+        }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', function(){
+        currentUser = null;
+        document.getElementById('mainApp').classList.add('hidden');
+        document.getElementById('authContainer').classList.remove('hidden');
+    });
+
+    document.querySelectorAll('.sidebar-item').forEach(item => {
+        item.addEventListener('click', function(){
+            document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
+            this.classList.add('active');
+            currentTab = this.dataset.tab;
+            renderTab(currentTab);
+        });
+    });
+
+    function renderTab(tab){
+        const area = document.getElementById('contentArea');
+        if(tab === 'dashboard') renderDashboard(area);
+        else if(tab === 'clients') renderClients(area);
+        else if(tab === 'inventory') renderInventory(area);
+        else if(tab === 'orders') renderOrders(area);
+        else if(tab === 'salary') renderSalary(area);
+        else if(tab === 'scripts') renderScripts(area);
+        else if(tab === 'positions') renderPositions(area);
+        else if(tab === 'tree') renderTree(area);
+    }
+
+    function attachSearchDropdown(inputId, resultsContainerId, dataGetter, renderItem){
+        const input = document.getElementById(inputId);
+        if(!input) return;
+        const container = document.getElementById(resultsContainerId);
+        if(!container) return;
+        input.addEventListener('input', function(){
+            const q = this.value.trim().toLowerCase();
+            if(q.length < 2 || !dataGetter) { container.style.display = 'none'; return; }
+            const results = dataGetter(q);
+            if(results.length === 0) { container.style.display = 'none'; return; }
+            container.innerHTML = results.map(item => renderItem(item)).join('');
+            container.style.display = 'block';
+        });
+        input.addEventListener('blur', function(){ setTimeout(() => { container.style.display = 'none'; }, 200); });
+        input.addEventListener('focus', function(){ if(this.value.trim().length >= 2) container.style.display = 'block'; });
+    }
+
+    // ---------- 主页 ----------
+    function renderDashboard(area){
+        const total = clients.length;
+        const todayCompleted = orders.filter(o => o.date === new Date().toDateString() && o.completed).length;
+        const uncompleted = total - todayCompleted;
+        const totalOrders = orders.length;
+        const rate = totalOrders ? Math.round((todayCompleted / totalOrders) * 100) : 0;
+        const uncompletedClients = clients.filter(c => !getTodayCompleted(c.phone));
+
+        const levels = ['EM0','EM1','EM2','EM3'];
+        const counts = levels.map(l => clients.filter(c => c.level === l).length);
+        const maxCount = Math.max(...counts, 1);
+        let progressHTML = levels.map((l, i) => {
+            const pct = Math.round((counts[i] / maxCount) * 100);
+            const cls = l.toLowerCase();
+            return `<div class="progress-bar-wrap">
+                <span class="progress-bar-label">${l}</span>
+                <div class="progress-bar-track">
+                    <div class="progress-bar-fill ${cls}" style="width:${pct}%;"></div>
+                    <span class="progress-tooltip">${counts[i]} 人</span>
+                </div>
+                <span style="color:#6a8aaa;font-size:12px;min-width:30px;">${counts[i]}</span>
+            </div>`;
+        }).join('');
+
+        area.innerHTML = `
+            <div style="display:flex; gap:24px; flex-wrap:wrap;">
+                <div style="flex:2; min-width:250px;">
+                    <div class="stat-grid" style="grid-template-columns:1fr 1fr;">
+                        <div class="stat-card"><div class="label">总客户</div><div class="value">${total}</div></div>
+                        <div class="stat-card"><div class="label">总提现</div><div class="value">${salaryRecords.length}</div></div>
+                        <div class="stat-card"><div class="label">提取次数</div><div class="value">${salaryRecords.length}</div></div>
+                        <div class="stat-card"><div class="label">完成订单率</div><div class="value">${rate}%</div></div>
+                    </div>
+                    <div style="background:#0a1a32; padding:16px; border-radius:16px; border:1px solid #1a3555;">
+                        <div style="color:#9bb7d4; font-weight:600; margin-bottom:8px;">📊 等级分布 (鼠标悬停查看人数)</div>
+                        ${progressHTML}
+                    </div>
+                    <div style="margin-top:16px; display:flex; gap:20px; flex-wrap:wrap; color:#d0dce8;">
+                        <div><strong style="color:#e8f0fe;">今日完成</strong> ${todayCompleted}</div>
+                        <div><strong style="color:#e8f0fe;">昨日完成</strong> ${orders.filter(o => o.date === new Date(Date.now()-86400000).toDateString() && o.completed).length}</div>
+                        <div><strong style="color:#e8f0fe;">今日进度</strong> ${total > 0 ? Math.round((todayCompleted/total)*100) : 0}%</div>
+                    </div>
+                </div>
+                <div style="flex:1; min-width:200px; background:#0a1a32; border-radius:16px; padding:16px; border:1px solid #1a3555; max-height:350px; overflow-y:auto; align-self:flex-start;">
+                    <div style="color:#9bb7d4; font-weight:600; margin-bottom:8px;">⏳ 未完成订单 (<span id="uncompletedCount">${uncompletedClients.length}</span>)</div>
+                    ${uncompletedClients.map(c => `
+                        <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #1a3555; font-size:13px; color:#d0dce8;">
+                            <span>${c.phone} | ${c.level}</span>
+                            <i class="fas fa-check action-icon success" onclick="window.completeOrderFromDashboard('${c.phone}')" title="标记完成"></i>
+                        </div>
+                    `).join('')}
+                    ${uncompletedClients.length === 0 ? '<div style="color:#6a8aaa;padding:12px;text-align:center;">🎉 全部完成</div>' : ''}
+                </div>
+            </div>
+        `;
+        window.completeOrderFromDashboard = function(phone){
+            if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
+                orders.push({ phone, date: new Date().toDateString(), completed: true });
+                saveAll();
+                renderTab('dashboard');
+            }
+        };
+    }
+
+    // ---------- 客户管理 ----------
+    function renderClients(area){
+        let html = `
+            <div class="filter-bar" style="position:relative;">
+                <input placeholder="搜索名字/账号/等级" id="clientSearch">
+                <div class="search-results-dropdown" id="clientSearchResults"></div>
+                <select id="levelFilter"><option value="">全部等级</option><option>EM0</option><option>EM1</option><option>EM2</option><option>EM3</option></select>
+                <button class="btn" onclick="window.addSingleClient()">+ 添加客户</button>
+                <button class="btn btn-primary" onclick="window.batchImport()">📥 批量导入</button>
+            </div>
+            <div class="client-grid" id="clientGrid">
+        `;
+        clients.forEach(c => {
+            const todayDone = getTodayCompleted(c.phone);
+            html += `
+                <div class="client-card" data-phone="${c.phone}">
+                    <span class="field"><strong>账户</strong> ${c.phone}</span>
+                    <span class="field"><strong>等级</strong> <span class="badge">${c.level || 'EM0'}</span></span>
+                    <span class="field"><strong>上级</strong> ${c.superior || '--'}</span>
+                    <span class="field"><strong>开始</strong> ${c.startTime || '--'}</span>
+                    <span class="field"><strong>今日</strong> ${todayDone ? '✅完成' : '⌛️未完成'}</span>
+                    <span class="field">
+                        <i class="fas fa-edit action-icon" onclick="window.editClient('${c.phone}')" title="编辑"></i>
+                        <i class="fas fa-check action-icon success" onclick="window.completeOrderClient('${c.phone}')" title="完成"></i>
+                        <i class="fas fa-times action-icon danger" onclick="window.cancelOrderClient('${c.phone}')" title="取消完成"></i>
+                        <i class="fas fa-trash action-icon" onclick="window.deleteClient('${c.phone}')" title="删除"></i>
+                    </span>
+                </div>
+            `;
+        });
+        html += `</div><div class="pagination"><span>每页 <select id="pageSize"><option>10</option><option>20</option><option>50</option><option>100</option></select></span></div>`;
+        area.innerHTML = html;
+
+        attachSearchDropdown('clientSearch', 'clientSearchResults',
+            (q) => clients.filter(c => c.phone.includes(q) || c.name?.toLowerCase().includes(q) || c.level?.toLowerCase().includes(q)),
+            (c) => `<div class="result-item">${c.phone} | ${c.level} | ${c.name || ''}</div>`
+        );
+
+        window.editClient = function(phone){
+            const c = clients.find(x => x.phone === phone);
+            if(!c) return;
+            const newPhone = prompt('工作账户 (6-15位数字)', c.phone);
+            if(!newPhone || newPhone.length<6 || newPhone.length>15) return alert('账号需6-15位数字');
+            const newLevel = prompt('等级 (EM0-EM3)', c.level);
+            if(!['EM0','EM1','EM2','EM3'].includes(newLevel)) return alert('等级无效');
+            const newSuperior = prompt('上级号码', c.superior || '');
+            const newName = prompt('名字', c.name || '');
+            const newStart = prompt('开始工作时间', c.startTime || '');
+            if(newPhone !== c.phone && clients.find(x => x.phone === newPhone)) {
+                return alert('该账号已存在');
+            }
+            const idx = clients.indexOf(c);
+            clients[idx] = { ...c, phone: newPhone, level: newLevel, superior: newSuperior, name: newName, startTime: newStart };
+            syncInventoryFromClients();
+            computeLevelsAndPositions();
+            saveAll();
+            renderTab('clients');
+        };
+
+        window.addSingleClient = function(){
+            const phone = prompt('输入工作账户(6-15位数字)');
+            if(!phone || phone.length < 6 || phone.length > 15) { alert('账号需6-15位数字'); return; }
+            if(clients.find(c => c.phone === phone)) { alert('该账号已存在'); return; }
+            const name = prompt('名字') || '';
+            const level = prompt('等级 (EM0-EM3)') || 'EM0';
+            const superior = prompt('上级号码') || '';
+            const startTime = prompt('开始工作时间 (格式: YYYY-MM-DD HH:mm:ss)') || '';
+            clients.push({ phone, name, level, superior, startTime, workHours: 0 });
+            syncInventoryFromClients();
+            computeLevelsAndPositions();
+            saveAll();
+            renderTab('clients');
+        };
+
+        window.batchImport = function() {
+            const raw = prompt(
+                '请粘贴要导入的客户数据（每5行一组）：\n\n' +
+                '格式：工作账户\n等级(EM0-EM3)\n上级号码\n名字\n开始工作时间\n\n' +
+                '示例：\n0509782602\nEM1\n380950372797\nНадія\n2026-08-24 12:58:59'
+            );
+            if (!raw) return;
+            const lines = raw.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+            let imported = 0, errors = [];
+            for (let i = 0; i < lines.length; i += 5) {
+                const group = lines.slice(i, i + 5);
+                if (group.length < 5) {
+                    errors.push(`第 ${Math.floor(i/5)+1} 组数据不完整（需要5行，实际${group.length}行）`);
+                    continue;
+                }
+                const [phone, level, superior, name, startTime] = group.map(s => s.trim());
+                if (!/^\d{6,15}$/.test(phone)) { errors.push(`账号 "${phone}" 格式错误`); continue; }
+                if (!['EM0','EM1','EM2','EM3'].includes(level)) { errors.push(`等级 "${level}" 无效`); continue; }
+                if (clients.find(c => c.phone === phone)) { errors.push(`账号 "${phone}" 已存在`); continue; }
+                clients.push({ phone, level, superior, name, startTime, workHours: 0 });
+                imported++;
+            }
+            syncInventoryFromClients();
+            computeLevelsAndPositions();
+            saveAll();
+            alert(`✅ 成功导入 ${imported} 个客户。\n${errors.length ? '⚠️ 错误：\n' + errors.slice(0,10).join('\n') : ''}`);
+            renderTab('clients');
+        };
+
+        window.completeOrderClient = function(phone){
+            if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
+                orders.push({ phone, date: new Date().toDateString(), completed: true });
+                saveAll();
+                renderTab('clients');
+            }
+        };
+        window.cancelOrderClient = function(phone){
+            orders = orders.filter(o => !(o.phone === phone && o.date === new Date().toDateString()));
+            saveAll();
+            renderTab('clients');
+        };
+        window.deleteClient = function(phone){
+            if(confirm('删除该客户？库存中会保留记录')) {
+                clients = clients.filter(c => c.phone !== phone);
+                syncInventoryFromClients();
+                computeLevelsAndPositions();
+                saveAll();
+                renderTab('clients');
+            }
+        };
+    }
+
+    // ---------- 库存管理 ----------
+    function renderInventory(area){
+        let html = `
+            <div class="filter-bar" style="position:relative;">
+                <input placeholder="搜索号码/名字/等级" id="invSearch">
+                <div class="search-results-dropdown" id="invSearchResults"></div>
+                <button class="btn" onclick="window.restoreClient()">♻️ 恢复已删除</button>
+            </div>
+            <div class="table-wrap"><table>
+                <tr><th>号码</th><th>等级</th><th>名字</th><th>加入时间</th><th>状态</th><th>操作</th></tr>`;
+        inventory.forEach(i => {
+            const status = i.deleted ? '已删除' : '正常';
+            html += `<tr>
+                <td>${i.phone}</td>
+                <td>${i.level || 'EM0'}</td>
+                <td>${i.name || ''}</td>
+                <td>${i.addedAt?.slice(0,10) || ''}</td>
+                <td>${status}</td>
+                <td>
+                    ${i.deleted ? `<i class="fas fa-undo action-icon" onclick="window.restoreItem('${i.phone}')" title="恢复"></i>` : ''}
+                    <i class="fas fa-trash action-icon" onclick="window.permanentDelete('${i.phone}')" title="永久删除"></i>
+                </td>
+            </tr>`;
+        });
+        html += `</table></div>`;
+        area.innerHTML = html;
+
+        attachSearchDropdown('invSearch', 'invSearchResults',
+            (q) => inventory.filter(i => i.phone.includes(q) || i.name?.toLowerCase().includes(q) || i.level?.toLowerCase().includes(q)),
+            (i) => `<div class="result-item">${i.phone} | ${i.level} | ${i.name || ''}</div>`
+        );
+
+        window.restoreClient = function(){
+            const phone = prompt('输入要恢复的号码');
+            const item = inventory.find(i => i.phone === phone && i.deleted);
+            if(item){ item.deleted = false; clients.push({phone: item.phone, name: item.name, level: item.level, superior: item.superior, startTime: item.startTime}); syncInventoryFromClients(); computeLevelsAndPositions(); saveAll(); renderTab('inventory'); }
+        };
+        window.restoreItem = function(phone){
+            const item = inventory.find(i => i.phone === phone);
+            if(item && item.deleted){ item.deleted = false; clients.push({phone: item.phone, name: item.name, level: item.level, superior: item.superior, startTime: item.startTime}); syncInventoryFromClients(); computeLevelsAndPositions(); saveAll(); renderTab('inventory'); }
+        };
+        window.permanentDelete = function(phone){
+            if(confirm('永久删除？此操作不可恢复！')){ inventory = inventory.filter(i => i.phone !== phone); saveAll(); renderTab('inventory'); }
+        };
+    }
+
+    // ---------- 订单识别 ----------
+    function renderOrders(area){
+        const total = clients.length;
+        const todayCompleted = orders.filter(o => o.date === new Date().toDateString() && o.completed).length;
+        const uncompleted = total - todayCompleted;
+
+        area.innerHTML = `
+            <div class="ocr-layout">
+                <div class="ocr-left">
+                    <div class="stat-grid" style="grid-template-columns:1fr 1fr 1fr;">
+                        <div class="stat-card"><div class="label">总用户</div><div class="value">${total}</div></div>
+                        <div class="stat-card"><div class="label">已完成</div><div class="value">${todayCompleted}</div></div>
+                        <div class="stat-card"><div class="label">未完成</div><div class="value">${uncompleted}</div></div>
+                    </div>
+                    <div class="drop-zone" id="ocrDropZone" style="min-height:120px;">
+                        <i class="fas fa-cloud-upload-alt" style="font-size:28px;"></i>
+                        <p>拖拽照片到这里，或点击上传 (支持多选/连续拖入)</p>
+                        <input type="file" id="ocrFileInput" accept="image/*" multiple style="display:none;">
+                        <div id="ocrPreview" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;"></div>
+                    </div>
+                    <div style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap;">
+                        <button class="btn btn-success" onclick="window.manualCompleteOrder()">✅ 手动完成</button>
+                        <button class="btn btn-warning" onclick="window.helpCompleteOrder()">🆘 帮助完成</button>
+                        <button class="btn btn-danger" onclick="window.clearHistory()">🗑️ 清空历史</button>
+                    </div>
+                    <div style="margin-top:12px; background:#0a1a32; border-radius:16px; padding:12px; border:1px solid #1a3555; max-height:200px; overflow-y:auto;">
+                        <div style="color:#9bb7d4; font-weight:600; margin-bottom:8px;">📋 识别历史</div>
+                        ${ocrHistory.slice().reverse().map(h => `
+                            <div class="history-item">
+                                <span>${h.time || ''}</span>
+                                <span>${h.phone || ''}</span>
+                                <span class="${h.matched ? 'match' : 'nomatch'}">${h.matched ? '✅ 匹配' : '❌ 不匹配'}</span>
+                            </div>
+                        `).join('')}
+                        ${ocrHistory.length === 0 ? '<div style="color:#6a8aaa;padding:8px;text-align:center;">暂无记录</div>' : ''}
+                    </div>
+                </div>
+                <div class="ocr-right">
+                    <div style="color:#9bb7d4; font-weight:600; margin-bottom:8px;">📋 订单列表</div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px;">
+                        <button class="btn btn-sm" style="padding:4px 12px;font-size:12px;" onclick="window.filterOrders('all')">全部</button>
+                        <button class="btn btn-sm btn-success" style="padding:4px 12px;font-size:12px;" onclick="window.filterOrders('done')">已完成</button>
+                        <button class="btn btn-sm btn-warning" style="padding:4px 12px;font-size:12px;" onclick="window.filterOrders('undone')">未完成</button>
+                        <input placeholder="搜索" id="orderSearchRight" style="padding:4px 12px;border-radius:40px;border:1px solid #1a3555;background:#0a1a32;color:#e8f0fe;font-size:12px;flex:1;min-width:80px;">
+                        <button class="btn btn-sm" style="padding:4px 12px;font-size:12px;" onclick="window.resetToday()">重置今日</button>
+                    </div>
+                    <div id="orderListRight" style="max-height:400px;overflow-y:auto;">
+                        ${clients.map(c => {
+                            const done = getTodayCompleted(c.phone);
+                            const lv = c.levelTag || '?';
+                            return `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1a3555;font-size:13px;color:#d0dce8;" data-phone="${c.phone}" data-done="${done}">
+                                <span><span class="badge" style="font-size:10px;padding:2px 6px;">${lv}</span> ${c.name || c.phone}</span>
+                                <span>${c.phone}</span>
+                                <span>${c.level}</span>
+                                <span>${c.workHours || 0}h</span>
+                                <span>${done ? '✅完成' : '⌛️未完成'}</span>
+                                <span>
+                                    ${done ? 
+                                        `<i class="fas fa-times action-icon danger" onclick="window.cancelOrderRight('${c.phone}')" title="取消完成"></i>` :
+                                        `<i class="fas fa-check action-icon success" onclick="window.completeOrderRight('${c.phone}')" title="完成"></i>`
+                                    }
+                                </span>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const dropZone = document.getElementById('ocrDropZone');
+        const fileInput = document.getElementById('ocrFileInput');
+        const preview = document.getElementById('ocrPreview');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if(e.dataTransfer.files.length > 0) {
+                for(let f of e.dataTransfer.files) {
+                    if(f.type.startsWith('image/')) handleOCRFile(f);
+                }
+            }
+        });
+        fileInput.addEventListener('change', (e) => {
+            if(e.target.files.length > 0) {
+                for(let f of e.target.files) {
+                    if(f.type.startsWith('image/')) handleOCRFile(f);
+                }
+            }
+            fileInput.value = '';
+        });
+
+        function handleOCRFile(file){
+            const reader = new FileReader();
+            reader.onload = function(e){
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '80px';
+                img.style.maxHeight = '80px';
+                img.style.borderRadius = '8px';
+                img.style.border = '1px solid #1a3555';
+                preview.appendChild(img);
+                const numbers = file.name.match(/\d{6,15}/);
+                const time = new Date().toLocaleString();
+                if(numbers){
+                    const phone = numbers[0];
+                    const client = clients.find(c => c.phone === phone);
+                    if(client){
+                        if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
+                            orders.push({ phone, date: new Date().toDateString(), completed: true });
+                            saveAll();
+                        }
+                        ocrHistory.push({ time, phone, matched: true });
+                        saveAll();
+                        renderTab('orders');
+                    } else {
+                        ocrHistory.push({ time, phone: phone, matched: false });
+                        saveAll();
+                        renderTab('orders');
+                    }
+                } else {
+                    ocrHistory.push({ time, phone: '未识别', matched: false });
+                    saveAll();
+                    renderTab('orders');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        document.getElementById('orderSearchRight')?.addEventListener('input', function(){
+            const q = this.value.toLowerCase();
+            document.querySelectorAll('#orderListRight > div').forEach(el => {
+                const text = el.innerText.toLowerCase();
+                el.style.display = text.includes(q) ? '' : 'none';
+            });
+        });
+
+        window.filterOrders = function(filter){
+            document.querySelectorAll('#orderListRight > div').forEach(el => {
+                const done = el.dataset.done === 'true';
+                if(filter === 'all') el.style.display = '';
+                else if(filter === 'done') el.style.display = done ? '' : 'none';
+                else if(filter === 'undone') el.style.display = done ? 'none' : '';
+            });
+        };
+
+        window.resetToday = function(){
+            if(confirm('重置今日所有订单？')) {
+                orders = orders.filter(o => o.date !== new Date().toDateString());
+                saveAll();
+                renderTab('orders');
+            }
+        };
+
+        window.completeOrderRight = function(phone){
+            if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
+                orders.push({ phone, date: new Date().toDateString(), completed: true });
+                saveAll();
+                renderTab('orders');
+            }
+        };
+        window.cancelOrderRight = function(phone){
+            orders = orders.filter(o => !(o.phone === phone && o.date === new Date().toDateString()));
+            saveAll();
+            renderTab('orders');
+        };
+        window.manualCompleteOrder = function(){
+            const phone = prompt('请输入要完成订单的账号(6-15位数字)');
+            if(phone && /^\d{6,15}$/.test(phone)){
+                const client = clients.find(c => c.phone === phone);
+                if(client){
+                    if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
+                        orders.push({ phone, date: new Date().toDateString(), completed: true });
+                        saveAll();
+                        alert(`✅ ${phone} 订单已完成`);
+                        renderTab('orders');
+                    } else { alert('该客户今日已完成'); }
+                } else { alert('未找到该客户'); }
+            }
+        };
+        window.helpCompleteOrder = function(){
+            const phone = prompt('请输入要帮助完成的账号(6-15位数字)');
+            if(phone && /^\d{6,15}$/.test(phone)){
+                const client = clients.find(c => c.phone === phone);
+                if(client){
+                    if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
+                        orders.push({ phone, date: new Date().toDateString(), completed: true });
+                        saveAll();
+                        alert(`✅ ${phone} 已帮助完成订单`);
+                        renderTab('orders');
+                    } else { alert('该客户今日已完成'); }
+                } else { alert('未找到该客户'); }
+            }
+        };
+        window.clearHistory = function(){
+            if(confirm('清空所有识别历史？')) {
+                ocrHistory = [];
+                saveAll();
+                renderTab('orders');
+            }
+        };
+    }
+
+    // ---------- 薪水提款 ----------
+    function renderSalary(area){
+        area.innerHTML = `
+            <div class="filter-bar" style="position:relative;">
+                <input placeholder="搜索客户号码 (输入后4位及以上)" id="salarySearch">
+                <div class="search-results-dropdown" id="salarySearchResults"></div>
+                <button class="btn btn-primary" onclick="window.addSalaryWithImage()">💰 添加提款记录</button>
+            </div>
+            <div class="drop-zone" id="salaryDropZone" style="margin-bottom:16px;">
+                <i class="fas fa-image" style="font-size:28px;"></i>
+                <p>拖拽收款截图到这里，或点击上传</p>
+                <input type="file" id="salaryFileInput" accept="image/*" style="display:none;">
+                <div id="salaryPreview"></div>
+            </div>
+            <div class="table-wrap" style="max-height:500px;">
+                <table>
+                    <tr><th>账号</th><th>提取次数</th><th>累计金额</th><th>最近截图</th><th>操作</th></tr>
+                    ${[...new Set(salaryRecords.map(s => s.phone))].map(phone => {
+                        const records = salaryRecords.filter(s => s.phone === phone);
+                        const total = records.reduce((a,b) => a + parseFloat(b.amount || 0), 0);
+                        const lastImg = records[records.length-1]?.image || '';
+                        return `<tr>
+                            <td>${phone}</td>
+                            <td>${records.length}</td>
+                            <td>${total.toFixed(2)}</td>
+                            <td>${lastImg ? `<img src="${lastImg}" class="salary-image" onclick="window.viewImage('${lastImg}')">` : '无'}</td>
+                            <td><i class="fas fa-search action-icon" onclick="window.searchSalary('${phone}')" title="查看详情"></i></td>
+                        </tr>`;
+                    }).join('')}
+                </table>
+            </div>
+        `;
+
+        attachSearchDropdown('salarySearch', 'salarySearchResults',
+            (q) => salaryRecords.filter(s => s.phone.includes(q)),
+            (s) => `<div class="result-item">${s.phone} | 金额: ${s.amount}</div>`
+        );
+
+        const dropZone = document.getElementById('salaryDropZone');
+        const fileInput = document.getElementById('salaryFileInput');
+        let tempImage = '';
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if(e.dataTransfer.files.length > 0) handleSalaryFile(e.dataTransfer.files[0]);
+        });
+        fileInput.addEventListener('change', (e) => {
+            if(e.target.files.length > 0) handleSalaryFile(e.target.files[0]);
+        });
+
+        function handleSalaryFile(file){
+            if(!file.type.startsWith('image/')) { alert('请上传图片'); return; }
+            const reader = new FileReader();
+            reader.onload = function(e){
+                tempImage = e.target.result;
+                document.getElementById('salaryPreview').innerHTML = `<img src="${tempImage}" style="max-width:200px;max-height:150px;border-radius:12px;margin-top:12px;">`;
+                const phone = prompt('请输入提款账号');
+                if(phone){
+                    const amount = prompt('请输入提款金额');
+                    if(amount && !isNaN(amount)){
+                        salaryRecords.push({ phone, amount: parseFloat(amount), image: tempImage, date: new Date().toISOString() });
+                        saveAll();
+                        alert('✅ 提款记录已保存');
+                        renderTab('salary');
+                    }
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        window.addSalaryWithImage = function(){ document.getElementById('salaryFileInput').click(); };
+        window.searchSalary = function(phone){
+            const records = salaryRecords.filter(s => s.phone === phone);
+            if(records.length === 0) { alert('未找到该账号的提款记录'); return; }
+            const total = records.reduce((a,b) => a + parseFloat(b.amount || 0), 0);
+            let msg = `📊 账号 ${phone}\n提取次数: ${records.length}\n累计金额: ${total.toFixed(2)}\n\n记录详情:\n`;
+            records.forEach((r, i) => {
+                msg += `${i+1}. 金额: ${r.amount}  日期: ${r.date?.slice(0,10) || '未知'}\n`;
+            });
+            alert(msg);
+            const images = records.filter(r => r.image).map(r => r.image);
+            if(images.length > 0){
+                const imgHtml = images.map(img => `<img src="${img}" style="max-width:200px;max-height:150px;border-radius:8px;margin:4px;">`).join('');
+                const modal = document.createElement('div');
+                modal.className = 'modal-overlay';
+                modal.innerHTML = `<div class="modal-box"><h3>📸 提款截图</h3><div style="display:flex;flex-wrap:wrap;gap:8px;">${imgHtml}</div><button onclick="this.closest('.modal-overlay').remove()">关闭</button></div>`;
+                document.body.appendChild(modal);
+            }
+        };
+        window.viewImage = function(imgSrc){
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `<div class="modal-box"><img src="${imgSrc}"><button onclick="this.closest('.modal-overlay').remove()">关闭</button></div>`;
+            document.body.appendChild(modal);
+        };
+    }
+
+    // ---------- 话术生成 ----------
+    function renderScripts(area){
+        const categories = Object.keys(scriptTemplates);
+        let optionsHTML = categories.map(k => `<option value="${k}">${scriptTemplates[k].label}</option>`).join('');
+
+        area.innerHTML = `
+            <div class="flex-col">
+                <div class="script-selector">
+                    <label style="color:#9bb7d4;font-weight:600;">选择话术类型：</label>
+                    <select id="scriptCategorySelect">
+                        <option value="">-- 请选择 --</option>
+                        ${optionsHTML}
+                    </select>
+                    <input placeholder="搜索话术内容..." id="scriptSearch" style="padding:10px 14px;border-radius:40px;border:1.5px solid #1a3555;background:#0a1a32;color:#e8f0fe;font-size:13px;flex:1;min-width:150px;">
+                    <button class="btn btn-success" onclick="window.addScriptTemplate()">+ 添加话术</button>
+                </div>
+                <div class="script-template-box" id="scriptTemplateBox">
+                    <div style="color:#6a8aaa;padding:20px;text-align:center;">请选择话术类型查看模板</div>
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="window.copySelectedScript()">📋 复制选中话术</button>
+                </div>
+            </div>
+        `;
+
+        function renderTemplates(category){
+            const box = document.getElementById('scriptTemplateBox');
+            if(!category || !scriptTemplates[category]) {
+                box.innerHTML = '<div style="color:#6a8aaa;padding:20px;text-align:center;">请选择话术类型查看模板</div>';
+                return;
+            }
+            const templates = scriptTemplates[category].templates || [];
+            if(templates.length === 0) {
+                box.innerHTML = '<div style="color:#6a8aaa;padding:20px;text-align:center;">暂无话术模板，请添加</div>';
+                return;
+            }
+            box.innerHTML = templates.map((t, idx) => `
+                <div class="script-template-item" data-index="${idx}" onclick="window.selectScriptTemplate('${category}', ${idx})">
+                    <div class="label">📝 模板 ${idx+1}</div>
+                    <div style="color:#d0dce8;font-size:14px;margin-top:4px;">${t}</div>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('scriptCategorySelect').addEventListener('change', function(){
+            const val = this.value;
+            window._selectedCategory = val;
+            renderTemplates(val);
+            // 搜索
+            const searchVal = document.getElementById('scriptSearch').value.trim().toLowerCase();
+            if(searchVal) filterTemplates(val, searchVal);
+        });
+
+        document.getElementById('scriptSearch').addEventListener('input', function(){
+            const cat = document.getElementById('scriptCategorySelect').value;
+            if(!cat) return;
+            const q = this.value.trim().toLowerCase();
+            filterTemplates(cat, q);
+        });
+
+        function filterTemplates(cat, q){
+            const box = document.getElementById('scriptTemplateBox');
+            if(!cat || !scriptTemplates[cat]) return;
+            const templates = scriptTemplates[cat].templates || [];
+            if(!q) { renderTemplates(cat); return; }
+            const filtered = templates.filter(t => t.toLowerCase().includes(q));
+            if(filtered.length === 0) {
+                box.innerHTML = '<div style="color:#6a8aaa;padding:20px;text-align:center;">未找到匹配的话术</div>';
+                return;
+            }
+            box.innerHTML = filtered.map((t, idx) => `
+                <div class="script-template-item" data-index="${idx}" onclick="window.selectScriptTemplate('${cat}', ${templates.indexOf(t)})">
+                    <div class="label">📝 模板 ${templates.indexOf(t)+1}</div>
+                    <div style="color:#d0dce8;font-size:14px;margin-top:4px;">${t}</div>
+                </div>
+            `).join('');
+        }
+
+        window.selectScriptTemplate = function(category, index){
+            const templates = scriptTemplates[category]?.templates || [];
+            if(index < 0 || index >= templates.length) return;
+            window._selectedScript = templates[index];
+            window._selectedCategory = category;
+            // 高亮
+            document.querySelectorAll('.script-template-item').forEach(el => {
+                el.style.background = '';
+            });
+            const items = document.querySelectorAll('.script-template-item');
+            if(items[index]) items[index].style.background = '#0f2140';
+            alert('已选中话术：\n' + templates[index]);
+        };
+
+        window.addScriptTemplate = function(){
+            const cat = document.getElementById('scriptCategorySelect').value;
+            if(!cat) { alert('请先选择话术类型'); return; }
+            const newText = prompt('请输入新话术内容：');
+            if(newText && newText.trim()) {
+                if(!scriptTemplates[cat].templates) scriptTemplates[cat].templates = [];
+                scriptTemplates[cat].templates.push(newText.trim());
+                saveAll();
+                renderTemplates(cat);
+            }
+        };
+
+        window.copySelectedScript = function(){
+            if(window._selectedScript) {
+                navigator.clipboard?.writeText(window._selectedScript).then(() => {
+                    alert('✅ 话术已复制到剪贴板');
+                }).catch(() => {
+                    alert('复制失败，请手动复制');
+                });
+            } else {
+                alert('请先选择一条话术模板（点击模板内容）');
+            }
+        };
+
+        // 初始渲染
+        renderTemplates('');
+    }
+
+    // ---------- 职位薪水 ----------
+    function renderPositions(area){
+        computeLevelsAndPositions();
+        const posKeys = ['intern','formal','regional','market','general'];
+        const posLabels = {
+            intern: '实习经理 (团队成员≥3)',
+            formal: '正式经理 (团队成员≥8)',
+            regional: '区域经理 (团队成员≥20)',
+            market: '市场经理 (团队成员≥45)',
+            general: '区域总经理 (团队成员≥80)'
+        };
+        const posEmojis = { intern: '👔', formal: '👔', regional: '🏢', market: '🏛️', general: '👑' };
+
+        let posHTML = '';
+        posKeys.forEach(key => {
+            const members = clients.filter(c => c.position === key);
+            const pos = positions[key];
+            if(!pos) return;
+            posHTML += `
+                <div class="position-card">
+                    <div class="pos-title">${posEmojis[key] || ''} ${pos.name} (${members.length}人)</div>
+                    ${members.length === 0 ? '<div style="color:#6a8aaa;font-size:13px;padding:8px 0;">暂无成员</div>' : ''}
+                    ${members.map(c => `
+                        <div class="pos-detail">
+                            ${c.phone} | ${c.level || 'EM0'} | 团队成员 ${c.teamCount || 0}名
+                            ${pos.bonusType === '一次性奖励' ? `取得一次性奖励 ${pos.bonus} 格里夫纳` : `取得每月固定收入 ${pos.bonus} 格里夫纳`}
+                            <span style="margin-left:12px;">
+                                <i class="fas ${positionStatus[c.phone] ? 'fa-check-circle' : 'fa-circle'} action-icon ${positionStatus[c.phone] ? 'success' : ''}" 
+                                   onclick="window.togglePositionStatus('${c.phone}')" title="点击切换发放状态"></i>
+                                ${positionStatus[c.phone] ? '✅发放' : '❌未发放'}
+                            </span>
+                        </div>
+                    `).join('')}
+                    <div class="pos-action">
+                        <button class="btn btn-sm" style="padding:4px 12px;font-size:12px;" onclick="window.editPosition('${key}')">✏️ 编辑职位</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        area.innerHTML = `
+            <h3 style="color:#e8f0fe;">💼 职位薪水管理</h3>
+            <div style="margin-top:12px;max-height:600px;overflow-y:auto;">
+                ${posHTML || '<div style="color:#6a8aaa;text-align:center;padding:20px;">暂无数据</div>'}
+            </div>
+        `;
+
+        window.togglePositionStatus = function(phone){
+            positionStatus[phone] = !positionStatus[phone];
+            saveAll();
+            renderTab('positions');
+        };
+
+        window.editPosition = function(key){
+            const pos = positions[key];
+            if(!pos) return;
+            const newName = prompt('职位名称', pos.name);
+            const newBonus = prompt('奖金/薪水金额', pos.bonus);
+            const newType = prompt('奖励类型 (一次性奖励/每月固定收入)', pos.bonusType);
+            if(newName) pos.name = newName;
+            if(newBonus && !isNaN(newBonus)) pos.bonus = parseFloat(newBonus);
+            if(newType) pos.bonusType = newType;
+            saveAll();
+            renderTab('positions');
+        };
+    }
+
+    // ---------- 团队关系树 ----------
+    function renderTree(area){
+        computeLevelsAndPositions();
+        const map = {};
+        clients.forEach(c => { map[c.phone] = { ...c, children: [] }; });
+        clients.forEach(c => {
+            if(c.superior && map[c.superior]) {
+                map[c.superior].children.push(c.phone);
+            }
+        });
+        const roots = clients.filter(c => !c.superior || !map[c.superior]);
+
+        function buildPyramid(phone, level=0){
+            const c = map[phone];
+            if(!c) return '';
+            const childrenHTML = c.children.map(child => buildPyramid(child, level+1)).join('');
+            return `<div style="display:flex;flex-direction:column;align-items:center;padding:4px 0;">
+                <div class="pyramid-node">
+                    <span class="level-tag">${String.fromCharCode(65+level)}</span>
+                    ${c.phone} 
+                    <span class="badge" style="font-size:10px;">${c.level || 'EM0'}</span>
+                    ${c.superior ? `<span class="superior-arrow">↑${c.superior}</span>` : ''}
+                </div>
+                ${c.children.length > 0 ? `<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px 30px;padding-top:6px;">${childrenHTML}</div>` : ''}
+            </div>`;
+        }
+
+        const pyramidHTML = roots.map(r => buildPyramid(r.phone, 0)).join('');
+
+        area.innerHTML = `
+            <h3 style="color:#e8f0fe;">🌳 团队关系树 (金字塔)</h3>
+            <div style="background:#0a1a32;border-radius:16px;padding:20px;border:1px solid #1a3555;max-height:600px;overflow-y:auto;">
+                <div class="pyramid-tree">${pyramidHTML || '<div style="color:#6a8aaa;text-align:center;">暂无客户数据</div>'}</div>
+            </div>
+        `;
+    }
+
+    // 全局搜索
+    document.getElementById('globalSearchBtn').addEventListener('click', function(){
+        const q = document.getElementById('globalSearch').value.trim();
+        if(q.length < 4) return alert('请输入至少4位号码或等级');
+        const results = clients.filter(c => c.phone.includes(q) || (c.level && c.level.toLowerCase().includes(q.toLowerCase())));
+        if(results.length){
+            alert('找到 ' + results.length + ' 个客户:\n' + results.map(r => `${r.phone} (${r.level}) ${r.name || ''} 上级:${r.superior || '--'}`).join('\n'));
+        } else alert('未找到');
+    });
+
+    setInterval(() => { saveAll(); }, 60000);
+    renderAuth();
+    if(currentUser){
+        document.getElementById('authContainer').classList.add('hidden');
+        document.getElementById('mainApp').classList.remove('hidden');
+        document.getElementById('userDisplay').innerText = currentUser.phone;
+        computeLevelsAndPositions();
+        renderTab('dashboard');
+    }
+})();
+</script>
+</body>
+</html>
