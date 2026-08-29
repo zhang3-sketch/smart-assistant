@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- 引入 Tesseract.js 用于 OCR 识别 -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background: #0b1a2f; display: flex; justify-content: center; padding: 16px; min-height: 100vh; }
@@ -151,8 +153,6 @@
         .history-item .nomatch { color: #ff6b6b; }
 
         .pyramid-tree { display: flex; flex-direction: column; align-items: center; }
-        .pyramid-level { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px 40px; padding: 8px 0; position: relative; }
-        .pyramid-level::after { content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); width: 2px; height: 16px; background: #1a3555; }
         .pyramid-node { background: #0a1a32; border: 1px solid #1a3555; border-radius: 12px; padding: 6px 16px; color: #d0dce8; font-size: 13px; position: relative; }
         .pyramid-node .level-tag { color: #4a8af4; font-weight: 700; margin-right: 6px; }
         .pyramid-node .superior-arrow { color: #6a8aaa; margin: 0 4px; }
@@ -177,6 +177,7 @@
         .recognition-result .result-item:last-child { border-bottom: none; }
         .recognition-result .detected { color: #4aca7a; }
         .recognition-result .mismatch { color: #ff6b6b; }
+        .recognition-result .ocr-loading { color: #e8c84a; font-style: italic; }
 
         @media (max-width: 768px) { .sidebar { width: 60px; } .sidebar-item span { display: none; } .sidebar-item { padding: 12px 16px; } .top-bar { flex-direction: column; align-items: stretch; } .ocr-layout { flex-direction: column; } }
     </style>
@@ -243,6 +244,7 @@
     let authMode = 'register';
     let selectedClients = new Set();
     let selectedInventory = new Set();
+    let isProcessingOCR = false;
 
     function saveAll(){
         localStorage.setItem('smart_users', JSON.stringify(users));
@@ -434,6 +436,35 @@
         input.addEventListener('focus', function(){ if(this.value.trim().length >= 2) container.style.display = 'block'; });
     }
 
+    // =================== 真正的 OCR 识别函数 ===================
+    async function performOCR(imageData) {
+        try {
+            const result = await Tesseract.recognize(imageData, 'eng', {
+                logger: m => {
+                    if (m.status === 'recognizing text') {
+                        document.getElementById('recognitionDetails').innerHTML = 
+                            `<div class="ocr-loading">🔍 正在识别中... ${Math.round(m.progress * 100)}%</div>`;
+                    }
+                }
+            });
+            return result.data.text;
+        } catch (error) {
+            console.error('OCR识别失败:', error);
+            return null;
+        }
+    }
+
+    function extractPhoneAndLevel(text) {
+        // 提取 6-15 位数字（工作账号）
+        const phoneMatch = text.match(/\b\d{6,15}\b/);
+        // 提取等级 (EM0, EM1, EM2, EM3)
+        const levelMatch = text.match(/EM[0-3]/i);
+        return {
+            phone: phoneMatch ? phoneMatch[0] : null,
+            level: levelMatch ? levelMatch[0].toUpperCase() : null
+        };
+    }
+
     // =================== 主页 ===================
     function renderDashboard(area){
         const total = clients.length;
@@ -539,7 +570,6 @@
         html += `</div><div class="pagination"><span>每页 <select id="pageSize"><option>10</option><option>20</option><option>50</option><option>100</option></select></span></div>`;
         area.innerHTML = html;
 
-        // 全选逻辑
         window.toggleSelectAllClients = function(){
             const allChecked = document.querySelectorAll('.client-checkbox');
             const anyUnchecked = Array.from(allChecked).some(cb => !cb.checked);
@@ -745,7 +775,7 @@
         };
     }
 
-    // =================== 订单识别 ===================
+    // =================== 订单识别 (含真实OCR) ===================
     function renderOrders(area){
         const total = clients.length;
         const todayCompleted = orders.filter(o => o.date === new Date().toDateString() && o.completed).length;
@@ -846,64 +876,93 @@
             fileInput.value = '';
         });
 
-        function handleOCRFile(file){
+        async function handleOCRFile(file){
+            if (isProcessingOCR) {
+                alert('正在处理上一张图片，请稍候...');
+                return;
+            }
+            isProcessingOCR = true;
+
             const reader = new FileReader();
-            reader.onload = function(e){
+            reader.onload = async function(e) {
+                const imageData = e.target.result;
+                
+                // 显示缩略图
                 const img = document.createElement('img');
-                img.src = e.target.result;
+                img.src = imageData;
                 img.style.maxWidth = '80px';
                 img.style.maxHeight = '80px';
                 img.style.borderRadius = '8px';
                 img.style.border = '1px solid #1a3555';
                 preview.appendChild(img);
-                
-                // 模拟PaddleOCR识别
-                const numbers = file.name.match(/\d{6,15}/);
-                const levelMatch = file.name.match(/EM[0-3]/i);
+
                 const time = new Date().toLocaleString();
                 let detectedPhone = null;
                 let detectedLevel = null;
                 let matched = false;
                 let levelUpdated = false;
 
-                if(numbers) detectedPhone = numbers[0];
-                if(levelMatch) detectedLevel = levelMatch[0].toUpperCase();
+                try {
+                    // 使用 Tesseract.js 进行 OCR 识别
+                    const recognizedText = await performOCR(imageData);
+                    
+                    if (recognizedText) {
+                        const result = extractPhoneAndLevel(recognizedText);
+                        detectedPhone = result.phone;
+                        detectedLevel = result.level;
 
-                // 显示识别结果
-                let resultHTML = '';
-                if(detectedPhone) {
-                    const client = clients.find(c => c.phone === detectedPhone);
-                    resultHTML += `<div class="result-item"><span>👤 用户：</span><span class="detected">${detectedPhone}</span></div>`;
-                    if(client) {
-                        matched = true;
-                        // 检查等级
-                        if(detectedLevel && client.level !== detectedLevel) {
-                            client.level = detectedLevel;
-                            levelUpdated = true;
-                            resultHTML += `<div class="result-item"><span>📊 等级：</span><span style="color:#e8c84a;">${detectedLevel} (已更新)</span></div>`;
-                            syncInventoryFromClients();
-                            computeLevelsAndPositions();
-                            saveAll();
-                        } else if(detectedLevel) {
-                            resultHTML += `<div class="result-item"><span>📊 等级：</span><span>${detectedLevel}</span></div>`;
-                        }
-                        // 标记今日完成
-                        if(!orders.find(o => o.phone === detectedPhone && o.date === new Date().toDateString())){
-                            orders.push({ phone: detectedPhone, date: new Date().toDateString(), completed: true });
-                            saveAll();
-                            resultHTML += `<div class="result-item"><span>✅ 订单：</span><span class="detected">今日已完成</span></div>`;
+                        // 显示识别结果
+                        let resultHTML = '';
+                        if (detectedPhone) {
+                            const client = clients.find(c => c.phone === detectedPhone);
+                            resultHTML += `<div class="result-item"><span>👤 用户：</span><span class="detected">${detectedPhone}</span></div>`;
+                            resultHTML += `<div class="result-item"><span>📝 识别文本：</span><span style="font-size:11px;color:#6a8aaa;">${recognizedText.substring(0, 100)}${recognizedText.length > 100 ? '...' : ''}</span></div>`;
+                            
+                            if (client) {
+                                matched = true;
+                                // 检查等级
+                                if (detectedLevel && client.level !== detectedLevel) {
+                                    client.level = detectedLevel;
+                                    levelUpdated = true;
+                                    resultHTML += `<div class="result-item"><span>📊 等级：</span><span style="color:#e8c84a;">${detectedLevel} (已更新)</span></div>`;
+                                    syncInventoryFromClients();
+                                    computeLevelsAndPositions();
+                                    saveAll();
+                                } else if (detectedLevel) {
+                                    resultHTML += `<div class="result-item"><span>📊 等级：</span><span>${detectedLevel}</span></div>`;
+                                } else {
+                                    resultHTML += `<div class="result-item"><span>📊 等级：</span><span style="color:#6a8aaa;">未检测到</span></div>`;
+                                }
+                                // 标记今日完成
+                                if(!orders.find(o => o.phone === detectedPhone && o.date === new Date().toDateString())){
+                                    orders.push({ phone: detectedPhone, date: new Date().toDateString(), completed: true });
+                                    saveAll();
+                                    resultHTML += `<div class="result-item"><span>✅ 订单：</span><span class="detected">今日已完成</span></div>`;
+                                } else {
+                                    resultHTML += `<div class="result-item"><span>ℹ️ 订单：</span><span>今日已标记</span></div>`;
+                                }
+                            } else {
+                                matched = false;
+                                resultHTML += `<div class="result-item"><span>⚠️ 状态：</span><span class="nomatch">未找到匹配客户</span></div>`;
+                                if (detectedLevel) {
+                                    resultHTML += `<div class="result-item"><span>📊 识别等级：</span><span>${detectedLevel}</span></div>`;
+                                }
+                            }
                         } else {
-                            resultHTML += `<div class="result-item"><span>ℹ️ 订单：</span><span>今日已标记</span></div>`;
+                            resultHTML = `<div style="color:#6a8aaa;padding:8px;">未识别到有效号码（需要6-15位数字）</div>`;
+                            if (recognizedText) {
+                                resultHTML += `<div class="result-item"><span>📝 识别文本：</span><span style="font-size:11px;color:#6a8aaa;">${recognizedText.substring(0, 100)}${recognizedText.length > 100 ? '...' : ''}</span></div>`;
+                            }
                         }
-                    } else {
-                        matched = false;
-                        resultHTML += `<div class="result-item"><span>⚠️ 状态：</span><span class="nomatch">未找到匹配客户</span></div>`;
-                    }
-                } else {
-                    resultHTML = `<div style="color:#6a8aaa;padding:8px;">未识别到有效号码（需要6-15位数字）</div>`;
-                }
 
-                resultDetails.innerHTML = resultHTML;
+                        resultDetails.innerHTML = resultHTML;
+                    } else {
+                        resultDetails.innerHTML = `<div style="color:#ff6b6b;padding:8px;">❌ OCR 识别失败，请检查图片是否清晰</div>`;
+                    }
+                } catch (error) {
+                    console.error('OCR处理错误:', error);
+                    resultDetails.innerHTML = `<div style="color:#ff6b6b;padding:8px;">❌ 识别出错: ${error.message}</div>`;
+                }
 
                 // 记录历史
                 ocrHistory.push({ 
@@ -914,6 +973,7 @@
                     levelUpdated 
                 });
                 saveAll();
+                isProcessingOCR = false;
                 renderTab('orders');
             };
             reader.readAsDataURL(file);
@@ -1310,7 +1370,6 @@
             </div>
         `;
 
-        // 树搜索功能
         const treeInput = document.getElementById('treeSearch');
         const treeResults = document.getElementById('treeSearchResults');
         if(treeInput && treeResults){
@@ -1318,18 +1377,15 @@
                 const q = this.value.trim();
                 if(q.length < 4) { 
                     treeResults.style.display = 'none';
-                    // 显示全部
                     document.querySelectorAll('#pyramidContainer .pyramid-node').forEach(el => {
                         let parent = el.closest('div[style*="flex-direction:column"]');
                         if(parent) parent.style.display = '';
                     });
                     return; 
                 }
-                // 搜索匹配的客户及其所有下属
                 const matchedPhones = new Set();
                 clients.forEach(c => {
                     if(c.phone.includes(q)) {
-                        // 找到该客户及其所有下属
                         const stack = [c.phone];
                         while(stack.length > 0) {
                             const current = stack.pop();
@@ -1341,7 +1397,6 @@
                         }
                     }
                 });
-                // 显示/隐藏节点
                 document.querySelectorAll('#pyramidContainer .pyramid-node').forEach(el => {
                     const phoneMatch = el.textContent.match(/\d{6,15}/);
                     if(phoneMatch) {
@@ -1352,7 +1407,6 @@
                         }
                     }
                 });
-                // 显示结果数量
                 if(matchedPhones.size > 0) {
                     treeResults.innerHTML = `<div class="result-item">找到 ${matchedPhones.size} 个团队成员</div>`;
                     treeResults.style.display = 'block';
