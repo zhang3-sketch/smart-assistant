@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-    <title>智能助手 · 完整商业版</title>
+    <title>智能助手 · 终极版</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,45 +26,52 @@
         .auth-switch span { color: #4a8af4; font-weight: 600; cursor: pointer; }
 
         .main-layout { display: flex; flex-direction: column; height: 100%; flex: 1; min-height: 0; background: #0f2140; }
-        .top-bar { padding: 16px 24px; background: #0f2140; border-bottom: 1px solid #1a3555; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; flex-shrink: 0; }
-        .top-bar .brand { font-weight: 700; font-size: 20px; color: #e8f0fe; display: flex; align-items: center; gap: 8px; }
+        .top-bar { padding: 12px 24px; background: #0f2140; border-bottom: 1px solid #1a3555; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; flex-shrink: 0; }
+        .top-bar .brand { font-weight: 700; font-size: 18px; color: #e8f0fe; display: flex; align-items: center; gap: 8px; }
         .top-bar .brand i { color: #4a8af4; }
-        .top-search { flex: 1; min-width: 200px; display: flex; background: #0a1a32; border-radius: 40px; padding: 4px 4px 4px 18px; align-items: center; border: 1px solid #1a3555; transition: 0.2s; }
+        .top-search { flex: 1; min-width: 180px; display: flex; background: #0a1a32; border-radius: 40px; padding: 4px 4px 4px 18px; align-items: center; border: 1px solid #1a3555; transition: 0.2s; position: relative; }
         .top-search:focus-within { border-color: #4a8af4; background: #0f2140; box-shadow: 0 0 0 3px rgba(74,138,244,0.15); }
-        .top-search input { border: none; background: transparent; padding: 10px 0; flex: 1; font-size: 14px; outline: none; color: #e8f0fe; }
+        .top-search input { border: none; background: transparent; padding: 8px 0; flex: 1; font-size: 14px; outline: none; color: #e8f0fe; }
         .top-search input::placeholder { color: #6a8aaa; }
         .top-search i { color: #6a8aaa; font-size: 14px; }
-        .top-search button { background: #1a5bbf; border: none; color: white; padding: 8px 18px; border-radius: 40px; font-weight: 500; cursor: pointer; font-size: 13px; }
+        .top-search button { background: #1a5bbf; border: none; color: white; padding: 6px 16px; border-radius: 40px; font-weight: 500; cursor: pointer; font-size: 12px; }
         .top-search button:hover { background: #2a6df4; }
-        .user-badge { display: flex; align-items: center; gap: 12px; background: #0a1a32; padding: 6px 16px 6px 12px; border-radius: 40px; border: 1px solid #1a3555; flex-shrink: 0; color: #e8f0fe; }
+        .top-search .search-dropdown { position: absolute; top: 110%; left: 0; right: 0; background: #0a1a32; border: 1px solid #1a3555; border-radius: 16px; max-height: 250px; overflow-y: auto; z-index: 100; display: none; padding: 4px 0; }
+        .top-search .search-dropdown .item { padding: 8px 16px; color: #d0dce8; font-size: 13px; border-bottom: 1px solid #1a3555; cursor: pointer; display: flex; justify-content: space-between; }
+        .top-search .search-dropdown .item:hover { background: #0f2140; }
+        .top-search .search-dropdown .item .badge-sm { font-size: 10px; background: #1a3555; color: #4a8af4; padding: 2px 8px; border-radius: 12px; }
+
+        .user-badge { display: flex; align-items: center; gap: 12px; background: #0a1a32; padding: 4px 14px 4px 10px; border-radius: 40px; border: 1px solid #1a3555; flex-shrink: 0; color: #e8f0fe; font-size: 13px; }
         .user-badge i { color: #4a8af4; }
         .user-badge #logoutBtn { cursor: pointer; color: #8ab0d4; }
         .user-badge #logoutBtn:hover { color: #ff6b6b; }
+        .user-badge .role-tag { font-size: 10px; background: #1a3555; padding: 2px 10px; border-radius: 12px; color: #4a8af4; }
 
         .body-wrap { display: flex; flex: 1; min-height: 0; overflow: hidden; }
-        .sidebar { width: 220px; background: #0a1a32; border-right: 1px solid #1a3555; padding: 20px 0; overflow-y: auto; flex-shrink: 0; height: 100%; }
+        .sidebar { width: 200px; background: #0a1a32; border-right: 1px solid #1a3555; padding: 16px 0; overflow-y: auto; flex-shrink: 0; height: 100%; }
         .sidebar::-webkit-scrollbar { width: 4px; }
         .sidebar::-webkit-scrollbar-thumb { background: #2a4a6a; border-radius: 8px; }
-        .sidebar-item { padding: 12px 24px; display: flex; align-items: center; gap: 14px; color: #9bb7d4; font-weight: 500; cursor: pointer; transition: 0.1s; border-left: 3px solid transparent; }
-        .sidebar-item i { width: 20px; color: #6a8aaa; }
+        .sidebar-item { padding: 10px 20px; display: flex; align-items: center; gap: 12px; color: #9bb7d4; font-weight: 500; cursor: pointer; transition: 0.1s; border-left: 3px solid transparent; font-size: 14px; }
+        .sidebar-item i { width: 18px; color: #6a8aaa; font-size: 14px; }
         .sidebar-item.active { background: #0f2140; border-left-color: #4a8af4; color: #e8f0fe; box-shadow: inset 0 0 0 1px #1a3555; }
         .sidebar-item:hover { background: #0f2140; color: #e8f0fe; }
+        .sidebar-divider { height: 1px; background: #1a3555; margin: 8px 16px; }
 
-        .content { flex: 1; padding: 24px; overflow-y: auto; background: #0f2140; height: 100%; }
+        .content { flex: 1; padding: 20px; overflow-y: auto; background: #0f2140; height: 100%; }
         .content::-webkit-scrollbar { width: 6px; }
         .content::-webkit-scrollbar-thumb { background: #2a4a6a; border-radius: 8px; }
 
-        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 16px; margin-bottom: 28px; }
-        .stat-card { background: #0a1a32; border-radius: 20px; padding: 18px 16px; border: 1px solid #1a3555; transition: transform 0.2s; }
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px,1fr)); gap: 12px; margin-bottom: 20px; }
+        .stat-card { background: #0a1a32; border-radius: 16px; padding: 14px 14px; border: 1px solid #1a3555; transition: transform 0.2s; }
         .stat-card:hover { transform: translateY(-2px); }
-        .stat-card .label { font-size: 13px; color: #6a8aaa; }
-        .stat-card .value { font-size: 26px; font-weight: 700; color: #e8f0fe; margin-top: 4px; }
+        .stat-card .label { font-size: 11px; color: #6a8aaa; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card .value { font-size: 22px; font-weight: 700; color: #e8f0fe; margin-top: 2px; }
 
-        .filter-bar { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; align-items: center; position: relative; }
-        .filter-bar select, .filter-bar input { padding: 10px 14px; border-radius: 40px; border: 1.5px solid #1a3555; background: #0a1a32; color: #e8f0fe; font-size: 13px; }
+        .filter-bar { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; align-items: center; position: relative; }
+        .filter-bar select, .filter-bar input { padding: 8px 14px; border-radius: 40px; border: 1.5px solid #1a3555; background: #0a1a32; color: #e8f0fe; font-size: 13px; }
         .filter-bar select option { background: #0a1a32; }
         .filter-bar input::placeholder { color: #6a8aaa; }
-        .filter-bar .btn { background: #1a5bbf; color: white; border: none; padding: 10px 20px; border-radius: 40px; font-weight: 500; cursor: pointer; font-size: 13px; transition: 0.2s; }
+        .filter-bar .btn { background: #1a5bbf; color: white; border: none; padding: 8px 18px; border-radius: 40px; font-weight: 500; cursor: pointer; font-size: 13px; transition: 0.2s; }
         .filter-bar .btn:hover { background: #2a6df4; transform: scale(1.02); }
         .filter-bar .btn-primary { background: #2a6df4; }
         .filter-bar .btn-primary:hover { background: #4a8af4; }
@@ -74,123 +81,133 @@
         .filter-bar .btn-warning:hover { background: #e89a3a; }
         .filter-bar .btn-danger { background: #b33a3a; }
         .filter-bar .btn-danger:hover { background: #d44a4a; }
+        .filter-bar .search-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #0a1a32; border: 1px solid #1a3555; border-radius: 16px; max-height: 220px; overflow-y: auto; z-index: 50; margin-top: 4px; padding: 4px 0; display: none; }
+        .filter-bar .search-dropdown .item { padding: 8px 16px; color: #d0dce8; font-size: 13px; border-bottom: 1px solid #1a3555; cursor: pointer; display: flex; justify-content: space-between; }
+        .filter-bar .search-dropdown .item:hover { background: #0f2140; }
+        .filter-bar .search-dropdown .item .badge-sm { font-size: 10px; background: #1a3555; color: #4a8af4; padding: 2px 8px; border-radius: 12px; }
 
-        .search-results-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #0a1a32; border: 1px solid #1a3555; border-radius: 16px; max-height: 300px; overflow-y: auto; z-index: 50; margin-top: 4px; padding: 8px 0; display: none; }
-        .search-results-dropdown .result-item { padding: 8px 16px; color: #d0dce8; font-size: 13px; border-bottom: 1px solid #1a3555; cursor: pointer; transition: 0.2s; }
-        .search-results-dropdown .result-item:hover { background: #0f2140; }
-
-        .table-wrap { overflow-x: auto; max-height: 500px; overflow-y: auto; }
+        .table-wrap { overflow-x: auto; max-height: 450px; overflow-y: auto; }
         .table-wrap::-webkit-scrollbar { width: 6px; }
         .table-wrap::-webkit-scrollbar-thumb { background: #2a4a6a; border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        th { text-align: left; padding: 12px 10px; background: #0a1a32; color: #9bb7d4; font-weight: 600; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid #1a3555; }
-        td { padding: 12px 10px; border-bottom: 1px solid #1a3555; color: #d0dce8; }
-        .badge { background: #1a3555; color: #4a8af4; padding: 4px 12px; border-radius: 40px; font-size: 12px; font-weight: 600; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { text-align: left; padding: 10px 10px; background: #0a1a32; color: #9bb7d4; font-weight: 600; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid #1a3555; }
+        td { padding: 10px 10px; border-bottom: 1px solid #1a3555; color: #d0dce8; }
+        .badge { background: #1a3555; color: #4a8af4; padding: 3px 10px; border-radius: 40px; font-size: 11px; font-weight: 600; }
         .badge-success { background: #1a4a3a; color: #4aca7a; }
         .badge-danger { background: #4a2a2a; color: #ff6b6b; }
         .badge-warning { background: #4a3a1a; color: #e8c84a; }
-        .action-icon { margin: 0 4px; color: #6a8aaa; cursor: pointer; font-size: 15px; transition: 0.2s; }
+        .action-icon { margin: 0 3px; color: #6a8aaa; cursor: pointer; font-size: 14px; transition: 0.2s; }
         .action-icon:hover { color: #e8f0fe; transform: scale(1.1); }
         .action-icon.success { color: #4aca7a; }
         .action-icon.success:hover { color: #6ada9a; }
         .action-icon.danger { color: #ff6b6b; }
         .action-icon.danger:hover { color: #ff8a8a; }
 
-        .pagination { display: flex; gap: 8px; margin-top: 24px; align-items: center; flex-wrap: wrap; color: #9bb7d4; }
-        .pagination select { padding: 6px 12px; border-radius: 30px; border: 1px solid #1a3555; background: #0a1a32; color: #e8f0fe; }
+        .pagination { display: flex; gap: 8px; margin-top: 16px; align-items: center; flex-wrap: wrap; color: #9bb7d4; }
+        .pagination select { padding: 4px 10px; border-radius: 30px; border: 1px solid #1a3555; background: #0a1a32; color: #e8f0fe; }
 
         .hidden { display: none; }
-        .flex-col { display: flex; flex-direction: column; gap: 12px; }
-        .drop-zone { border: 2px dashed #1a3555; border-radius: 20px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; background: #0a1a32; }
+        .flex-col { display: flex; flex-direction: column; gap: 10px; }
+        .drop-zone { border: 2px dashed #1a3555; border-radius: 16px; padding: 16px; text-align: center; cursor: pointer; transition: 0.3s; background: #0a1a32; }
         .drop-zone:hover, .drop-zone.dragover { border-color: #4a8af4; background: #0f2140; transform: scale(1.01); }
-        .drop-zone i { color: #4a8af4; }
+        .drop-zone i { color: #4a8af4; font-size: 28px; }
         .drop-zone p { color: #6a8aaa; font-size: 13px; }
-        .drop-zone img { max-width: 100%; max-height: 150px; margin-top: 8px; border-radius: 12px; }
+        .drop-zone img { max-width: 100%; max-height: 120px; margin-top: 6px; border-radius: 10px; }
 
-        .uncompleted-list { max-height: 300px; overflow-y: auto; background: #0a1a32; border-radius: 16px; padding: 12px; border: 1px solid #1a3555; }
+        .uncompleted-list { max-height: 280px; overflow-y: auto; background: #0a1a32; border-radius: 14px; padding: 10px; border: 1px solid #1a3555; }
         .uncompleted-list::-webkit-scrollbar { width: 4px; }
         .uncompleted-list::-webkit-scrollbar-thumb { background: #2a4a6a; border-radius: 8px; }
-        .uncompleted-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid #1a3555; color: #d0dce8; }
+        .uncompleted-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; border-bottom: 1px solid #1a3555; color: #d0dce8; font-size: 13px; }
         .uncompleted-item:last-child { border-bottom: none; }
 
-        .salary-image { max-width: 100px; max-height: 100px; border-radius: 8px; cursor: pointer; border: 1px solid #1a3555; transition: 0.2s; }
+        .salary-image { max-width: 80px; max-height: 80px; border-radius: 8px; cursor: pointer; border: 1px solid #1a3555; transition: 0.2s; }
         .salary-image:hover { transform: scale(1.05); }
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 999; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        .modal-box { background: #0f2140; border-radius: 28px; max-width: 700px; width: 90%; padding: 28px; max-height: 80vh; overflow-y: auto; border: 1px solid #1a3555; }
-        .modal-box h3 { color: #e8f0fe; margin-bottom: 16px; }
-        .modal-box .copy-btn { background: #1a5bbf; color: white; border: none; padding: 6px 16px; border-radius: 40px; cursor: pointer; font-size: 12px; }
-        .modal-box .copy-btn:hover { background: #2a6df4; }
-        .modal-box img { max-width: 100%; border-radius: 12px; }
-        .modal-box button { margin-top: 16px; padding: 8px 24px; border-radius: 40px; border: none; background: #1a5bbf; color: white; cursor: pointer; }
-        .modal-box button:hover { background: #2a6df4; }
 
-        .progress-bar-wrap { display: flex; align-items: center; gap: 12px; margin: 8px 0; }
-        .progress-bar-label { width: 40px; color: #9bb7d4; font-size: 13px; font-weight: 600; }
-        .progress-bar-track { flex: 1; height: 8px; background: #1a3555; border-radius: 8px; overflow: hidden; position: relative; cursor: pointer; }
-        .progress-bar-fill { height: 100%; border-radius: 8px; transition: width 0.3s; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 999; animation: fadeIn 0.25s; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .modal-box { background: #0f2140; border-radius: 24px; max-width: 650px; width: 92%; padding: 24px; max-height: 80vh; overflow-y: auto; border: 1px solid #1a3555; }
+        .modal-box h3 { color: #e8f0fe; margin-bottom: 14px; font-size: 18px; }
+        .modal-box .copy-btn { background: #1a5bbf; color: white; border: none; padding: 4px 14px; border-radius: 40px; cursor: pointer; font-size: 12px; }
+        .modal-box .copy-btn:hover { background: #2a6df4; }
+        .modal-box img { max-width: 100%; border-radius: 10px; }
+        .modal-box button { margin-top: 14px; padding: 8px 22px; border-radius: 40px; border: none; background: #1a5bbf; color: white; cursor: pointer; }
+        .modal-box button:hover { background: #2a6df4; }
+        .modal-box .close-btn { background: #4a2a2a; margin-left: 10px; }
+        .modal-box .close-btn:hover { background: #6a3a3a; }
+
+        .progress-bar-wrap { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+        .progress-bar-label { width: 36px; color: #9bb7d4; font-size: 12px; font-weight: 600; }
+        .progress-bar-track { flex: 1; height: 6px; background: #1a3555; border-radius: 6px; overflow: hidden; position: relative; cursor: pointer; }
+        .progress-bar-fill { height: 100%; border-radius: 6px; transition: width 0.3s; }
         .progress-bar-fill.em0 { background: #4a8af4; }
         .progress-bar-fill.em1 { background: #4aca7a; }
         .progress-bar-fill.em2 { background: #e8c84a; }
         .progress-bar-fill.em3 { background: #ff6b6b; }
-        .progress-tooltip { position: absolute; top: -28px; left: 50%; transform: translateX(-50%); background: #0a1a32; color: #e8f0fe; padding: 2px 10px; border-radius: 8px; font-size: 12px; white-space: nowrap; border: 1px solid #1a3555; display: none; }
+        .progress-tooltip { position: absolute; top: -24px; left: 50%; transform: translateX(-50%); background: #0a1a32; color: #e8f0fe; padding: 2px 8px; border-radius: 6px; font-size: 11px; white-space: nowrap; border: 1px solid #1a3555; display: none; }
         .progress-bar-track:hover .progress-tooltip { display: block; }
 
-        .client-grid { display: grid; grid-template-columns: 1fr; gap: 8px; max-height: 500px; overflow-y: auto; padding-right: 4px; }
+        .client-grid { display: grid; grid-template-columns: 1fr; gap: 6px; max-height: 450px; overflow-y: auto; padding-right: 4px; }
         .client-grid::-webkit-scrollbar { width: 4px; }
         .client-grid::-webkit-scrollbar-thumb { background: #2a4a6a; border-radius: 8px; }
-        .client-card { background: #0a1a32; border: 1px solid #1a3555; border-radius: 16px; padding: 12px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; transition: 0.2s; }
+        .client-card { background: #0a1a32; border: 1px solid #1a3555; border-radius: 12px; padding: 10px 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; transition: 0.2s; }
         .client-card:hover { border-color: #4a8af4; }
         .client-card .field { color: #d0dce8; font-size: 13px; }
         .client-card .field strong { color: #9bb7d4; }
-        .client-card .actions { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+        .client-card .actions { margin-left: auto; display: flex; gap: 4px; align-items: center; }
 
-        .ocr-layout { display: flex; gap: 20px; flex-wrap: wrap; }
-        .ocr-left { flex: 2; min-width: 300px; }
-        .ocr-right { flex: 1; min-width: 220px; background: #0a1a32; border-radius: 16px; padding: 16px; border: 1px solid #1a3555; max-height: 600px; overflow-y: auto; }
+        .ocr-layout { display: flex; gap: 16px; flex-wrap: wrap; }
+        .ocr-left { flex: 2; min-width: 280px; }
+        .ocr-right { flex: 1; min-width: 200px; background: #0a1a32; border-radius: 14px; padding: 14px; border: 1px solid #1a3555; max-height: 550px; overflow-y: auto; }
         .ocr-right::-webkit-scrollbar { width: 4px; }
         .ocr-right::-webkit-scrollbar-thumb { background: #2a4a6a; border-radius: 8px; }
 
-        .history-item { display: flex; justify-content: space-between; padding: 6px 8px; border-bottom: 1px solid #1a3555; font-size: 13px; color: #d0dce8; }
+        .history-item { display: flex; justify-content: space-between; padding: 5px 8px; border-bottom: 1px solid #1a3555; font-size: 12px; color: #d0dce8; }
         .history-item .match { color: #4aca7a; }
         .history-item .nomatch { color: #ff6b6b; }
 
-        .pyramid-tree { display: flex; flex-direction: column; align-items: center; }
-        .pyramid-node { background: #0a1a32; border: 1px solid #1a3555; border-radius: 12px; padding: 6px 16px; color: #d0dce8; font-size: 13px; position: relative; transition: 0.2s; }
+        .pyramid-tree { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .pyramid-node { background: #0a1a32; border: 1px solid #1a3555; border-radius: 10px; padding: 4px 14px; color: #d0dce8; font-size: 13px; position: relative; transition: 0.2s; cursor: default; }
         .pyramid-node:hover { border-color: #4a8af4; }
-        .pyramid-node .level-tag { color: #4a8af4; font-weight: 700; margin-right: 6px; }
+        .pyramid-node .level-tag { color: #4a8af4; font-weight: 700; margin-right: 4px; }
         .pyramid-node .superior-arrow { color: #6a8aaa; margin: 0 4px; }
+        .pyramid-node .node-count { font-size: 10px; color: #6a8aaa; margin-left: 6px; }
 
-        .position-card { background: #0a1a32; border: 1px solid #1a3555; border-radius: 16px; padding: 16px; margin-bottom: 12px; transition: 0.2s; }
+        .position-card { background: #0a1a32; border: 1px solid #1a3555; border-radius: 14px; padding: 14px; margin-bottom: 10px; transition: 0.2s; }
         .position-card:hover { border-color: #4a8af4; }
-        .position-card .pos-title { color: #4a8af4; font-weight: 700; font-size: 16px; }
-        .position-card .pos-detail { color: #d0dce8; font-size: 13px; margin: 4px 0; padding: 4px 8px; background: #0a1a32; border-radius: 8px; }
-        .position-card .pos-action { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+        .position-card .pos-title { color: #4a8af4; font-weight: 700; font-size: 15px; }
+        .position-card .pos-detail { color: #d0dce8; font-size: 13px; margin: 3px 0; padding: 3px 8px; background: #0a1a32; border-radius: 6px; }
 
-        .script-selector { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
-        .script-selector select { padding: 10px 20px; border-radius: 40px; border: 1.5px solid #1a3555; background: #0a1a32; color: #e8f0fe; font-size: 14px; }
-        .script-template-box { background: #0a1a32; border: 1px solid #1a3555; border-radius: 16px; padding: 16px; max-height: 400px; overflow-y: auto; }
-        .script-template-item { padding: 10px 12px; border-bottom: 1px solid #1a3555; cursor: pointer; color: #d0dce8; transition: 0.2s; }
+        .script-selector { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+        .script-selector select { padding: 8px 16px; border-radius: 40px; border: 1.5px solid #1a3555; background: #0a1a32; color: #e8f0fe; font-size: 13px; }
+        .script-template-box { background: #0a1a32; border: 1px solid #1a3555; border-radius: 14px; padding: 14px; max-height: 350px; overflow-y: auto; }
+        .script-template-item { padding: 8px 12px; border-bottom: 1px solid #1a3555; cursor: pointer; color: #d0dce8; transition: 0.2s; }
         .script-template-item:hover { background: #0f2140; }
         .script-template-item .label { color: #4a8af4; font-weight: 600; }
 
-        .checkbox-col { width: 30px; text-align: center; }
-        .checkbox-col input[type="checkbox"] { accent-color: #4a8af4; width: 16px; height: 16px; cursor: pointer; background: #0a1a32; }
+        .checkbox-col { width: 28px; text-align: center; }
+        .checkbox-col input[type="checkbox"] { accent-color: #4a8af4; width: 14px; height: 14px; cursor: pointer; }
 
-        .recognition-result { background: #0a1a32; border-radius: 12px; padding: 12px; margin-top: 12px; border: 1px solid #1a3555; }
-        .recognition-result .result-item { display: flex; justify-content: space-between; padding: 4px 0; color: #d0dce8; font-size: 13px; border-bottom: 1px solid #1a3555; }
+        .recognition-result { background: #0a1a32; border-radius: 10px; padding: 10px; margin-top: 10px; border: 1px solid #1a3555; }
+        .recognition-result .result-item { display: flex; justify-content: space-between; padding: 3px 0; color: #d0dce8; font-size: 13px; border-bottom: 1px solid #1a3555; }
         .recognition-result .result-item:last-child { border-bottom: none; }
         .recognition-result .detected { color: #4aca7a; }
         .recognition-result .mismatch { color: #ff6b6b; }
         .recognition-result .ocr-loading { color: #e8c84a; font-style: italic; }
 
-        .toast { position: fixed; bottom: 30px; right: 30px; background: #1a2f4f; color: #e8f0fe; padding: 16px 24px; border-radius: 16px; border: 1px solid #2a4a6a; box-shadow: 0 8px 30px rgba(0,0,0,0.5); z-index: 1000; animation: slideUp 0.3s; max-width: 400px; }
+        .toast { position: fixed; bottom: 24px; right: 24px; background: #1a2f4f; color: #e8f0fe; padding: 14px 20px; border-radius: 14px; border: 1px solid #2a4a6a; box-shadow: 0 8px 30px rgba(0,0,0,0.5); z-index: 1000; animation: slideUp 0.3s; max-width: 380px; font-size: 14px; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .toast .close { float: right; cursor: pointer; color: #6a8aaa; margin-left: 16px; }
+        .toast .close { float: right; cursor: pointer; color: #6a8aaa; margin-left: 14px; }
 
-        @media (max-width: 768px) { .sidebar { width: 60px; } .sidebar-item span { display: none; } .sidebar-item { padding: 12px 16px; } .top-bar { flex-direction: column; align-items: stretch; } .ocr-layout { flex-direction: column; } }
+        .tree-stats { display: flex; flex-wrap: wrap; gap: 12px; background: #0a1a32; border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; border: 1px solid #1a3555; }
+        .tree-stats .stat-item { font-size: 13px; color: #d0dce8; }
+        .tree-stats .stat-item strong { color: #e8f0fe; }
 
-        .copy-success { background: #1a4a3a; color: #4aca7a; padding: 2px 10px; border-radius: 12px; font-size: 12px; }
+        .user-mgmt-table td .role-select { background: #0a1a32; color: #e8f0fe; border: 1px solid #1a3555; border-radius: 20px; padding: 2px 10px; font-size: 12px; }
+        .user-mgmt-table td .status-badge { font-size: 11px; padding: 2px 10px; border-radius: 20px; }
+
+        @media (max-width: 768px) { .sidebar { width: 56px; } .sidebar-item span { display: none; } .sidebar-item { padding: 10px 14px; } .top-bar { flex-direction: column; align-items: stretch; } .ocr-layout { flex-direction: column; } .stat-grid { grid-template-columns: 1fr 1fr; } }
+
+        .search-dropdown .item .highlight { color: #4a8af4; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -203,15 +220,25 @@
             <input id="authPassword" class="auth-input" placeholder="密码 (6位)" type="password">
             <button id="authActionBtn" class="auth-btn">注册</button>
             <div class="auth-switch">已有账号？ <span id="toggleAuth">登录</span></div>
-            <div id="authMessage" style="margin-top:12px; font-size:14px; color:#ff6b6b;"></div>
+            <div id="authMessage" style="margin-top:10px; font-size:14px; color:#ff6b6b;"></div>
         </div>
     </div>
 
     <div id="mainApp" class="main-layout hidden">
         <div class="top-bar">
-            <div class="brand"><i class="fas fa-robot"></i> 智能助手 <span style="font-size:12px;color:#4a8af4;">商业版</span></div>
-            <div class="top-search"><i class="fas fa-search"></i><input id="globalSearch" placeholder="全局搜索 号码后4位..."><button id="globalSearchBtn"><i class="fas fa-arrow-right"></i></button></div>
-            <div class="user-badge"><i class="fas fa-user-circle"></i> <span id="userDisplay">管理员</span> <i class="fas fa-sign-out-alt" id="logoutBtn"></i></div>
+            <div class="brand"><i class="fas fa-robot"></i> 智能助手 <span style="font-size:11px;color:#4a8af4;">终极版</span></div>
+            <div class="top-search" id="globalSearchContainer">
+                <i class="fas fa-search"></i>
+                <input id="globalSearch" placeholder="全局搜索 号码后4位...">
+                <button id="globalSearchBtn"><i class="fas fa-arrow-right"></i></button>
+                <div class="search-dropdown" id="globalSearchResults"></div>
+            </div>
+            <div class="user-badge">
+                <i class="fas fa-user-circle"></i>
+                <span id="userDisplay">管理员</span>
+                <span class="role-tag" id="userRoleTag">管理员</span>
+                <i class="fas fa-sign-out-alt" id="logoutBtn" title="登出"></i>
+            </div>
         </div>
         <div class="body-wrap">
             <div class="sidebar" id="sidebarMenu">
@@ -223,6 +250,9 @@
                 <div class="sidebar-item" data-tab="scripts"><i class="fas fa-comment-dots"></i><span>话术生成</span></div>
                 <div class="sidebar-item" data-tab="positions"><i class="fas fa-briefcase"></i><span>职位薪水</span></div>
                 <div class="sidebar-item" data-tab="tree"><i class="fas fa-sitemap"></i><span>团队关系树</span></div>
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-item" data-tab="users"><i class="fas fa-users-cog"></i><span>用户管理</span></div>
+                <div class="sidebar-item" data-tab="logs"><i class="fas fa-history"></i><span>操作日志</span></div>
             </div>
             <div class="content" id="contentArea"></div>
         </div>
@@ -231,7 +261,9 @@
 
 <script>
 (function(){
-    // ==================== 数据层 ====================
+    // ============================================================
+    //  DATA LAYER
+    // ============================================================
     let currentUser = null;
     let users = JSON.parse(localStorage.getItem('smart_users')) || [];
     let clients = JSON.parse(localStorage.getItem('smart_clients')) || [];
@@ -239,6 +271,7 @@
     let orders = JSON.parse(localStorage.getItem('smart_orders')) || [];
     let salaryRecords = JSON.parse(localStorage.getItem('smart_salary')) || [];
     let ocrHistory = JSON.parse(localStorage.getItem('smart_ocr_history')) || [];
+    let operationLogs = JSON.parse(localStorage.getItem('smart_operation_logs')) || [];
     let positions = JSON.parse(localStorage.getItem('smart_positions')) || {
         intern: { name: '实习经理', bonus: 1500, bonusType: '一次性奖励', members: 3, payDay: 1 },
         formal: { name: '正式经理', bonus: 5000, bonusType: '每月固定收入', members: 8, payDay: 5 },
@@ -261,6 +294,9 @@
     let isProcessingOCR = false;
     let toastTimer = null;
 
+    // ============================================================
+    //  HELPERS
+    // ============================================================
     function saveAll(){
         localStorage.setItem('smart_users', JSON.stringify(users));
         localStorage.setItem('smart_clients', JSON.stringify(clients));
@@ -268,6 +304,7 @@
         localStorage.setItem('smart_orders', JSON.stringify(orders));
         localStorage.setItem('smart_salary', JSON.stringify(salaryRecords));
         localStorage.setItem('smart_ocr_history', JSON.stringify(ocrHistory));
+        localStorage.setItem('smart_operation_logs', JSON.stringify(operationLogs));
         localStorage.setItem('smart_positions', JSON.stringify(positions));
         localStorage.setItem('smart_position_status', JSON.stringify(positionStatus));
         localStorage.setItem('smart_position_pay_count', JSON.stringify(positionPayCount));
@@ -301,6 +338,55 @@
 
     function getTodayCompleted(phone){
         return orders.some(o => o.phone === phone && o.date === new Date().toDateString() && o.completed);
+    }
+
+    function getUserRole(phone){
+        const u = users.find(x => x.phone === phone);
+        return u ? u.role || '员工' : '员工';
+    }
+
+    function isAdmin(){
+        return currentUser && getUserRole(currentUser.phone) === '管理员';
+    }
+
+    function isManager(){
+        return currentUser && ['管理员','经理'].includes(getUserRole(currentUser.phone));
+    }
+
+    function canEditClient(clientPhone){
+        if(!currentUser) return false;
+        const role = getUserRole(currentUser.phone);
+        if(role === '管理员') return true;
+        if(role === '经理'){
+            // 经理可以编辑自己团队的数据（通过上级关系判断）
+            return clients.some(c => c.phone === clientPhone && (c.superior === currentUser.phone || c.phone === currentUser.phone));
+        }
+        return clientPhone === currentUser.phone;
+    }
+
+    function addLog(action, details){
+        operationLogs.push({
+            time: new Date().toISOString(),
+            user: currentUser ? currentUser.phone : '系统',
+            action: action,
+            details: details
+        });
+        if(operationLogs.length > 1000) operationLogs.shift();
+        saveAll();
+    }
+
+    function showToast(message, type = 'info'){
+        const existing = document.querySelector('.toast');
+        if(existing) existing.remove();
+        if(toastTimer) clearTimeout(toastTimer);
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `<span class="close" onclick="this.parentElement.remove()">✕</span>${message}`;
+        if(type === 'success') toast.style.borderColor = '#4aca7a';
+        else if(type === 'error') toast.style.borderColor = '#ff6b6b';
+        else if(type === 'warning') toast.style.borderColor = '#e8c84a';
+        document.body.appendChild(toast);
+        toastTimer = setTimeout(() => { toast.remove(); }, 4000);
     }
 
     function computeLevelsAndPositions(){
@@ -360,21 +446,9 @@
         saveAll();
     }
 
-    function showToast(message, type = 'info'){
-        const existing = document.querySelector('.toast');
-        if(existing) existing.remove();
-        if(toastTimer) clearTimeout(toastTimer);
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.innerHTML = `<span class="close" onclick="this.parentElement.remove()">✕</span>${message}`;
-        if(type === 'success') toast.style.borderColor = '#4aca7a';
-        else if(type === 'error') toast.style.borderColor = '#ff6b6b';
-        else if(type === 'warning') toast.style.borderColor = '#e8c84a';
-        document.body.appendChild(toast);
-        toastTimer = setTimeout(() => { toast.remove(); }, 5000);
-    }
-
-    // ==================== 认证 ====================
+    // ============================================================
+    //  AUTH
+    // ============================================================
     function renderAuth(){
         const title = document.getElementById('authTitle');
         const sub = document.getElementById('authSub');
@@ -408,28 +482,33 @@
         if(password.length !== 6){ msg.innerText = '密码必须6位'; return; }
         if(authMode === 'register'){
             if(users.find(u=>u.phone===phone)){ msg.innerText = '该手机号已注册'; return; }
-            users.push({ phone, password, lastLogin: Date.now() });
+            const role = users.length === 0 ? '管理员' : '员工';
+            users.push({ phone, password, lastLogin: Date.now(), role: role, locked: false });
             saveAll();
+            addLog('注册', `用户 ${phone} 注册，角色: ${role}`);
             msg.innerText = '注册成功，请登录';
             authMode = 'login';
             renderAuth();
         } else {
             const user = users.find(u=>u.phone===phone && u.password===password);
             if(!user){ msg.innerText = '手机号或密码错误'; return; }
+            if(user.locked){ msg.innerText = '账户已被锁定，请联系管理员'; return; }
             user.lastLogin = Date.now();
             currentUser = user;
             saveAll();
+            addLog('登录', `用户 ${phone} 登录`);
             document.getElementById('authContainer').classList.add('hidden');
             document.getElementById('mainApp').classList.remove('hidden');
             document.getElementById('userDisplay').innerText = phone;
+            document.getElementById('userRoleTag').innerText = user.role || '员工';
             syncInventoryFromClients();
             computeLevelsAndPositions();
-            checkPayReminders();
             renderTab(currentTab);
         }
     });
 
     document.getElementById('logoutBtn').addEventListener('click', function(){
+        if(currentUser) addLog('登出', `用户 ${currentUser.phone} 登出`);
         currentUser = null;
         document.getElementById('mainApp').classList.add('hidden');
         document.getElementById('authContainer').classList.remove('hidden');
@@ -454,105 +533,72 @@
         else if(tab === 'scripts') renderScripts(area);
         else if(tab === 'positions') renderPositions(area);
         else if(tab === 'tree') renderTree(area);
+        else if(tab === 'users') renderUsers(area);
+        else if(tab === 'logs') renderLogs(area);
     }
 
-    function attachSearchDropdown(inputId, resultsContainerId, dataGetter, renderItem){
-        const input = document.getElementById(inputId);
-        if(!input) return;
-        const container = document.getElementById(resultsContainerId);
-        if(!container) return;
-        input.addEventListener('input', function(){
-            const q = this.value.trim().toLowerCase();
-            if(q.length < 2 || !dataGetter) { container.style.display = 'none'; return; }
-            const results = dataGetter(q);
-            if(results.length === 0) { container.style.display = 'none'; return; }
-            container.innerHTML = results.map(item => renderItem(item)).join('');
-            container.style.display = 'block';
-        });
-        input.addEventListener('blur', function(){ setTimeout(() => { container.style.display = 'none'; }, 300); });
-        input.addEventListener('focus', function(){ if(this.value.trim().length >= 2) container.style.display = 'block'; });
-    }
+    // ============================================================
+    //  GLOBAL SEARCH (实时下拉)
+    // ============================================================
+    const globalInput = document.getElementById('globalSearch');
+    const globalResults = document.getElementById('globalSearchResults');
 
-    // ==================== OCR 识别 ====================
-    async function performOCR(imageData) {
-        try {
-            const result = await Tesseract.recognize(imageData, 'ukr+eng', {
-                logger: m => {
-                    if (m.status === 'recognizing text') {
-                        const detail = document.getElementById('recognitionDetails');
-                        if(detail) detail.innerHTML = `<div class="ocr-loading">🔍 正在识别中... ${Math.round(m.progress * 100)}%</div>`;
-                    }
-                }
-            });
-            return result.data.text;
-        } catch (error) {
-            console.error('OCR识别失败:', error);
-            return null;
-        }
-    }
+    globalInput.addEventListener('input', function(){
+        const q = this.value.trim();
+        if(q.length < 2) { globalResults.style.display = 'none'; return; }
+        const results = clients.filter(c => c.phone.includes(q) || (c.name && c.name.toLowerCase().includes(q.toLowerCase())));
+        if(results.length === 0) { globalResults.style.display = 'none'; return; }
+        globalResults.innerHTML = results.slice(0, 10).map(c => `
+            <div class="item" onclick="window.globalSearchSelect('${c.phone}')">
+                <span>${c.phone} <span class="badge-sm">${c.level||'EM0'}</span> ${c.name ? '| '+c.name : ''}</span>
+                <span style="color:#6a8aaa;font-size:11px;">上级: ${c.superior||'无'}</span>
+            </div>
+        `).join('');
+        globalResults.style.display = 'block';
+    });
 
-    function extractPhoneAndLevel(text) {
-        const phoneMatch = text.match(/\b\d{6,15}\b/);
-        const levelMatch = text.match(/EM[0-3]/i);
-        return {
-            phone: phoneMatch ? phoneMatch[0] : null,
-            level: levelMatch ? levelMatch[0].toUpperCase() : null
-        };
-    }
+    globalInput.addEventListener('blur', function(){ setTimeout(() => { globalResults.style.display = 'none'; }, 300); });
+    globalInput.addEventListener('focus', function(){ if(this.value.trim().length >= 2) globalResults.style.display = 'block'; });
 
-    // ==================== 发放提醒检查 ====================
-    function checkPayReminders(){
-        const today = new Date();
-        const todayDay = today.getDate();
-        const todayStr = today.toDateString();
-        const checked = JSON.parse(localStorage.getItem('smart_pay_checked')) || {};
-        if(checked[todayStr]) return;
-        
-        let reminders = [];
-        clients.forEach(c => {
-            if(c.position && c.positionPayDay) {
-                const payDay = c.positionPayDay;
-                const daysUntil = payDay - todayDay;
-                if(daysUntil === 0) {
-                    reminders.push(`📢 ${c.phone} (${c.positionName}) 今天发放薪水！`);
-                } else if(daysUntil === 1) {
-                    reminders.push(`📢 ${c.phone} (${c.positionName}) 明天发放薪水！`);
-                } else if(daysUntil === 2) {
-                    reminders.push(`📢 ${c.phone} (${c.positionName}) 后天发放薪水！`);
-                }
-            }
-        });
-        if(reminders.length > 0) {
-            setTimeout(() => {
-                showToast(reminders.join('<br>'), 'warning');
-            }, 1000);
-        }
-        checked[todayStr] = true;
-        localStorage.setItem('smart_pay_checked', JSON.stringify(checked));
-    }
+    window.globalSearchSelect = function(phone){
+        const c = clients.find(x => x.phone === phone);
+        if(!c) return;
+        globalResults.style.display = 'none';
+        const modal = document.createElement('div');
+        modal.className = 'modal-overlay';
+        modal.innerHTML = `
+            <div class="modal-box">
+                <h3>👤 客户详情</h3>
+                <div style="color:#d0dce8;font-size:14px;line-height:1.8;">
+                    <div><strong style="color:#9bb7d4;">账号：</strong>${c.phone}</div>
+                    <div><strong style="color:#9bb7d4;">等级：</strong>${c.level || 'EM0'}</div>
+                    <div><strong style="color:#9bb7d4;">名字：</strong>${c.name || '未设置'}</div>
+                    <div><strong style="color:#9bb7d4;">上级：</strong>${c.superior || '无'}</div>
+                    <div><strong style="color:#9bb7d4;">开始时间：</strong>${c.startTime || '未设置'}</div>
+                    <div><strong style="color:#9bb7d4;">团队成员：</strong>${c.teamCount || 0} 人</div>
+                    <div><strong style="color:#9bb7d4;">职位：</strong>${c.positionName || '无'}</div>
+                    <div><strong style="color:#9bb7d4;">今日订单：</strong>${getTodayCompleted(c.phone) ? '✅ 已完成' : '⌛️ 未完成'}</div>
+                </div>
+                <div style="margin-top:12px;">
+                    <button onclick="navigator.clipboard.writeText('${c.phone} | ${c.level||'EM0'} | ${c.name||''} | 上级:${c.superior||'无'}').then(() => showToast('已复制'))">📋 复制信息</button>
+                    <button class="close-btn" onclick="this.closest('.modal-overlay').remove()">关闭</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    };
 
-    // ==================== 全局搜索 ====================
     document.getElementById('globalSearchBtn').addEventListener('click', function(){
-        const q = document.getElementById('globalSearch').value.trim();
+        const q = globalInput.value.trim();
         if(q.length < 4) { showToast('请输入至少4位号码', 'error'); return; }
         const results = clients.filter(c => c.phone.includes(q));
         if(results.length === 0) { showToast('未找到匹配客户', 'error'); return; }
-        
-        const modal = document.createElement('div');
-        modal.className = 'modal-overlay';
-        let html = `<div class="modal-box"><h3>🔍 搜索结果 (${results.length}个)</h3><div style="max-height:400px;overflow-y:auto;">`;
-        results.forEach(r => {
-            html += `<div style="padding:8px 12px;border-bottom:1px solid #1a3555;font-size:13px;color:#d0dce8;display:flex;justify-content:space-between;align-items:center;">
-                <span><strong>${r.phone}</strong> | ${r.level || 'EM0'} | ${r.name || ''} | 上级:${r.superior || '--'} | 团队:${r.teamCount || 0}人</span>
-                <button class="copy-btn" onclick="navigator.clipboard.writeText('${r.phone} | ${r.level} | ${r.name || ''} | 上级:${r.superior || '--'}').then(() => showToast('已复制'))">📋 复制</button>
-            </div>`;
-        });
-        html += `</div><button onclick="this.closest('.modal-overlay').remove()">关闭</button></div>`;
-        modal.innerHTML = html;
-        document.body.appendChild(modal);
+        globalSearchSelect(results[0].phone);
     });
 
-    // ==================== 主页 ====================
+    // ============================================================
+    //  DASHBOARD
+    // ============================================================
     function renderDashboard(area){
         const total = clients.length;
         const todayCompleted = orders.filter(o => o.date === new Date().toDateString() && o.completed).length;
@@ -572,38 +618,38 @@
                     <div class="progress-bar-fill ${cls}" style="width:${pct}%;"></div>
                     <span class="progress-tooltip">${counts[i]} 人</span>
                 </div>
-                <span style="color:#6a8aaa;font-size:12px;min-width:30px;">${counts[i]}</span>
+                <span style="color:#6a8aaa;font-size:11px;min-width:28px;">${counts[i]}</span>
             </div>`;
         }).join('');
 
         area.innerHTML = `
-            <div style="display:flex; gap:24px; flex-wrap:wrap;">
-                <div style="flex:2; min-width:250px;">
+            <div style="display:flex; gap:18px; flex-wrap:wrap;">
+                <div style="flex:2; min-width:240px;">
                     <div class="stat-grid" style="grid-template-columns:1fr 1fr;">
                         <div class="stat-card"><div class="label">总客户</div><div class="value">${total}</div></div>
                         <div class="stat-card"><div class="label">总提现</div><div class="value">${salaryRecords.length}</div></div>
                         <div class="stat-card"><div class="label">提取次数</div><div class="value">${salaryRecords.length}</div></div>
-                        <div class="stat-card"><div class="label">完成订单百分比</div><div class="value">${rate}%</div></div>
+                        <div class="stat-card"><div class="label">完成订单%</div><div class="value">${rate}%</div></div>
                     </div>
-                    <div style="background:#0a1a32; padding:16px; border-radius:16px; border:1px solid #1a3555;">
-                        <div style="color:#9bb7d4; font-weight:600; margin-bottom:8px;">📊 等级分布 (鼠标悬停查看人数)</div>
+                    <div style="background:#0a1a32; padding:14px; border-radius:14px; border:1px solid #1a3555;">
+                        <div style="color:#9bb7d4; font-weight:600; margin-bottom:6px; font-size:13px;">📊 等级分布</div>
                         ${progressHTML}
                     </div>
-                    <div style="margin-top:16px; display:flex; gap:20px; flex-wrap:wrap; color:#d0dce8;">
+                    <div style="margin-top:12px; display:flex; gap:16px; flex-wrap:wrap; color:#d0dce8; font-size:14px;">
                         <div><strong style="color:#e8f0fe;">今日完成</strong> ${todayCompleted}</div>
                         <div><strong style="color:#e8f0fe;">昨日完成</strong> ${orders.filter(o => o.date === new Date(Date.now()-86400000).toDateString() && o.completed).length}</div>
                         <div><strong style="color:#e8f0fe;">今日进度</strong> ${total > 0 ? Math.round((todayCompleted/total)*100) : 0}%</div>
                     </div>
                 </div>
-                <div style="flex:1; min-width:200px; background:#0a1a32; border-radius:16px; padding:16px; border:1px solid #1a3555; max-height:350px; overflow-y:auto; align-self:flex-start;">
-                    <div style="color:#9bb7d4; font-weight:600; margin-bottom:8px;">⏳ 未完成订单 (<span id="uncompletedCount">${uncompletedClients.length}</span>)</div>
+                <div style="flex:1; min-width:180px; background:#0a1a32; border-radius:14px; padding:14px; border:1px solid #1a3555; max-height:320px; overflow-y:auto; align-self:flex-start;">
+                    <div style="color:#9bb7d4; font-weight:600; margin-bottom:6px; font-size:13px;">⏳ 未完成订单 (${uncompletedClients.length})</div>
                     ${uncompletedClients.map(c => `
-                        <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #1a3555; font-size:13px; color:#d0dce8;">
+                        <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid #1a3555; font-size:13px; color:#d0dce8;">
                             <span>${c.phone} | ${c.level}</span>
                             <i class="fas fa-check action-icon success" onclick="window.completeOrderFromDashboard('${c.phone}')" title="标记完成"></i>
                         </div>
                     `).join('')}
-                    ${uncompletedClients.length === 0 ? '<div style="color:#6a8aaa;padding:12px;text-align:center;">🎉 全部完成</div>' : ''}
+                    ${uncompletedClients.length === 0 ? '<div style="color:#6a8aaa;padding:10px;text-align:center;">🎉 全部完成</div>' : ''}
                 </div>
             </div>
         `;
@@ -611,24 +657,27 @@
             if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
                 orders.push({ phone, date: new Date().toDateString(), completed: true });
                 saveAll();
+                addLog('完成订单', `从主页完成 ${phone} 的订单`);
                 renderTab('dashboard');
             }
         };
     }
 
-    // ==================== 客户管理 ====================
+    // ============================================================
+    //  CLIENTS (带实时搜索下拉)
+    // ============================================================
     function renderClients(area){
         let html = `
             <div class="filter-bar" style="position:relative;">
-                <input placeholder="搜索名字/账号/等级" id="clientSearch">
-                <div class="search-results-dropdown" id="clientSearchResults"></div>
+                <input placeholder="搜索名字/账号/等级" id="clientSearch" style="flex:1;min-width:120px;">
+                <div class="search-dropdown" id="clientSearchResults"></div>
                 <select id="levelFilter"><option value="">全部等级</option><option>EM0</option><option>EM1</option><option>EM2</option><option>EM3</option></select>
-                <button class="btn" onclick="window.addSingleClient()">+ 添加客户</button>
-                <button class="btn btn-primary" onclick="window.batchImport()">📥 批量导入</button>
+                <button class="btn" onclick="window.addSingleClient()">+ 添加</button>
+                <button class="btn btn-primary" onclick="window.batchImport()">📥 批量</button>
                 <button class="btn btn-danger" onclick="window.batchDeleteClients()">🗑️ 批量删除</button>
                 <button class="btn btn-warning" onclick="window.toggleSelectAllClients()">☑️ 全选</button>
             </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr 1fr; gap:8px; padding:8px 0; color:#6a8aaa; font-size:12px; border-bottom:1px solid #1a3555;">
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr 1fr; gap:6px; padding:6px 0; color:#6a8aaa; font-size:11px; border-bottom:1px solid #1a3555;">
                 <span>账户</span><span>等级</span><span>上级号码</span><span>名字</span><span>开始时间</span>
             </div>
             <div class="client-grid" id="clientGrid">
@@ -636,9 +685,10 @@
         clients.forEach(c => {
             const todayDone = getTodayCompleted(c.phone);
             const checked = selectedClients.has(c.phone) ? 'checked' : '';
+            const canEdit = canEditClient(c.phone);
             html += `
                 <div class="client-card" data-phone="${c.phone}">
-                    <input type="checkbox" class="client-checkbox" data-phone="${c.phone}" ${checked} style="accent-color:#4a8af4;width:16px;height:16px;cursor:pointer;">
+                    <input type="checkbox" class="client-checkbox" data-phone="${c.phone}" ${checked} style="accent-color:#4a8af4;width:14px;height:14px;cursor:pointer;">
                     <span class="field">${c.phone}</span>
                     <span class="field"><span class="badge">${c.level || 'EM0'}</span></span>
                     <span class="field">${c.superior || '--'}</span>
@@ -646,16 +696,37 @@
                     <span class="field">${c.startTime || '--'}</span>
                     <span class="actions">
                         <span style="color:#d0dce8;font-size:12px;">${todayDone ? '✅完成' : '⌛️未完成'}</span>
-                        <i class="fas fa-edit action-icon" onclick="window.editClient('${c.phone}')" title="编辑"></i>
-                        <i class="fas fa-check action-icon success" onclick="window.completeOrderClient('${c.phone}')" title="完成"></i>
-                        <i class="fas fa-times action-icon danger" onclick="window.cancelOrderClient('${c.phone}')" title="取消完成"></i>
-                        <i class="fas fa-trash action-icon" onclick="window.deleteClient('${c.phone}')" title="删除"></i>
+                        ${canEdit ? `<i class="fas fa-edit action-icon" onclick="window.editClient('${c.phone}')" title="编辑"></i>` : ''}
+                        ${canEdit ? `<i class="fas fa-check action-icon success" onclick="window.completeOrderClient('${c.phone}')" title="完成"></i>` : ''}
+                        ${canEdit ? `<i class="fas fa-times action-icon danger" onclick="window.cancelOrderClient('${c.phone}')" title="取消完成"></i>` : ''}
+                        ${isAdmin() ? `<i class="fas fa-trash action-icon" onclick="window.deleteClient('${c.phone}')" title="删除"></i>` : ''}
                     </span>
                 </div>
             `;
         });
         html += `</div><div class="pagination"><span>每页 <select id="pageSize"><option>10</option><option>20</option><option>50</option><option>100</option></select></span></div>`;
         area.innerHTML = html;
+
+        // 实时搜索下拉
+        const searchInput = document.getElementById('clientSearch');
+        const searchResults = document.getElementById('clientSearchResults');
+        if(searchInput && searchResults){
+            searchInput.addEventListener('input', function(){
+                const q = this.value.trim().toLowerCase();
+                if(q.length < 1) { searchResults.style.display = 'none'; return; }
+                const results = clients.filter(c => c.phone.includes(q) || c.name?.toLowerCase().includes(q) || c.level?.toLowerCase().includes(q));
+                if(results.length === 0) { searchResults.style.display = 'none'; return; }
+                searchResults.innerHTML = results.slice(0, 8).map(c => `
+                    <div class="item" onclick="document.getElementById('clientSearch').value='${c.phone}';searchResults.style.display='none';">
+                        <span>${c.phone} <span class="badge-sm">${c.level||'EM0'}</span> ${c.name ? '| '+c.name : ''}</span>
+                        <span style="color:#6a8aaa;font-size:11px;">上级: ${c.superior||'无'}</span>
+                    </div>
+                `).join('');
+                searchResults.style.display = 'block';
+            });
+            searchInput.addEventListener('blur', function(){ setTimeout(() => { searchResults.style.display = 'none'; }, 300); });
+            searchInput.addEventListener('focus', function(){ if(this.value.trim().length >= 1) searchResults.style.display = 'block'; });
+        }
 
         window.toggleSelectAllClients = function(){
             const allChecked = document.querySelectorAll('.client-checkbox');
@@ -672,49 +743,51 @@
             });
         });
 
-        attachSearchDropdown('clientSearch', 'clientSearchResults',
-            (q) => clients.filter(c => c.phone.includes(q) || c.name?.toLowerCase().includes(q) || c.level?.toLowerCase().includes(q)),
-            (c) => `<div class="result-item">${c.phone} | ${c.level} | ${c.name || ''}</div>`
-        );
-
         window.batchDeleteClients = function(){
+            if(!isAdmin()) { showToast('只有管理员可以批量删除', 'error'); return; }
             const toDelete = Array.from(selectedClients);
-            if(toDelete.length === 0) { alert('请先选择要删除的客户'); return; }
+            if(toDelete.length === 0) { showToast('请先选择要删除的客户', 'error'); return; }
             if(confirm(`确定要删除 ${toDelete.length} 个客户吗？`)){
                 clients = clients.filter(c => !toDelete.includes(c.phone));
                 selectedClients.clear();
                 syncInventoryFromClients();
                 computeLevelsAndPositions();
                 saveAll();
+                addLog('批量删除客户', `删除了 ${toDelete.length} 个客户`);
+                showToast(`✅ 已删除 ${toDelete.length} 个客户`, 'success');
                 renderTab('clients');
             }
         };
 
         window.editClient = function(phone){
+            if(!canEditClient(phone)) { showToast('无权限编辑此客户', 'error'); return; }
             const c = clients.find(x => x.phone === phone);
             if(!c) return;
             const newPhone = prompt('工作账户 (6-15位数字)', c.phone);
-            if(!newPhone || newPhone.length<6 || newPhone.length>15) return alert('账号需6-15位数字');
+            if(!newPhone || newPhone.length<6 || newPhone.length>15) return showToast('账号需6-15位数字', 'error');
             const newLevel = prompt('等级 (EM0-EM3)', c.level);
-            if(!['EM0','EM1','EM2','EM3'].includes(newLevel)) return alert('等级无效');
+            if(!['EM0','EM1','EM2','EM3'].includes(newLevel)) return showToast('等级无效', 'error');
             const newSuperior = prompt('上级号码', c.superior || '');
             const newName = prompt('名字', c.name || '');
             const newStart = prompt('开始工作时间', c.startTime || '');
             if(newPhone !== c.phone && clients.find(x => x.phone === newPhone)) {
-                return alert('该账号已存在');
+                return showToast('该账号已存在', 'error');
             }
             const idx = clients.indexOf(c);
             clients[idx] = { ...c, phone: newPhone, level: newLevel, superior: newSuperior, name: newName, startTime: newStart };
             syncInventoryFromClients();
             computeLevelsAndPositions();
             saveAll();
+            addLog('编辑客户', `编辑 ${phone} -> ${newPhone}`);
+            showToast('✅ 客户已更新', 'success');
             renderTab('clients');
         };
 
         window.addSingleClient = function(){
+            if(!isManager()) { showToast('只有管理员或经理可以添加客户', 'error'); return; }
             const phone = prompt('输入工作账户(6-15位数字)');
-            if(!phone || phone.length < 6 || phone.length > 15) { alert('账号需6-15位数字'); return; }
-            if(clients.find(c => c.phone === phone)) { alert('该账号已存在'); return; }
+            if(!phone || phone.length < 6 || phone.length > 15) { showToast('账号需6-15位数字', 'error'); return; }
+            if(clients.find(c => c.phone === phone)) { showToast('该账号已存在', 'error'); return; }
             const name = prompt('名字') || '';
             const level = prompt('等级 (EM0-EM3)') || 'EM0';
             const superior = prompt('上级号码') || '';
@@ -723,10 +796,13 @@
             syncInventoryFromClients();
             computeLevelsAndPositions();
             saveAll();
+            addLog('添加客户', `添加 ${phone}`);
+            showToast('✅ 客户已添加', 'success');
             renderTab('clients');
         };
 
-        window.batchImport = function() {
+        window.batchImport = function(){
+            if(!isManager()) { showToast('只有管理员或经理可以批量导入', 'error'); return; }
             const raw = prompt(
                 '请粘贴要导入的客户数据（每5行一组）：\n\n' +
                 '格式：工作账户\n等级(EM0-EM3)\n上级号码\n名字\n开始工作时间\n\n' +
@@ -738,7 +814,7 @@
             for (let i = 0; i < lines.length; i += 5) {
                 const group = lines.slice(i, i + 5);
                 if (group.length < 5) {
-                    errors.push(`第 ${Math.floor(i/5)+1} 组数据不完整（需要5行，实际${group.length}行）`);
+                    errors.push(`第 ${Math.floor(i/5)+1} 组数据不完整`);
                     continue;
                 }
                 const [phone, level, superior, name, startTime] = group.map(s => s.trim());
@@ -751,7 +827,8 @@
             syncInventoryFromClients();
             computeLevelsAndPositions();
             saveAll();
-            alert(`✅ 成功导入 ${imported} 个客户。\n${errors.length ? '⚠️ 错误：\n' + errors.slice(0,10).join('\n') : ''}`);
+            addLog('批量导入', `导入了 ${imported} 个客户`);
+            showToast(`✅ 成功导入 ${imported} 个客户`, 'success');
             renderTab('clients');
         };
 
@@ -759,43 +836,50 @@
             if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
                 orders.push({ phone, date: new Date().toDateString(), completed: true });
                 saveAll();
+                addLog('完成订单', `从客户管理完成 ${phone} 的订单`);
                 renderTab('clients');
             }
         };
         window.cancelOrderClient = function(phone){
             orders = orders.filter(o => !(o.phone === phone && o.date === new Date().toDateString()));
             saveAll();
+            addLog('取消订单', `取消 ${phone} 的订单`);
             renderTab('clients');
         };
         window.deleteClient = function(phone){
+            if(!isAdmin()) { showToast('只有管理员可以删除客户', 'error'); return; }
             if(confirm('删除该客户？库存中会保留记录')) {
                 clients = clients.filter(c => c.phone !== phone);
                 selectedClients.delete(phone);
                 syncInventoryFromClients();
                 computeLevelsAndPositions();
                 saveAll();
+                addLog('删除客户', `删除 ${phone}`);
+                showToast('✅ 客户已删除', 'success');
                 renderTab('clients');
             }
         };
     }
 
-    // ==================== 库存管理 ====================
+    // ============================================================
+    //  INVENTORY (带实时搜索)
+    // ============================================================
     function renderInventory(area){
         let html = `
             <div class="filter-bar" style="position:relative;">
-                <input placeholder="搜索号码/名字/等级" id="invSearch">
-                <div class="search-results-dropdown" id="invSearchResults"></div>
-                <button class="btn" onclick="window.restoreClient()">♻️ 恢复已删除</button>
-                <button class="btn btn-danger" onclick="window.batchDeleteInventory()">🗑️ 批量删除</button>
-                <button class="btn btn-warning" onclick="window.toggleSelectAllInventory()">☑️ 全选</button>
+                <input placeholder="搜索号码/名字/等级" id="invSearch" style="flex:1;min-width:120px;">
+                <div class="search-dropdown" id="invSearchResults"></div>
+                <button class="btn" onclick="window.restoreClient()">♻️ 恢复</button>
+                ${isAdmin() ? `<button class="btn btn-danger" onclick="window.batchDeleteInventory()">🗑️ 批量删除</button>` : ''}
+                ${isAdmin() ? `<button class="btn btn-warning" onclick="window.toggleSelectAllInventory()">☑️ 全选</button>` : ''}
             </div>
             <div class="table-wrap"><table>
-                <tr><th style="width:30px;"><input type="checkbox" id="invSelectAll" style="accent-color:#4a8af4;cursor:pointer;"></th><th>号码</th><th>等级</th><th>名字</th><th>加入时间</th><th>状态</th><th>操作</th></tr>`;
+                <tr><th style="width:28px;">${isAdmin() ? '<input type="checkbox" id="invSelectAll" style="accent-color:#4a8af4;cursor:pointer;">' : ''}</th><th>号码</th><th>等级</th><th>名字</th><th>加入时间</th><th>状态</th><th>操作</th></tr>`;
         inventory.forEach(i => {
             const status = i.deleted ? '已删除' : '正常';
             const checked = selectedInventory.has(i.phone) ? 'checked' : '';
             html += `<tr>
-                <td><input type="checkbox" class="inv-checkbox" data-phone="${i.phone}" ${checked} style="accent-color:#4a8af4;cursor:pointer;"></td>
+                <td>${isAdmin() ? `<input type="checkbox" class="inv-checkbox" data-phone="${i.phone}" ${checked} style="accent-color:#4a8af4;cursor:pointer;">` : ''}</td>
                 <td>${i.phone}</td>
                 <td>${i.level || 'EM0'}</td>
                 <td>${i.name || ''}</td>
@@ -803,28 +887,52 @@
                 <td>${status}</td>
                 <td>
                     ${i.deleted ? `<i class="fas fa-undo action-icon" onclick="window.restoreItem('${i.phone}')" title="恢复"></i>` : ''}
-                    <i class="fas fa-trash action-icon" onclick="window.permanentDelete('${i.phone}')" title="永久删除"></i>
+                    ${isAdmin() ? `<i class="fas fa-trash action-icon" onclick="window.permanentDelete('${i.phone}')" title="永久删除"></i>` : ''}
                 </td>
             </tr>`;
         });
         html += `</table></div>`;
         area.innerHTML = html;
 
-        document.getElementById('invSelectAll')?.addEventListener('change', function(){
+        // 实时搜索
+        const invInput = document.getElementById('invSearch');
+        const invResults = document.getElementById('invSearchResults');
+        if(invInput && invResults){
+            invInput.addEventListener('input', function(){
+                const q = this.value.trim().toLowerCase();
+                if(q.length < 1) { invResults.style.display = 'none'; return; }
+                const results = inventory.filter(i => i.phone.includes(q) || i.name?.toLowerCase().includes(q) || i.level?.toLowerCase().includes(q));
+                if(results.length === 0) { invResults.style.display = 'none'; return; }
+                invResults.innerHTML = results.slice(0, 8).map(i => `
+                    <div class="item" onclick="document.getElementById('invSearch').value='${i.phone}';invResults.style.display='none';">
+                        <span>${i.phone} <span class="badge-sm">${i.level||'EM0'}</span> ${i.name ? '| '+i.name : ''}</span>
+                        <span style="color:#6a8aaa;font-size:11px;">${i.deleted ? '已删除' : '正常'}</span>
+                    </div>
+                `).join('');
+                invResults.style.display = 'block';
+            });
+            invInput.addEventListener('blur', function(){ setTimeout(() => { invResults.style.display = 'none'; }, 300); });
+            invInput.addEventListener('focus', function(){ if(this.value.trim().length >= 1) invResults.style.display = 'block'; });
+        }
+
+        if(isAdmin()){
+            document.getElementById('invSelectAll')?.addEventListener('change', function(){
+                document.querySelectorAll('.inv-checkbox').forEach(cb => {
+                    cb.checked = this.checked;
+                    if(this.checked) selectedInventory.add(cb.dataset.phone);
+                    else selectedInventory.delete(cb.dataset.phone);
+                });
+            });
             document.querySelectorAll('.inv-checkbox').forEach(cb => {
-                cb.checked = this.checked;
-                if(this.checked) selectedInventory.add(cb.dataset.phone);
-                else selectedInventory.delete(cb.dataset.phone);
+                cb.addEventListener('change', function(){
+                    if(this.checked) selectedInventory.add(this.dataset.phone);
+                    else selectedInventory.delete(this.dataset.phone);
+                });
             });
-        });
-        document.querySelectorAll('.inv-checkbox').forEach(cb => {
-            cb.addEventListener('change', function(){
-                if(this.checked) selectedInventory.add(this.dataset.phone);
-                else selectedInventory.delete(this.dataset.phone);
-            });
-        });
+        }
 
         window.toggleSelectAllInventory = function(){
+            if(!isAdmin()) return;
             const allChecked = document.querySelectorAll('.inv-checkbox');
             const anyUnchecked = Array.from(allChecked).some(cb => !cb.checked);
             allChecked.forEach(cb => cb.checked = anyUnchecked);
@@ -833,36 +941,66 @@
         };
 
         window.batchDeleteInventory = function(){
+            if(!isAdmin()) { showToast('只有管理员可以批量删除', 'error'); return; }
             const toDelete = Array.from(selectedInventory);
-            if(toDelete.length === 0) { alert('请先选择要删除的库存项'); return; }
+            if(toDelete.length === 0) { showToast('请先选择要删除的库存项', 'error'); return; }
             if(confirm(`确定要永久删除 ${toDelete.length} 个库存项吗？此操作不可恢复！`)){
                 inventory = inventory.filter(i => !toDelete.includes(i.phone));
                 selectedInventory.clear();
                 saveAll();
+                addLog('批量删除库存', `永久删除了 ${toDelete.length} 个库存项`);
+                showToast(`✅ 已永久删除 ${toDelete.length} 个库存项`, 'success');
                 renderTab('inventory');
             }
         };
 
-        attachSearchDropdown('invSearch', 'invSearchResults',
-            (q) => inventory.filter(i => i.phone.includes(q) || i.name?.toLowerCase().includes(q) || i.level?.toLowerCase().includes(q)),
-            (i) => `<div class="result-item">${i.phone} | ${i.level} | ${i.name || ''}</div>`
-        );
-
         window.restoreClient = function(){
+            if(!isAdmin()) { showToast('只有管理员可以恢复', 'error'); return; }
             const phone = prompt('输入要恢复的号码');
             const item = inventory.find(i => i.phone === phone && i.deleted);
-            if(item){ item.deleted = false; clients.push({phone: item.phone, name: item.name, level: item.level, superior: item.superior, startTime: item.startTime}); syncInventoryFromClients(); computeLevelsAndPositions(); saveAll(); renderTab('inventory'); }
+            if(item){ 
+                item.deleted = false; 
+                clients.push({phone: item.phone, name: item.name, level: item.level, superior: item.superior, startTime: item.startTime}); 
+                syncInventoryFromClients(); 
+                computeLevelsAndPositions(); 
+                saveAll();
+                addLog('恢复客户', `从库存恢复 ${phone}`);
+                showToast('✅ 已恢复', 'success');
+                renderTab('inventory'); 
+            } else {
+                showToast('未找到已删除的客户', 'error');
+            }
         };
         window.restoreItem = function(phone){
+            if(!isAdmin()) { showToast('只有管理员可以恢复', 'error'); return; }
             const item = inventory.find(i => i.phone === phone);
-            if(item && item.deleted){ item.deleted = false; clients.push({phone: item.phone, name: item.name, level: item.level, superior: item.superior, startTime: item.startTime}); syncInventoryFromClients(); computeLevelsAndPositions(); saveAll(); renderTab('inventory'); }
+            if(item && item.deleted){ 
+                item.deleted = false; 
+                clients.push({phone: item.phone, name: item.name, level: item.level, superior: item.superior, startTime: item.startTime}); 
+                syncInventoryFromClients(); 
+                computeLevelsAndPositions(); 
+                saveAll();
+                addLog('恢复客户', `从库存恢复 ${phone}`);
+                showToast('✅ 已恢复', 'success');
+                renderTab('inventory'); 
+            }
         };
         window.permanentDelete = function(phone){
-            if(confirm('永久删除？此操作不可恢复！')){ inventory = inventory.filter(i => i.phone !== phone); selectedInventory.delete(phone); saveAll(); renderTab('inventory'); }
+            if(!isAdmin()) { showToast('只有管理员可以永久删除', 'error'); return; }
+            if(confirm('永久删除？此操作不可恢复！')){ 
+                inventory = inventory.filter(i => i.phone !== phone); 
+                selectedInventory.delete(phone); 
+                saveAll();
+                addLog('永久删除', `永久删除 ${phone}`);
+                showToast('✅ 已永久删除', 'success');
+                renderTab('inventory'); 
+            }
         };
     }
 
-    // ==================== 订单识别 ====================
+    // ============================================================
+    //  ORDERS (OCR + 实时搜索)
+    // ============================================================
     function renderOrders(area){
         const total = clients.length;
         const todayCompleted = orders.filter(o => o.date === new Date().toDateString() && o.completed).length;
@@ -876,53 +1014,52 @@
                         <div class="stat-card"><div class="label">已完成</div><div class="value">${todayCompleted}</div></div>
                         <div class="stat-card"><div class="label">未完成</div><div class="value">${uncompleted}</div></div>
                     </div>
-                    <div class="drop-zone" id="ocrDropZone" style="min-height:120px;">
-                        <i class="fas fa-cloud-upload-alt" style="font-size:28px;"></i>
+                    <div class="drop-zone" id="ocrDropZone" style="min-height:100px;">
+                        <i class="fas fa-cloud-upload-alt" style="font-size:24px;"></i>
                         <p>拖拽照片到这里，或点击上传 (支持多选/连续拖入)</p>
                         <input type="file" id="ocrFileInput" accept="image/*" multiple style="display:none;">
-                        <div id="ocrPreview" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;"></div>
+                        <div id="ocrPreview" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;"></div>
                     </div>
                     <div class="recognition-result" id="recognitionResult">
-                        <div style="color:#9bb7d4;font-weight:600;margin-bottom:8px;">🔍 识别结果</div>
+                        <div style="color:#9bb7d4;font-weight:600;margin-bottom:6px;font-size:13px;">🔍 识别结果</div>
                         <div id="recognitionDetails">等待识别...</div>
                     </div>
-                    <div style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap;">
+                    <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
                         <button class="btn btn-success" onclick="window.manualCompleteOrder()">✅ 手动完成</button>
                         <button class="btn btn-warning" onclick="window.helpCompleteOrder()">🆘 帮助完成</button>
                         <button class="btn btn-danger" onclick="window.clearHistory()">🗑️ 清空历史</button>
                     </div>
-                    <div style="margin-top:12px; background:#0a1a32; border-radius:16px; padding:12px; border:1px solid #1a3555; max-height:200px; overflow-y:auto;">
-                        <div style="color:#9bb7d4; font-weight:600; margin-bottom:8px;">📋 识别历史</div>
-                        ${ocrHistory.slice().reverse().map(h => `
+                    <div style="margin-top:10px; background:#0a1a32; border-radius:12px; padding:10px; border:1px solid #1a3555; max-height:160px; overflow-y:auto;">
+                        <div style="color:#9bb7d4; font-weight:600; margin-bottom:4px; font-size:12px;">📋 识别历史</div>
+                        ${ocrHistory.slice().reverse().slice(0, 20).map(h => `
                             <div class="history-item">
                                 <span>${h.time || ''}</span>
                                 <span>${h.phone || ''}</span>
                                 <span class="${h.matched ? 'match' : 'nomatch'}">${h.matched ? '✅ 匹配' : '❌ 不匹配'}</span>
-                                ${h.detectedLevel ? `<span class="badge">${h.detectedLevel}</span>` : ''}
-                                ${h.levelUpdated ? `<span style="color:#e8c84a;">🔄 已更新等级</span>` : ''}
+                                ${h.detectedLevel ? `<span class="badge" style="font-size:10px;">${h.detectedLevel}</span>` : ''}
+                                ${h.levelUpdated ? `<span style="color:#e8c84a;font-size:11px;">🔄 已更新</span>` : ''}
                             </div>
                         `).join('')}
-                        ${ocrHistory.length === 0 ? '<div style="color:#6a8aaa;padding:8px;text-align:center;">暂无记录</div>' : ''}
+                        ${ocrHistory.length === 0 ? '<div style="color:#6a8aaa;padding:6px;text-align:center;">暂无记录</div>' : ''}
                     </div>
                 </div>
                 <div class="ocr-right">
-                    <div style="color:#9bb7d4; font-weight:600; margin-bottom:8px;">📋 订单列表</div>
-                    <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px;">
-                        <button class="btn btn-sm" style="padding:4px 12px;font-size:12px;" onclick="window.filterOrders('all')">全部</button>
-                        <button class="btn btn-sm btn-success" style="padding:4px 12px;font-size:12px;" onclick="window.filterOrders('done')">已完成</button>
-                        <button class="btn btn-sm btn-warning" style="padding:4px 12px;font-size:12px;" onclick="window.filterOrders('undone')">未完成</button>
-                        <input placeholder="搜索" id="orderSearchRight" style="padding:4px 12px;border-radius:40px;border:1px solid #1a3555;background:#0a1a32;color:#e8f0fe;font-size:12px;flex:1;min-width:80px;">
-                        <button class="btn btn-sm" style="padding:4px 12px;font-size:12px;" onclick="window.resetToday()">重置今日</button>
+                    <div style="color:#9bb7d4; font-weight:600; margin-bottom:6px; font-size:13px;">📋 订单列表</div>
+                    <div style="display:flex; gap:4px; flex-wrap:wrap; margin-bottom:6px;">
+                        <button class="btn btn-sm" style="padding:3px 10px;font-size:11px;" onclick="window.filterOrders('all')">全部</button>
+                        <button class="btn btn-sm btn-success" style="padding:3px 10px;font-size:11px;" onclick="window.filterOrders('done')">已完成</button>
+                        <button class="btn btn-sm btn-warning" style="padding:3px 10px;font-size:11px;" onclick="window.filterOrders('undone')">未完成</button>
+                        <input placeholder="搜索" id="orderSearchRight" style="padding:4px 10px;border-radius:40px;border:1px solid #1a3555;background:#0a1a32;color:#e8f0fe;font-size:11px;flex:1;min-width:70px;">
+                        <button class="btn btn-sm" style="padding:3px 10px;font-size:11px;" onclick="window.resetToday()">重置今日</button>
                     </div>
-                    <div id="orderListRight" style="max-height:400px;overflow-y:auto;">
+                    <div id="orderListRight" style="max-height:350px;overflow-y:auto;">
                         ${clients.map(c => {
                             const done = getTodayCompleted(c.phone);
                             const lv = c.levelTag || '?';
-                            return `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1a3555;font-size:13px;color:#d0dce8;" data-phone="${c.phone}" data-done="${done}">
-                                <span><span class="badge" style="font-size:10px;padding:2px 6px;">${lv}</span> ${c.name || c.phone}</span>
+                            return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #1a3555;font-size:12px;color:#d0dce8;" data-phone="${c.phone}" data-done="${done}">
+                                <span><span class="badge" style="font-size:9px;padding:1px 6px;">${lv}</span> ${c.name || c.phone}</span>
                                 <span>${c.phone}</span>
                                 <span>${c.level}</span>
-                                <span>${c.workHours || 0}h</span>
                                 <span>${done ? '✅完成' : '⌛️未完成'}</span>
                                 <span>
                                     ${done ? 
@@ -937,6 +1074,7 @@
             </div>
         `;
 
+        // OCR 逻辑
         const dropZone = document.getElementById('ocrDropZone');
         const fileInput = document.getElementById('ocrFileInput');
         const preview = document.getElementById('ocrPreview');
@@ -973,12 +1111,11 @@
             const reader = new FileReader();
             reader.onload = async function(e) {
                 const imageData = e.target.result;
-                
                 const img = document.createElement('img');
                 img.src = imageData;
-                img.style.maxWidth = '80px';
-                img.style.maxHeight = '80px';
-                img.style.borderRadius = '8px';
+                img.style.maxWidth = '60px';
+                img.style.maxHeight = '60px';
+                img.style.borderRadius = '6px';
                 img.style.border = '1px solid #1a3555';
                 preview.appendChild(img);
 
@@ -990,7 +1127,6 @@
 
                 try {
                     const recognizedText = await performOCR(imageData);
-                    
                     if (recognizedText) {
                         const result = extractPhoneAndLevel(recognizedText);
                         detectedPhone = result.phone;
@@ -1000,8 +1136,6 @@
                         if (detectedPhone) {
                             const client = clients.find(c => c.phone === detectedPhone);
                             resultHTML += `<div class="result-item"><span>👤 用户：</span><span class="detected">${detectedPhone}</span></div>`;
-                            resultHTML += `<div class="result-item"><span>📝 识别文本：</span><span style="font-size:11px;color:#6a8aaa;">${recognizedText.substring(0, 100)}${recognizedText.length > 100 ? '...' : ''}</span></div>`;
-                            
                             if (client) {
                                 matched = true;
                                 if (detectedLevel && client.level !== detectedLevel) {
@@ -1011,6 +1145,7 @@
                                     syncInventoryFromClients();
                                     computeLevelsAndPositions();
                                     saveAll();
+                                    addLog('OCR更新等级', `${detectedPhone} 等级更新为 ${detectedLevel}`);
                                 } else if (detectedLevel) {
                                     resultHTML += `<div class="result-item"><span>📊 等级：</span><span>${detectedLevel}</span></div>`;
                                 } else {
@@ -1019,6 +1154,7 @@
                                 if(!orders.find(o => o.phone === detectedPhone && o.date === new Date().toDateString())){
                                     orders.push({ phone: detectedPhone, date: new Date().toDateString(), completed: true });
                                     saveAll();
+                                    addLog('OCR完成订单', `${detectedPhone} 通过OCR完成订单`);
                                     resultHTML += `<div class="result-item"><span>✅ 订单：</span><span class="detected">今日已完成</span></div>`;
                                 } else {
                                     resultHTML += `<div class="result-item"><span>ℹ️ 订单：</span><span>今日已标记</span></div>`;
@@ -1026,33 +1162,19 @@
                             } else {
                                 matched = false;
                                 resultHTML += `<div class="result-item"><span>⚠️ 状态：</span><span class="nomatch">未找到匹配客户</span></div>`;
-                                if (detectedLevel) {
-                                    resultHTML += `<div class="result-item"><span>📊 识别等级：</span><span>${detectedLevel}</span></div>`;
-                                }
                             }
                         } else {
-                            resultHTML = `<div style="color:#6a8aaa;padding:8px;">未识别到有效号码（需要6-15位数字）</div>`;
-                            if (recognizedText) {
-                                resultHTML += `<div class="result-item"><span>📝 识别文本：</span><span style="font-size:11px;color:#6a8aaa;">${recognizedText.substring(0, 100)}${recognizedText.length > 100 ? '...' : ''}</span></div>`;
-                            }
+                            resultHTML = `<div style="color:#6a8aaa;padding:6px;">未识别到有效号码（需要6-15位数字）</div>`;
                         }
-
                         resultDetails.innerHTML = resultHTML;
                     } else {
-                        resultDetails.innerHTML = `<div style="color:#ff6b6b;padding:8px;">❌ OCR 识别失败，请检查图片是否清晰</div>`;
+                        resultDetails.innerHTML = `<div style="color:#ff6b6b;padding:6px;">❌ OCR识别失败</div>`;
                     }
                 } catch (error) {
-                    console.error('OCR处理错误:', error);
-                    resultDetails.innerHTML = `<div style="color:#ff6b6b;padding:8px;">❌ 识别出错: ${error.message}</div>`;
+                    resultDetails.innerHTML = `<div style="color:#ff6b6b;padding:6px;">❌ 识别出错: ${error.message}</div>`;
                 }
 
-                ocrHistory.push({ 
-                    time, 
-                    phone: detectedPhone || '未识别', 
-                    matched, 
-                    detectedLevel,
-                    levelUpdated 
-                });
+                ocrHistory.push({ time, phone: detectedPhone || '未识别', matched, detectedLevel, levelUpdated });
                 saveAll();
                 isProcessingOCR = false;
                 renderTab('orders');
@@ -1060,6 +1182,33 @@
             reader.readAsDataURL(file);
         }
 
+        async function performOCR(imageData) {
+            try {
+                const result = await Tesseract.recognize(imageData, 'ukr+eng', {
+                    logger: m => {
+                        if (m.status === 'recognizing text') {
+                            const detail = document.getElementById('recognitionDetails');
+                            if(detail) detail.innerHTML = `<div class="ocr-loading">🔍 识别中... ${Math.round(m.progress * 100)}%</div>`;
+                        }
+                    }
+                });
+                return result.data.text;
+            } catch (error) {
+                console.error('OCR识别失败:', error);
+                return null;
+            }
+        }
+
+        function extractPhoneAndLevel(text) {
+            const phoneMatch = text.match(/\b\d{6,15}\b/);
+            const levelMatch = text.match(/EM[0-3]/i);
+            return {
+                phone: phoneMatch ? phoneMatch[0] : null,
+                level: levelMatch ? levelMatch[0].toUpperCase() : null
+            };
+        }
+
+        // 订单列表搜索
         document.getElementById('orderSearchRight')?.addEventListener('input', function(){
             const q = this.value.toLowerCase();
             document.querySelectorAll('#orderListRight > div').forEach(el => {
@@ -1078,9 +1227,12 @@
         };
 
         window.resetToday = function(){
+            if(!isManager()) { showToast('只有管理员或经理可以重置', 'error'); return; }
             if(confirm('重置今日所有订单？')) {
                 orders = orders.filter(o => o.date !== new Date().toDateString());
                 saveAll();
+                addLog('重置订单', '重置今日所有订单');
+                showToast('✅ 已重置今日订单', 'success');
                 renderTab('orders');
             }
         };
@@ -1089,12 +1241,14 @@
             if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
                 orders.push({ phone, date: new Date().toDateString(), completed: true });
                 saveAll();
+                addLog('完成订单', `从订单列表完成 ${phone} 的订单`);
                 renderTab('orders');
             }
         };
         window.cancelOrderRight = function(phone){
             orders = orders.filter(o => !(o.phone === phone && o.date === new Date().toDateString()));
             saveAll();
+            addLog('取消订单', `取消 ${phone} 的订单`);
             renderTab('orders');
         };
         window.manualCompleteOrder = function(){
@@ -1105,6 +1259,7 @@
                     if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
                         orders.push({ phone, date: new Date().toDateString(), completed: true });
                         saveAll();
+                        addLog('手动完成订单', `手动完成 ${phone} 的订单`);
                         showToast(`✅ ${phone} 订单已完成`, 'success');
                         renderTab('orders');
                     } else { showToast('该客户今日已完成', 'warning'); }
@@ -1112,6 +1267,7 @@
             }
         };
         window.helpCompleteOrder = function(){
+            if(!isManager()) { showToast('只有管理员或经理可以使用此功能', 'error'); return; }
             const phone = prompt('请输入要帮助完成的账号(6-15位数字)');
             if(phone && /^\d{6,15}$/.test(phone)){
                 const client = clients.find(c => c.phone === phone);
@@ -1119,7 +1275,8 @@
                     if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
                         orders.push({ phone, date: new Date().toDateString(), completed: true });
                         saveAll();
-                        showToast(`✅ ${phone} 已帮助完成订单`, 'success');
+                        addLog('帮助完成订单', `帮助完成 ${phone} 的订单`);
+                        showToast(`✅ ${phone} 已帮助完成`, 'success');
                         renderTab('orders');
                     } else { showToast('该客户今日已完成', 'warning'); }
                 } else { showToast('未找到该客户', 'error'); }
@@ -1129,26 +1286,29 @@
             if(confirm('清空所有识别历史？')) {
                 ocrHistory = [];
                 saveAll();
+                showToast('✅ 已清空历史', 'success');
                 renderTab('orders');
             }
         };
     }
 
-    // ==================== 薪水提款 ====================
+    // ============================================================
+    //  SALARY (带实时搜索 + 删除)
+    // ============================================================
     function renderSalary(area){
         area.innerHTML = `
             <div class="filter-bar" style="position:relative;">
-                <input placeholder="搜索客户号码 (输入后4位及以上)" id="salarySearch">
-                <div class="search-results-dropdown" id="salarySearchResults"></div>
-                <button class="btn btn-primary" onclick="window.addSalaryWithImage()">💰 添加提款记录</button>
+                <input placeholder="搜索客户号码 (输入后4位)" id="salarySearch" style="flex:1;min-width:120px;">
+                <div class="search-dropdown" id="salarySearchResults"></div>
+                <button class="btn btn-primary" onclick="window.addSalaryWithImage()">💰 添加提款</button>
             </div>
-            <div class="drop-zone" id="salaryDropZone" style="margin-bottom:16px;">
-                <i class="fas fa-image" style="font-size:28px;"></i>
+            <div class="drop-zone" id="salaryDropZone" style="margin-bottom:12px;">
+                <i class="fas fa-image" style="font-size:24px;"></i>
                 <p>拖拽收款截图到这里，或点击上传</p>
                 <input type="file" id="salaryFileInput" accept="image/*" style="display:none;">
                 <div id="salaryPreview"></div>
             </div>
-            <div class="table-wrap" style="max-height:500px;">
+            <div class="table-wrap" style="max-height:450px;">
                 <table>
                     <tr><th>账号</th><th>提取次数</th><th>累计金额</th><th>最近截图</th><th>操作</th></tr>
                     ${[...new Set(salaryRecords.map(s => s.phone))].map(phone => {
@@ -1162,7 +1322,7 @@
                             <td>${lastImg ? `<img src="${lastImg}" class="salary-image" onclick="window.viewImage('${lastImg}')">` : '无'}</td>
                             <td>
                                 <i class="fas fa-search action-icon" onclick="window.searchSalary('${phone}')" title="查看详情"></i>
-                                <i class="fas fa-trash action-icon danger" onclick="window.deleteSalaryRecord('${phone}')" title="删除记录"></i>
+                                ${isAdmin() ? `<i class="fas fa-trash action-icon danger" onclick="window.deleteSalaryRecord('${phone}')" title="删除记录"></i>` : ''}
                             </td>
                         </tr>`;
                     }).join('')}
@@ -1170,10 +1330,26 @@
             </div>
         `;
 
-        attachSearchDropdown('salarySearch', 'salarySearchResults',
-            (q) => salaryRecords.filter(s => s.phone.includes(q)),
-            (s) => `<div class="result-item">${s.phone} | 金额: ${s.amount}</div>`
-        );
+        // 实时搜索
+        const salInput = document.getElementById('salarySearch');
+        const salResults = document.getElementById('salarySearchResults');
+        if(salInput && salResults){
+            salInput.addEventListener('input', function(){
+                const q = this.value.trim();
+                if(q.length < 2) { salResults.style.display = 'none'; return; }
+                const results = [...new Set(salaryRecords.map(s => s.phone))].filter(p => p.includes(q));
+                if(results.length === 0) { salResults.style.display = 'none'; return; }
+                salResults.innerHTML = results.slice(0, 8).map(p => `
+                    <div class="item" onclick="document.getElementById('salarySearch').value='${p}';salResults.style.display='none';">
+                        <span>${p}</span>
+                        <span style="color:#6a8aaa;font-size:11px;">${salaryRecords.filter(s=>s.phone===p).length} 条记录</span>
+                    </div>
+                `).join('');
+                salResults.style.display = 'block';
+            });
+            salInput.addEventListener('blur', function(){ setTimeout(() => { salResults.style.display = 'none'; }, 300); });
+            salInput.addEventListener('focus', function(){ if(this.value.trim().length >= 2) salResults.style.display = 'block'; });
+        }
 
         const dropZone = document.getElementById('salaryDropZone');
         const fileInput = document.getElementById('salaryFileInput');
@@ -1191,17 +1367,18 @@
         });
 
         function handleSalaryFile(file){
-            if(!file.type.startsWith('image/')) { alert('请上传图片'); return; }
+            if(!file.type.startsWith('image/')) { showToast('请上传图片', 'error'); return; }
             const reader = new FileReader();
             reader.onload = function(e){
                 tempImage = e.target.result;
-                document.getElementById('salaryPreview').innerHTML = `<img src="${tempImage}" style="max-width:200px;max-height:150px;border-radius:12px;margin-top:12px;">`;
+                document.getElementById('salaryPreview').innerHTML = `<img src="${tempImage}" style="max-width:150px;max-height:120px;border-radius:10px;margin-top:6px;">`;
                 const phone = prompt('请输入提款账号');
                 if(phone){
                     const amount = prompt('请输入提款金额');
                     if(amount && !isNaN(amount)){
                         salaryRecords.push({ phone, amount: parseFloat(amount), image: tempImage, date: new Date().toISOString() });
                         saveAll();
+                        addLog('添加提款', `${phone} 提款 ${amount}`);
                         showToast('✅ 提款记录已保存', 'success');
                         renderTab('salary');
                     }
@@ -1212,16 +1389,18 @@
 
         window.addSalaryWithImage = function(){ document.getElementById('salaryFileInput').click(); };
         window.deleteSalaryRecord = function(phone){
+            if(!isAdmin()) { showToast('只有管理员可以删除', 'error'); return; }
             if(confirm(`确定要删除账号 ${phone} 的所有提款记录吗？`)){
                 salaryRecords = salaryRecords.filter(s => s.phone !== phone);
                 saveAll();
+                addLog('删除提款', `删除 ${phone} 的提款记录`);
                 showToast(`✅ 已删除 ${phone} 的提款记录`, 'success');
                 renderTab('salary');
             }
         };
         window.searchSalary = function(phone){
             const records = salaryRecords.filter(s => s.phone === phone);
-            if(records.length === 0) { alert('未找到该账号的提款记录'); return; }
+            if(records.length === 0) { showToast('未找到该账号的提款记录', 'error'); return; }
             const total = records.reduce((a,b) => a + parseFloat(b.amount || 0), 0);
             let msg = `📊 账号 ${phone}\n提取次数: ${records.length}\n累计金额: ${total.toFixed(2)}\n\n记录详情:\n`;
             records.forEach((r, i) => {
@@ -1230,10 +1409,10 @@
             alert(msg);
             const images = records.filter(r => r.image).map(r => r.image);
             if(images.length > 0){
-                const imgHtml = images.map(img => `<img src="${img}" style="max-width:200px;max-height:150px;border-radius:8px;margin:4px;">`).join('');
+                const imgHtml = images.map(img => `<img src="${img}" style="max-width:150px;max-height:120px;border-radius:6px;margin:4px;">`).join('');
                 const modal = document.createElement('div');
                 modal.className = 'modal-overlay';
-                modal.innerHTML = `<div class="modal-box"><h3>📸 提款截图</h3><div style="display:flex;flex-wrap:wrap;gap:8px;">${imgHtml}</div><button onclick="this.closest('.modal-overlay').remove()">关闭</button></div>`;
+                modal.innerHTML = `<div class="modal-box"><h3>📸 提款截图</h3><div style="display:flex;flex-wrap:wrap;gap:6px;">${imgHtml}</div><button onclick="this.closest('.modal-overlay').remove()">关闭</button></div>`;
                 document.body.appendChild(modal);
             }
         };
@@ -1245,7 +1424,9 @@
         };
     }
 
-    // ==================== 话术生成 ====================
+    // ============================================================
+    //  SCRIPTS
+    // ============================================================
     function renderScripts(area){
         const categories = Object.keys(scriptTemplates);
         let optionsHTML = categories.map(k => `<option value="${k}">${scriptTemplates[k].label}</option>`).join('');
@@ -1253,16 +1434,16 @@
         area.innerHTML = `
             <div class="flex-col">
                 <div class="script-selector">
-                    <label style="color:#9bb7d4;font-weight:600;">选择话术类型：</label>
+                    <label style="color:#9bb7d4;font-weight:600;font-size:13px;">选择类型：</label>
                     <select id="scriptCategorySelect">
                         <option value="">-- 请选择 --</option>
                         ${optionsHTML}
                     </select>
-                    <input placeholder="搜索话术内容..." id="scriptSearch" style="padding:10px 14px;border-radius:40px;border:1.5px solid #1a3555;background:#0a1a32;color:#e8f0fe;font-size:13px;flex:1;min-width:150px;">
-                    <button class="btn btn-success" onclick="window.addScriptTemplate()">+ 添加话术</button>
+                    <input placeholder="搜索话术..." id="scriptSearch" style="padding:6px 14px;border-radius:40px;border:1.5px solid #1a3555;background:#0a1a32;color:#e8f0fe;font-size:13px;flex:1;min-width:120px;">
+                    <button class="btn btn-success" onclick="window.addScriptTemplate()">+ 添加</button>
                 </div>
                 <div class="script-template-box" id="scriptTemplateBox">
-                    <div style="color:#6a8aaa;padding:20px;text-align:center;">请选择话术类型查看模板</div>
+                    <div style="color:#6a8aaa;padding:16px;text-align:center;">请选择话术类型查看模板</div>
                 </div>
                 <div>
                     <button class="btn btn-primary" onclick="window.copySelectedScript()">📋 复制选中话术</button>
@@ -1273,18 +1454,18 @@
         function renderTemplates(category){
             const box = document.getElementById('scriptTemplateBox');
             if(!category || !scriptTemplates[category]) {
-                box.innerHTML = '<div style="color:#6a8aaa;padding:20px;text-align:center;">请选择话术类型查看模板</div>';
+                box.innerHTML = '<div style="color:#6a8aaa;padding:16px;text-align:center;">请选择话术类型查看模板</div>';
                 return;
             }
             const templates = scriptTemplates[category].templates || [];
             if(templates.length === 0) {
-                box.innerHTML = '<div style="color:#6a8aaa;padding:20px;text-align:center;">暂无话术模板，请添加</div>';
+                box.innerHTML = '<div style="color:#6a8aaa;padding:16px;text-align:center;">暂无话术模板，请添加</div>';
                 return;
             }
             box.innerHTML = templates.map((t, idx) => `
                 <div class="script-template-item" data-index="${idx}" onclick="window.selectScriptTemplate('${category}', ${idx})">
                     <div class="label">📝 模板 ${idx+1}</div>
-                    <div style="color:#d0dce8;font-size:14px;margin-top:4px;">${t}</div>
+                    <div style="color:#d0dce8;font-size:13px;margin-top:2px;">${t}</div>
                 </div>
             `).join('');
         }
@@ -1311,13 +1492,13 @@
             if(!q) { renderTemplates(cat); return; }
             const filtered = templates.filter(t => t.toLowerCase().includes(q));
             if(filtered.length === 0) {
-                box.innerHTML = '<div style="color:#6a8aaa;padding:20px;text-align:center;">未找到匹配的话术</div>';
+                box.innerHTML = '<div style="color:#6a8aaa;padding:16px;text-align:center;">未找到匹配的话术</div>';
                 return;
             }
             box.innerHTML = filtered.map((t, idx) => `
                 <div class="script-template-item" data-index="${idx}" onclick="window.selectScriptTemplate('${cat}', ${templates.indexOf(t)})">
                     <div class="label">📝 模板 ${templates.indexOf(t)+1}</div>
-                    <div style="color:#d0dce8;font-size:14px;margin-top:4px;">${t}</div>
+                    <div style="color:#d0dce8;font-size:13px;margin-top:2px;">${t}</div>
                 </div>
             `).join('');
         }
@@ -1337,12 +1518,13 @@
 
         window.addScriptTemplate = function(){
             const cat = document.getElementById('scriptCategorySelect').value;
-            if(!cat) { alert('请先选择话术类型'); return; }
+            if(!cat) { showToast('请先选择话术类型', 'error'); return; }
             const newText = prompt('请输入新话术内容：');
             if(newText && newText.trim()) {
                 if(!scriptTemplates[cat].templates) scriptTemplates[cat].templates = [];
                 scriptTemplates[cat].templates.push(newText.trim());
                 saveAll();
+                addLog('添加话术', `在 ${cat} 添加话术`);
                 renderTemplates(cat);
                 showToast('✅ 话术已添加', 'success');
             }
@@ -1351,24 +1533,26 @@
         window.copySelectedScript = function(){
             if(window._selectedScript) {
                 navigator.clipboard?.writeText(window._selectedScript).then(() => {
-                    showToast('✅ 话术已复制到剪贴板', 'success');
+                    showToast('✅ 话术已复制', 'success');
                 }).catch(() => {
                     alert('复制失败，请手动复制');
                 });
             } else {
-                alert('请先选择一条话术模板（点击模板内容）');
+                showToast('请先选择一条话术模板', 'error');
             }
         };
 
         renderTemplates('');
     }
 
-    // ==================== 职位薪水 ====================
+    // ============================================================
+    //  POSITIONS
+    // ============================================================
     function renderPositions(area){
         computeLevelsAndPositions();
-        let html = `<div style="color:#e8f0fe;padding:0 0 16px 0;font-size:18px;">💼 职位薪水管理</div>
-            <div class="filter-bar"><input placeholder="搜索号码 (后4位及以上)" id="posSearch" style="flex:1;min-width:150px;"></div>
-            <div style="max-height:550px;overflow-y:auto;">`;
+        let html = `<div style="color:#e8f0fe;padding:0 0 12px 0;font-size:17px;">💼 职位薪水管理</div>
+            <div class="filter-bar"><input placeholder="搜索号码 (后4位)" id="posSearch" style="flex:1;min-width:120px;"></div>
+            <div style="max-height:520px;overflow-y:auto;">`;
         const posKeys = ['intern','formal','regional','market','general'];
         const posNames = { intern: '实习经理', formal: '正式经理', regional: '区域经理', market: '市场经理', general: '区域总经理' };
         posKeys.forEach(key => {
@@ -1379,41 +1563,46 @@
                 <div class="pos-title">${posNames[key]} (${members.length}人) | 发放日: 每月${pos.payDay}号</div>
                 ${members.map(c => `
                     <div class="pos-detail" data-phone="${c.phone}">
-                        ${c.phone} | ${c.level || 'EM0'} | 团队成员 ${c.teamCount || 0}名
-                        | 已发放 ${c.payCount || 0}次
-                        | 上次发放: ${c.lastPayDate || '未发放'}
-                        <span style="margin-left:12px;">
+                        ${c.phone} | ${c.level || 'EM0'} | 团队 ${c.teamCount || 0}人
+                        | 已发 ${c.payCount || 0}次 | 上次: ${c.lastPayDate || '未发放'}
+                        <span style="margin-left:10px;">
                             <i class="fas ${positionStatus[c.phone] ? 'fa-check-circle' : 'fa-circle'} action-icon ${positionStatus[c.phone] ? 'success' : ''}" 
                                onclick="window.togglePositionStatus('${c.phone}')"></i>
-                            <span style="margin-left:4px;">${positionStatus[c.phone] ? '✅发放' : '❌未发放'}</span>
+                            <span style="margin-left:3px;font-size:12px;">${positionStatus[c.phone] ? '✅发放' : '❌未发放'}</span>
                         </span>
                     </div>
                 `).join('')}
                 <div class="pos-action">
-                    <button class="btn btn-sm" style="padding:4px 12px;font-size:12px;" onclick="window.editPosition('${key}')">✏️ 编辑职位</button>
-                    <button class="btn btn-sm btn-success" style="padding:4px 12px;font-size:12px;" onclick="window.markPaid('${key}')">💰 标记发放</button>
-                    <span style="font-size:12px;color:#6a8aaa;">点击标记发放自动记录次数和日期</span>
+                    ${isAdmin() ? `<button class="btn btn-sm" style="padding:3px 10px;font-size:11px;" onclick="window.editPosition('${key}')">✏️ 编辑</button>` : ''}
+                    ${isManager() ? `<button class="btn btn-sm btn-success" style="padding:3px 10px;font-size:11px;" onclick="window.markPaid('${key}')">💰 标记发放</button>` : ''}
+                    <span style="font-size:11px;color:#6a8aaa;">标记发放自动记录次数</span>
                 </div>
             </div>`;
         });
         html += `</div>`;
         area.innerHTML = html;
-        
-        document.getElementById('posSearch')?.addEventListener('input', function(){
-            const q = this.value.trim();
-            document.querySelectorAll('.pos-detail').forEach(el => {
-                if(q.length < 4) { el.style.display = ''; return; }
-                el.style.display = el.dataset.phone.includes(q) ? '' : 'none';
+
+        // 搜索
+        const posInput = document.getElementById('posSearch');
+        if(posInput){
+            posInput.addEventListener('input', function(){
+                const q = this.value.trim();
+                document.querySelectorAll('.pos-detail').forEach(el => {
+                    if(q.length < 2) { el.style.display = ''; return; }
+                    el.style.display = el.dataset.phone.includes(q) ? '' : 'none';
+                });
             });
-        });
-        
+        }
+
         window.togglePositionStatus = function(phone){
             positionStatus[phone] = !positionStatus[phone];
             saveAll();
+            addLog('切换发放状态', `${phone} -> ${positionStatus[phone] ? '已发放' : '未发放'}`);
             renderTab('positions');
         };
-        
+
         window.editPosition = function(key){
+            if(!isAdmin()) { showToast('只有管理员可以编辑', 'error'); return; }
             const pos = positions[key];
             if(!pos) return;
             const newName = prompt('职位名称', pos.name);
@@ -1426,10 +1615,13 @@
             if(newPayDay && !isNaN(newPayDay) && parseInt(newPayDay) >= 1 && parseInt(newPayDay) <= 31) pos.payDay = parseInt(newPayDay);
             saveAll();
             computeLevelsAndPositions();
+            addLog('编辑职位', `编辑 ${key}`);
+            showToast('✅ 职位已更新', 'success');
             renderTab('positions');
         };
-        
+
         window.markPaid = function(key){
+            if(!isManager()) { showToast('只有管理员或经理可以标记发放', 'error'); return; }
             const members = clients.filter(c => c.position === key);
             if(members.length === 0) { showToast('该职位暂无成员', 'error'); return; }
             const today = new Date().toISOString().slice(0,10);
@@ -1440,71 +1632,263 @@
             });
             saveAll();
             computeLevelsAndPositions();
+            addLog('标记发放', `${key} 职位 ${members.length} 人已发放`);
             showToast(`✅ ${members.length} 个成员已标记发放`, 'success');
             renderTab('positions');
         };
     }
 
-    // ==================== 团队关系树 ====================
+    // ============================================================
+    //  TREE (默认显示全部 + 搜索过滤)
+    // ============================================================
     function renderTree(area){
-        area.innerHTML = `<div style="color:#e8f0fe;padding:0 0 16px 0;font-size:18px;">🌳 团队关系树</div>
-            <div class="filter-bar"><input placeholder="搜索号码 (后4位及以上)" id="treeSearch" style="flex:1;min-width:150px;"></div>
-            <div id="treeResult" style="max-height:500px;overflow-y:auto;background:#0a1a32;border-radius:16px;padding:16px;border:1px solid #1a3555;margin-top:12px;">
-                <div style="color:#6a8aaa;text-align:center;">输入号码后4位及以上搜索</div>
+        const map = {};
+        clients.forEach(c => { map[c.phone] = { ...c, children: [] }; });
+        clients.forEach(c => {
+            if(c.superior && map[c.superior]) {
+                map[c.superior].children.push(c.phone);
+            }
+        });
+        const roots = clients.filter(c => !c.superior || !map[c.superior]);
+
+        function buildPyramid(phone, level, visited = new Set()) {
+            if (visited.has(phone)) return '';
+            visited.add(phone);
+            const c = map[phone];
+            if (!c) return '';
+            const levelLetter = String.fromCharCode(65 + level);
+            const childrenHTML = c.children.map(child => {
+                const childLevel = level + 1;
+                return buildPyramid(child, childLevel, visited);
+            }).join('');
+            return `<div style="display:flex;flex-direction:column;align-items:center;padding:3px 0;width:100%;">
+                <div class="pyramid-node" data-phone="${c.phone}" data-level="${level}" style="border-color: ${level === 0 ? '#4a8af4' : '#1a3555'};">
+                    <span class="level-tag">${levelLetter}</span>
+                    <span>${c.phone}</span>
+                    <span class="badge" style="font-size:9px;margin-left:4px;">${c.level || 'EM0'}</span>
+                    ${c.superior ? `<span class="superior-arrow">↑${c.superior}</span>` : ''}
+                    <span class="node-count">(${c.children.length} 下级)</span>
+                </div>
+                ${c.children.length > 0 ? 
+                    `<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px 24px;padding-top:6px;width:100%;">${childrenHTML}</div>` : ''
+                }
+            </div>`;
+        }
+
+        let treeHTML = '';
+        if (roots.length === 0) {
+            const orphanRoots = clients.filter(c => !c.superior);
+            if (orphanRoots.length === 0 && clients.length > 0) {
+                const allSuperiors = new Set(clients.map(c => c.superior).filter(s => s));
+                const topLevel = clients.filter(c => !allSuperiors.has(c.phone) || !c.superior);
+                topLevel.forEach(r => { treeHTML += buildPyramid(r.phone, 0); });
+            } else {
+                orphanRoots.forEach(r => { treeHTML += buildPyramid(r.phone, 0); });
+            }
+        } else {
+            roots.forEach(r => { treeHTML += buildPyramid(r.phone, 0); });
+        }
+
+        if (!treeHTML) {
+            treeHTML = '<div style="color:#6a8aaa;text-align:center;padding:30px;">暂无客户数据</div>';
+        }
+
+        // 统计信息
+        const totalMembers = clients.length;
+        const maxLevel = Math.max(...clients.map(c => c.levelNum).filter(n => n >= 0), -1);
+        const levelCounts = {};
+        clients.forEach(c => {
+            if(c.levelNum >= 0) {
+                levelCounts[c.levelNum] = (levelCounts[c.levelNum] || 0) + 1;
+            }
+        });
+        const levelStats = Object.keys(levelCounts).sort((a,b) => a-b).map(l => `${String.fromCharCode(65+parseInt(l))}: ${levelCounts[l]}人`).join(' | ');
+
+        area.innerHTML = `
+            <div style="color:#e8f0fe;font-size:17px;margin-bottom:8px;">🌳 团队关系树 <span style="font-size:12px;color:#6a8aaa;">(A-Z 层级)</span></div>
+            <div class="tree-stats">
+                <span class="stat-item"><strong>总成员:</strong> ${totalMembers}</span>
+                <span class="stat-item"><strong>最深层级:</strong> ${maxLevel >= 0 ? String.fromCharCode(65+maxLevel) : '无'}</span>
+                <span class="stat-item"><strong>层级分布:</strong> ${levelStats || '无'}</span>
+            </div>
+            <div class="filter-bar">
+                <input placeholder="搜索号码 (后4位) 显示团队" id="treeSearch" style="flex:1;min-width:120px;">
+                <span style="font-size:11px;color:#6a8aaa;">默认显示全部，搜索后只显示匹配结果</span>
+            </div>
+            <div style="background:#0a1a32;border-radius:14px;padding:16px;border:1px solid #1a3555;max-height:500px;overflow-y:auto;">
+                <div class="pyramid-tree" id="pyramidContainer">
+                    ${treeHTML}
+                </div>
             </div>
         `;
-        
-        document.getElementById('treeSearch')?.addEventListener('input', function(){
-            const q = this.value.trim();
-            const result = document.getElementById('treeResult');
-            if(q.length < 4) { result.innerHTML = '<div style="color:#6a8aaa;text-align:center;">输入号码后4位及以上搜索</div>'; return; }
-            const map = {};
-            clients.forEach(c => { map[c.phone] = { ...c, children: [] }; });
-            clients.forEach(c => {
-                if(c.superior && map[c.superior]) {
-                    map[c.superior].children.push(c.phone);
+
+        // 搜索功能
+        const treeInput = document.getElementById('treeSearch');
+        if(treeInput){
+            treeInput.addEventListener('input', function(){
+                const q = this.value.trim();
+                const nodes = document.querySelectorAll('#pyramidContainer .pyramid-node');
+                const allParents = document.querySelectorAll('#pyramidContainer > div');
+
+                if(q.length < 2) {
+                    allParents.forEach(p => p.style.display = '');
+                    nodes.forEach(n => n.style.borderColor = n.dataset.level === '0' ? '#4a8af4' : '#1a3555');
+                    return;
                 }
-            });
-            const matched = new Set();
-            clients.forEach(c => {
-                if(c.phone.includes(q)) {
-                    const stack = [c.phone];
-                    while(stack.length > 0) {
-                        const p = stack.pop();
-                        matched.add(p);
-                        if(map[p] && map[p].children) {
-                            map[p].children.forEach(child => stack.push(child));
+
+                // 查找匹配的客户及其所有下级
+                const matchedPhones = new Set();
+                clients.forEach(c => {
+                    if(c.phone.includes(q)) {
+                        const stack = [c.phone];
+                        while(stack.length > 0) {
+                            const current = stack.pop();
+                            matchedPhones.add(current);
+                            if(map[current] && map[current].children) {
+                                map[current].children.forEach(child => stack.push(child));
+                            }
                         }
                     }
+                });
+
+                allParents.forEach(p => {
+                    const hasMatch = p.querySelector('.pyramid-node') && 
+                        p.querySelector('.pyramid-node').dataset.phone && 
+                        matchedPhones.has(p.querySelector('.pyramid-node').dataset.phone);
+                    p.style.display = hasMatch ? '' : 'none';
+                });
+
+                nodes.forEach(n => {
+                    if(matchedPhones.has(n.dataset.phone)) {
+                        n.style.borderColor = '#4aca7a';
+                    } else {
+                        n.style.borderColor = '#1a3555';
+                    }
+                });
+
+                if(matchedPhones.size === 0) {
+                    allParents.forEach(p => p.style.display = 'none');
                 }
             });
-            if(matched.size === 0) {
-                result.innerHTML = '<div style="color:#6a8aaa;text-align:center;">未找到匹配客户</div>';
-                return;
-            }
-            let html = `<div style="color:#9bb7d4;font-weight:600;margin-bottom:8px;">找到 ${matched.size} 个团队成员</div>`;
-            matched.forEach(phone => {
-                const c = clients.find(x => x.phone === phone);
-                if(c) {
-                    html += `<div style="padding:6px 12px;border-bottom:1px solid #1a3555;font-size:13px;color:#d0dce8;display:flex;justify-content:space-between;">
-                        <span>${c.phone} | ${c.level || 'EM0'} | ${c.name || ''}</span>
-                        <span style="color:#6a8aaa;">上级:${c.superior || '无'} | 团队:${c.teamCount || 0}人</span>
-                    </div>`;
-                }
-            });
-            result.innerHTML = html;
-        });
+        }
     }
 
-    // ==================== 初始化 ====================
+    // ============================================================
+    //  USERS (管理员专用)
+    // ============================================================
+    function renderUsers(area){
+        if(!isAdmin()){
+            area.innerHTML = `<div style="color:#ff6b6b;padding:30px;text-align:center;font-size:16px;">⛔ 只有管理员可以访问此页面</div>`;
+            return;
+        }
+
+        let html = `
+            <div style="color:#e8f0fe;font-size:17px;margin-bottom:12px;">👑 用户管理 <span style="font-size:12px;color:#6a8aaa;">(${users.length} 个用户)</span></div>
+            <div class="table-wrap" style="max-height:500px;">
+                <table class="user-mgmt-table">
+                    <tr><th>手机号</th><th>角色</th><th>状态</th><th>最后登录</th><th>操作</th></tr>
+        `;
+        users.forEach(u => {
+            const status = u.locked ? '🔒 已锁定' : '🟢 正常';
+            const roleOptions = ['管理员','经理','员工'].map(r => 
+                `<option value="${r}" ${u.role === r ? 'selected' : ''}>${r}</option>`
+            ).join('');
+            const isSelf = u.phone === currentUser.phone;
+            html += `<tr>
+                <td>${u.phone} ${isSelf ? '<span class="badge" style="font-size:10px;">(当前)</span>' : ''}</td>
+                <td><select class="role-select" data-phone="${u.phone}" ${isSelf ? 'disabled' : ''}>${roleOptions}</select></td>
+                <td><span class="status-badge ${u.locked ? 'badge-danger' : 'badge-success'}">${status}</span></td>
+                <td style="font-size:12px;color:#6a8aaa;">${u.lastLogin ? new Date(u.lastLogin).toLocaleString() : '从未登录'}</td>
+                <td>
+                    ${!isSelf ? `
+                        <i class="fas ${u.locked ? 'fa-unlock' : 'fa-lock'} action-icon" onclick="window.toggleUserLock('${u.phone}')" title="${u.locked ? '解锁' : '锁定'}"></i>
+                        <i class="fas fa-trash action-icon danger" onclick="window.deleteUser('${u.phone}')" title="删除用户"></i>
+                    ` : '<span style="color:#6a8aaa;font-size:11px;">不可操作</span>'}
+                </td>
+            </tr>`;
+        });
+        html += `</table></div>`;
+        area.innerHTML = html;
+
+        // 角色更改事件
+        document.querySelectorAll('.role-select').forEach(sel => {
+            sel.addEventListener('change', function(){
+                const phone = this.dataset.phone;
+                const newRole = this.value;
+                const user = users.find(u => u.phone === phone);
+                if(user) {
+                    user.role = newRole;
+                    saveAll();
+                    addLog('更改角色', `${phone} -> ${newRole}`);
+                    showToast(`✅ ${phone} 角色已更新为 ${newRole}`, 'success');
+                }
+            });
+        });
+
+        window.toggleUserLock = function(phone){
+            const user = users.find(u => u.phone === phone);
+            if(user) {
+                user.locked = !user.locked;
+                saveAll();
+                addLog('切换锁定', `${phone} -> ${user.locked ? '锁定' : '解锁'}`);
+                showToast(`✅ ${phone} ${user.locked ? '已锁定' : '已解锁'}`, 'success');
+                renderTab('users');
+            }
+        };
+
+        window.deleteUser = function(phone){
+            if(confirm(`确定要删除用户 ${phone} 吗？此操作不可恢复！`)){
+                users = users.filter(u => u.phone !== phone);
+                // 同时删除该用户添加的客户？
+                // 保留客户数据，只删除用户账户
+                saveAll();
+                addLog('删除用户', `删除用户 ${phone}`);
+                showToast(`✅ 用户 ${phone} 已删除`, 'success');
+                renderTab('users');
+            }
+        };
+    }
+
+    // ============================================================
+    //  LOGS
+    // ============================================================
+    function renderLogs(area){
+        if(!isAdmin()){
+            area.innerHTML = `<div style="color:#ff6b6b;padding:30px;text-align:center;font-size:16px;">⛔ 只有管理员可以查看操作日志</div>`;
+            return;
+        }
+
+        const logs = operationLogs.slice().reverse().slice(0, 500);
+        let html = `
+            <div style="color:#e8f0fe;font-size:17px;margin-bottom:12px;">📋 操作日志 <span style="font-size:12px;color:#6a8aaa;">(共 ${operationLogs.length} 条)</span></div>
+            <div class="table-wrap" style="max-height:500px;">
+                <table>
+                    <tr><th style="width:170px;">时间</th><th style="width:120px;">用户</th><th>操作</th></tr>
+        `;
+        logs.forEach(log => {
+            html += `<tr>
+                <td style="font-size:12px;color:#6a8aaa;">${new Date(log.time).toLocaleString()}</td>
+                <td style="font-size:13px;">${log.user}</td>
+                <td style="font-size:13px;">${log.action} ${log.details ? ': ' + log.details : ''}</td>
+            </tr>`;
+        });
+        html += `</table></div>`;
+        if(logs.length === 0) html += `<div style="color:#6a8aaa;padding:20px;text-align:center;">暂无操作日志</div>`;
+        area.innerHTML = html;
+    }
+
+    // ============================================================
+    //  INIT
+    // ============================================================
     setInterval(() => { saveAll(); }, 60000);
     renderAuth();
     if(currentUser){
         document.getElementById('authContainer').classList.add('hidden');
         document.getElementById('mainApp').classList.remove('hidden');
         document.getElementById('userDisplay').innerText = currentUser.phone;
+        document.getElementById('userRoleTag').innerText = currentUser.role || '员工';
+        syncInventoryFromClients();
         computeLevelsAndPositions();
-        checkPayReminders();
         renderTab('dashboard');
     }
 })();
