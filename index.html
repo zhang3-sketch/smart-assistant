@@ -45,7 +45,6 @@
         .user-badge i { color: #4a8af4; }
         .user-badge #logoutBtn { cursor: pointer; color: #8ab0d4; }
         .user-badge #logoutBtn:hover { color: #ff6b6b; }
-        .user-badge .role-tag { font-size: 10px; background: #1a3555; padding: 2px 10px; border-radius: 12px; color: #4a8af4; }
 
         .body-wrap { display: flex; flex: 1; min-height: 0; overflow: hidden; }
         .sidebar { width: 200px; background: #0a1a32; border-right: 1px solid #1a3555; padding: 16px 0; overflow-y: auto; flex-shrink: 0; height: 100%; }
@@ -55,7 +54,6 @@
         .sidebar-item i { width: 18px; color: #6a8aaa; font-size: 14px; }
         .sidebar-item.active { background: #0f2140; border-left-color: #4a8af4; color: #e8f0fe; box-shadow: inset 0 0 0 1px #1a3555; }
         .sidebar-item:hover { background: #0f2140; color: #e8f0fe; }
-        .sidebar-divider { height: 1px; background: #1a3555; margin: 8px 16px; }
 
         .content { flex: 1; padding: 20px; overflow-y: auto; background: #0f2140; height: 100%; }
         .content::-webkit-scrollbar { width: 6px; }
@@ -92,6 +90,8 @@
         table { width: 100%; border-collapse: collapse; font-size: 13px; }
         th { text-align: left; padding: 10px 10px; background: #0a1a32; color: #9bb7d4; font-weight: 600; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid #1a3555; }
         td { padding: 10px 10px; border-bottom: 1px solid #1a3555; color: #d0dce8; }
+        td:first-child, th:first-child { padding-left: 14px; }
+        td:last-child, th:last-child { padding-right: 14px; }
         .badge { background: #1a3555; color: #4a8af4; padding: 3px 10px; border-radius: 40px; font-size: 11px; font-weight: 600; }
         .badge-success { background: #1a4a3a; color: #4aca7a; }
         .badge-danger { background: #4a2a2a; color: #ff6b6b; }
@@ -202,10 +202,11 @@
         .tree-stats .stat-item { font-size: 13px; color: #d0dce8; }
         .tree-stats .stat-item strong { color: #e8f0fe; }
 
-        .user-mgmt-table td .role-select { background: #0a1a32; color: #e8f0fe; border: 1px solid #1a3555; border-radius: 20px; padding: 2px 10px; font-size: 12px; }
-        .user-mgmt-table td .status-badge { font-size: 11px; padding: 2px 10px; border-radius: 20px; }
+        .client-table-header { display: grid; grid-template-columns: 40px 1fr 0.8fr 1fr 1fr 1.2fr 1.2fr; gap: 6px; padding: 8px 14px; color: #6a8aaa; font-size: 11px; font-weight: 600; border-bottom: 1px solid #1a3555; background: #0a1a32; border-radius: 12px 12px 0 0; }
+        .client-table-row { display: grid; grid-template-columns: 40px 1fr 0.8fr 1fr 1fr 1.2fr 1.2fr; gap: 6px; padding: 8px 14px; align-items: center; border-bottom: 1px solid #1a3555; }
+        .client-table-row .field { color: #d0dce8; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-        @media (max-width: 768px) { .sidebar { width: 56px; } .sidebar-item span { display: none; } .sidebar-item { padding: 10px 14px; } .top-bar { flex-direction: column; align-items: stretch; } .ocr-layout { flex-direction: column; } .stat-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 768px) { .sidebar { width: 56px; } .sidebar-item span { display: none; } .sidebar-item { padding: 10px 14px; } .top-bar { flex-direction: column; align-items: stretch; } .ocr-layout { flex-direction: column; } .stat-grid { grid-template-columns: 1fr 1fr; } .client-table-header, .client-table-row { grid-template-columns: 30px 1fr 0.6fr 0.8fr 0.8fr 1fr 1fr; font-size: 11px; gap: 4px; padding: 6px 8px; } }
 
         .search-dropdown .item .highlight { color: #4a8af4; font-weight: 600; }
     </style>
@@ -236,7 +237,6 @@
             <div class="user-badge">
                 <i class="fas fa-user-circle"></i>
                 <span id="userDisplay">管理员</span>
-                <span class="role-tag" id="userRoleTag">管理员</span>
                 <i class="fas fa-sign-out-alt" id="logoutBtn" title="登出"></i>
             </div>
         </div>
@@ -250,9 +250,6 @@
                 <div class="sidebar-item" data-tab="scripts"><i class="fas fa-comment-dots"></i><span>话术生成</span></div>
                 <div class="sidebar-item" data-tab="positions"><i class="fas fa-briefcase"></i><span>职位薪水</span></div>
                 <div class="sidebar-item" data-tab="tree"><i class="fas fa-sitemap"></i><span>团队关系树</span></div>
-                <div class="sidebar-divider"></div>
-                <div class="sidebar-item" data-tab="users"><i class="fas fa-users-cog"></i><span>用户管理</span></div>
-                <div class="sidebar-item" data-tab="logs"><i class="fas fa-history"></i><span>操作日志</span></div>
             </div>
             <div class="content" id="contentArea"></div>
         </div>
@@ -271,7 +268,6 @@
     let orders = JSON.parse(localStorage.getItem('smart_orders')) || [];
     let salaryRecords = JSON.parse(localStorage.getItem('smart_salary')) || [];
     let ocrHistory = JSON.parse(localStorage.getItem('smart_ocr_history')) || [];
-    let operationLogs = JSON.parse(localStorage.getItem('smart_operation_logs')) || [];
     let positions = JSON.parse(localStorage.getItem('smart_positions')) || {
         intern: { name: '实习经理', bonus: 1500, bonusType: '一次性奖励', members: 3, payDay: 1 },
         formal: { name: '正式经理', bonus: 5000, bonusType: '每月固定收入', members: 8, payDay: 5 },
@@ -294,9 +290,6 @@
     let isProcessingOCR = false;
     let toastTimer = null;
 
-    // ============================================================
-    //  HELPERS
-    // ============================================================
     function saveAll(){
         localStorage.setItem('smart_users', JSON.stringify(users));
         localStorage.setItem('smart_clients', JSON.stringify(clients));
@@ -304,7 +297,6 @@
         localStorage.setItem('smart_orders', JSON.stringify(orders));
         localStorage.setItem('smart_salary', JSON.stringify(salaryRecords));
         localStorage.setItem('smart_ocr_history', JSON.stringify(ocrHistory));
-        localStorage.setItem('smart_operation_logs', JSON.stringify(operationLogs));
         localStorage.setItem('smart_positions', JSON.stringify(positions));
         localStorage.setItem('smart_position_status', JSON.stringify(positionStatus));
         localStorage.setItem('smart_position_pay_count', JSON.stringify(positionPayCount));
@@ -338,41 +330,6 @@
 
     function getTodayCompleted(phone){
         return orders.some(o => o.phone === phone && o.date === new Date().toDateString() && o.completed);
-    }
-
-    function getUserRole(phone){
-        const u = users.find(x => x.phone === phone);
-        return u ? u.role || '员工' : '员工';
-    }
-
-    function isAdmin(){
-        return currentUser && getUserRole(currentUser.phone) === '管理员';
-    }
-
-    function isManager(){
-        return currentUser && ['管理员','经理'].includes(getUserRole(currentUser.phone));
-    }
-
-    function canEditClient(clientPhone){
-        if(!currentUser) return false;
-        const role = getUserRole(currentUser.phone);
-        if(role === '管理员') return true;
-        if(role === '经理'){
-            // 经理可以编辑自己团队的数据（通过上级关系判断）
-            return clients.some(c => c.phone === clientPhone && (c.superior === currentUser.phone || c.phone === currentUser.phone));
-        }
-        return clientPhone === currentUser.phone;
-    }
-
-    function addLog(action, details){
-        operationLogs.push({
-            time: new Date().toISOString(),
-            user: currentUser ? currentUser.phone : '系统',
-            action: action,
-            details: details
-        });
-        if(operationLogs.length > 1000) operationLogs.shift();
-        saveAll();
     }
 
     function showToast(message, type = 'info'){
@@ -482,25 +439,20 @@
         if(password.length !== 6){ msg.innerText = '密码必须6位'; return; }
         if(authMode === 'register'){
             if(users.find(u=>u.phone===phone)){ msg.innerText = '该手机号已注册'; return; }
-            const role = users.length === 0 ? '管理员' : '员工';
-            users.push({ phone, password, lastLogin: Date.now(), role: role, locked: false });
+            users.push({ phone, password, lastLogin: Date.now() });
             saveAll();
-            addLog('注册', `用户 ${phone} 注册，角色: ${role}`);
             msg.innerText = '注册成功，请登录';
             authMode = 'login';
             renderAuth();
         } else {
             const user = users.find(u=>u.phone===phone && u.password===password);
             if(!user){ msg.innerText = '手机号或密码错误'; return; }
-            if(user.locked){ msg.innerText = '账户已被锁定，请联系管理员'; return; }
             user.lastLogin = Date.now();
             currentUser = user;
             saveAll();
-            addLog('登录', `用户 ${phone} 登录`);
             document.getElementById('authContainer').classList.add('hidden');
             document.getElementById('mainApp').classList.remove('hidden');
             document.getElementById('userDisplay').innerText = phone;
-            document.getElementById('userRoleTag').innerText = user.role || '员工';
             syncInventoryFromClients();
             computeLevelsAndPositions();
             renderTab(currentTab);
@@ -508,7 +460,6 @@
     });
 
     document.getElementById('logoutBtn').addEventListener('click', function(){
-        if(currentUser) addLog('登出', `用户 ${currentUser.phone} 登出`);
         currentUser = null;
         document.getElementById('mainApp').classList.add('hidden');
         document.getElementById('authContainer').classList.remove('hidden');
@@ -533,12 +484,10 @@
         else if(tab === 'scripts') renderScripts(area);
         else if(tab === 'positions') renderPositions(area);
         else if(tab === 'tree') renderTree(area);
-        else if(tab === 'users') renderUsers(area);
-        else if(tab === 'logs') renderLogs(area);
     }
 
     // ============================================================
-    //  GLOBAL SEARCH (实时下拉)
+    //  GLOBAL SEARCH
     // ============================================================
     const globalInput = document.getElementById('globalSearch');
     const globalResults = document.getElementById('globalSearchResults');
@@ -657,49 +606,59 @@
             if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
                 orders.push({ phone, date: new Date().toDateString(), completed: true });
                 saveAll();
-                addLog('完成订单', `从主页完成 ${phone} 的订单`);
                 renderTab('dashboard');
             }
         };
     }
 
     // ============================================================
-    //  CLIENTS (带实时搜索下拉)
+    //  CLIENTS (带等级筛选 + 对齐)
     // ============================================================
     function renderClients(area){
         let html = `
             <div class="filter-bar" style="position:relative;">
                 <input placeholder="搜索名字/账号/等级" id="clientSearch" style="flex:1;min-width:120px;">
                 <div class="search-dropdown" id="clientSearchResults"></div>
-                <select id="levelFilter"><option value="">全部等级</option><option>EM0</option><option>EM1</option><option>EM2</option><option>EM3</option></select>
+                <select id="levelFilter" style="min-width:100px;">
+                    <option value="">全部等级</option>
+                    <option value="EM0">EM0</option>
+                    <option value="EM1">EM1</option>
+                    <option value="EM2">EM2</option>
+                    <option value="EM3">EM3</option>
+                </select>
                 <button class="btn" onclick="window.addSingleClient()">+ 添加</button>
                 <button class="btn btn-primary" onclick="window.batchImport()">📥 批量</button>
                 <button class="btn btn-danger" onclick="window.batchDeleteClients()">🗑️ 批量删除</button>
                 <button class="btn btn-warning" onclick="window.toggleSelectAllClients()">☑️ 全选</button>
             </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr 1fr; gap:6px; padding:6px 0; color:#6a8aaa; font-size:11px; border-bottom:1px solid #1a3555;">
-                <span>账户</span><span>等级</span><span>上级号码</span><span>名字</span><span>开始时间</span>
+            <div class="client-table-header">
+                <span style="text-align:center;">☑️</span>
+                <span>账户</span>
+                <span>等级</span>
+                <span>上级号码</span>
+                <span>名字</span>
+                <span>开始时间</span>
+                <span style="text-align:right;">操作</span>
             </div>
             <div class="client-grid" id="clientGrid">
         `;
         clients.forEach(c => {
             const todayDone = getTodayCompleted(c.phone);
             const checked = selectedClients.has(c.phone) ? 'checked' : '';
-            const canEdit = canEditClient(c.phone);
             html += `
-                <div class="client-card" data-phone="${c.phone}">
-                    <input type="checkbox" class="client-checkbox" data-phone="${c.phone}" ${checked} style="accent-color:#4a8af4;width:14px;height:14px;cursor:pointer;">
+                <div class="client-table-row" data-phone="${c.phone}" data-level="${c.level || 'EM0'}">
+                    <input type="checkbox" class="client-checkbox" data-phone="${c.phone}" ${checked} style="accent-color:#4a8af4;width:14px;height:14px;cursor:pointer;justify-self:center;">
                     <span class="field">${c.phone}</span>
                     <span class="field"><span class="badge">${c.level || 'EM0'}</span></span>
                     <span class="field">${c.superior || '--'}</span>
                     <span class="field">${c.name || '--'}</span>
                     <span class="field">${c.startTime || '--'}</span>
-                    <span class="actions">
+                    <span class="actions" style="justify-self:end;">
                         <span style="color:#d0dce8;font-size:12px;">${todayDone ? '✅完成' : '⌛️未完成'}</span>
-                        ${canEdit ? `<i class="fas fa-edit action-icon" onclick="window.editClient('${c.phone}')" title="编辑"></i>` : ''}
-                        ${canEdit ? `<i class="fas fa-check action-icon success" onclick="window.completeOrderClient('${c.phone}')" title="完成"></i>` : ''}
-                        ${canEdit ? `<i class="fas fa-times action-icon danger" onclick="window.cancelOrderClient('${c.phone}')" title="取消完成"></i>` : ''}
-                        ${isAdmin() ? `<i class="fas fa-trash action-icon" onclick="window.deleteClient('${c.phone}')" title="删除"></i>` : ''}
+                        <i class="fas fa-edit action-icon" onclick="window.editClient('${c.phone}')" title="编辑"></i>
+                        <i class="fas fa-check action-icon success" onclick="window.completeOrderClient('${c.phone}')" title="完成"></i>
+                        <i class="fas fa-times action-icon danger" onclick="window.cancelOrderClient('${c.phone}')" title="取消完成"></i>
+                        <i class="fas fa-trash action-icon" onclick="window.deleteClient('${c.phone}')" title="删除"></i>
                     </span>
                 </div>
             `;
@@ -707,7 +666,20 @@
         html += `</div><div class="pagination"><span>每页 <select id="pageSize"><option>10</option><option>20</option><option>50</option><option>100</option></select></span></div>`;
         area.innerHTML = html;
 
-        // 实时搜索下拉
+        // ===== 等级筛选 =====
+        const levelFilter = document.getElementById('levelFilter');
+        if(levelFilter){
+            levelFilter.addEventListener('change', function(){
+                const val = this.value;
+                document.querySelectorAll('.client-table-row').forEach(row => {
+                    if(val === '') { row.style.display = 'grid'; return; }
+                    const rowLevel = row.dataset.level || '';
+                    row.style.display = rowLevel === val ? 'grid' : 'none';
+                });
+            });
+        }
+
+        // ===== 实时搜索下拉 =====
         const searchInput = document.getElementById('clientSearch');
         const searchResults = document.getElementById('clientSearchResults');
         if(searchInput && searchResults){
@@ -728,6 +700,7 @@
             searchInput.addEventListener('focus', function(){ if(this.value.trim().length >= 1) searchResults.style.display = 'block'; });
         }
 
+        // ===== 全选 =====
         window.toggleSelectAllClients = function(){
             const allChecked = document.querySelectorAll('.client-checkbox');
             const anyUnchecked = Array.from(allChecked).some(cb => !cb.checked);
@@ -743,8 +716,8 @@
             });
         });
 
+        // ===== 批量删除 =====
         window.batchDeleteClients = function(){
-            if(!isAdmin()) { showToast('只有管理员可以批量删除', 'error'); return; }
             const toDelete = Array.from(selectedClients);
             if(toDelete.length === 0) { showToast('请先选择要删除的客户', 'error'); return; }
             if(confirm(`确定要删除 ${toDelete.length} 个客户吗？`)){
@@ -753,14 +726,13 @@
                 syncInventoryFromClients();
                 computeLevelsAndPositions();
                 saveAll();
-                addLog('批量删除客户', `删除了 ${toDelete.length} 个客户`);
                 showToast(`✅ 已删除 ${toDelete.length} 个客户`, 'success');
                 renderTab('clients');
             }
         };
 
+        // ===== 编辑客户 =====
         window.editClient = function(phone){
-            if(!canEditClient(phone)) { showToast('无权限编辑此客户', 'error'); return; }
             const c = clients.find(x => x.phone === phone);
             if(!c) return;
             const newPhone = prompt('工作账户 (6-15位数字)', c.phone);
@@ -778,13 +750,12 @@
             syncInventoryFromClients();
             computeLevelsAndPositions();
             saveAll();
-            addLog('编辑客户', `编辑 ${phone} -> ${newPhone}`);
             showToast('✅ 客户已更新', 'success');
             renderTab('clients');
         };
 
+        // ===== 添加客户 =====
         window.addSingleClient = function(){
-            if(!isManager()) { showToast('只有管理员或经理可以添加客户', 'error'); return; }
             const phone = prompt('输入工作账户(6-15位数字)');
             if(!phone || phone.length < 6 || phone.length > 15) { showToast('账号需6-15位数字', 'error'); return; }
             if(clients.find(c => c.phone === phone)) { showToast('该账号已存在', 'error'); return; }
@@ -796,13 +767,12 @@
             syncInventoryFromClients();
             computeLevelsAndPositions();
             saveAll();
-            addLog('添加客户', `添加 ${phone}`);
             showToast('✅ 客户已添加', 'success');
             renderTab('clients');
         };
 
+        // ===== 批量导入 =====
         window.batchImport = function(){
-            if(!isManager()) { showToast('只有管理员或经理可以批量导入', 'error'); return; }
             const raw = prompt(
                 '请粘贴要导入的客户数据（每5行一组）：\n\n' +
                 '格式：工作账户\n等级(EM0-EM3)\n上级号码\n名字\n开始工作时间\n\n' +
@@ -827,34 +797,30 @@
             syncInventoryFromClients();
             computeLevelsAndPositions();
             saveAll();
-            addLog('批量导入', `导入了 ${imported} 个客户`);
             showToast(`✅ 成功导入 ${imported} 个客户`, 'success');
             renderTab('clients');
         };
 
+        // ===== 订单操作 =====
         window.completeOrderClient = function(phone){
             if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
                 orders.push({ phone, date: new Date().toDateString(), completed: true });
                 saveAll();
-                addLog('完成订单', `从客户管理完成 ${phone} 的订单`);
                 renderTab('clients');
             }
         };
         window.cancelOrderClient = function(phone){
             orders = orders.filter(o => !(o.phone === phone && o.date === new Date().toDateString()));
             saveAll();
-            addLog('取消订单', `取消 ${phone} 的订单`);
             renderTab('clients');
         };
         window.deleteClient = function(phone){
-            if(!isAdmin()) { showToast('只有管理员可以删除客户', 'error'); return; }
             if(confirm('删除该客户？库存中会保留记录')) {
                 clients = clients.filter(c => c.phone !== phone);
                 selectedClients.delete(phone);
                 syncInventoryFromClients();
                 computeLevelsAndPositions();
                 saveAll();
-                addLog('删除客户', `删除 ${phone}`);
                 showToast('✅ 客户已删除', 'success');
                 renderTab('clients');
             }
@@ -862,7 +828,7 @@
     }
 
     // ============================================================
-    //  INVENTORY (带实时搜索)
+    //  INVENTORY
     // ============================================================
     function renderInventory(area){
         let html = `
@@ -870,16 +836,16 @@
                 <input placeholder="搜索号码/名字/等级" id="invSearch" style="flex:1;min-width:120px;">
                 <div class="search-dropdown" id="invSearchResults"></div>
                 <button class="btn" onclick="window.restoreClient()">♻️ 恢复</button>
-                ${isAdmin() ? `<button class="btn btn-danger" onclick="window.batchDeleteInventory()">🗑️ 批量删除</button>` : ''}
-                ${isAdmin() ? `<button class="btn btn-warning" onclick="window.toggleSelectAllInventory()">☑️ 全选</button>` : ''}
+                <button class="btn btn-danger" onclick="window.batchDeleteInventory()">🗑️ 批量删除</button>
+                <button class="btn btn-warning" onclick="window.toggleSelectAllInventory()">☑️ 全选</button>
             </div>
             <div class="table-wrap"><table>
-                <tr><th style="width:28px;">${isAdmin() ? '<input type="checkbox" id="invSelectAll" style="accent-color:#4a8af4;cursor:pointer;">' : ''}</th><th>号码</th><th>等级</th><th>名字</th><th>加入时间</th><th>状态</th><th>操作</th></tr>`;
+                <tr><th style="width:28px;"><input type="checkbox" id="invSelectAll" style="accent-color:#4a8af4;cursor:pointer;"></th><th>号码</th><th>等级</th><th>名字</th><th>加入时间</th><th>状态</th><th>操作</th></tr>`;
         inventory.forEach(i => {
             const status = i.deleted ? '已删除' : '正常';
             const checked = selectedInventory.has(i.phone) ? 'checked' : '';
             html += `<tr>
-                <td>${isAdmin() ? `<input type="checkbox" class="inv-checkbox" data-phone="${i.phone}" ${checked} style="accent-color:#4a8af4;cursor:pointer;">` : ''}</td>
+                <td><input type="checkbox" class="inv-checkbox" data-phone="${i.phone}" ${checked} style="accent-color:#4a8af4;cursor:pointer;"></td>
                 <td>${i.phone}</td>
                 <td>${i.level || 'EM0'}</td>
                 <td>${i.name || ''}</td>
@@ -887,7 +853,7 @@
                 <td>${status}</td>
                 <td>
                     ${i.deleted ? `<i class="fas fa-undo action-icon" onclick="window.restoreItem('${i.phone}')" title="恢复"></i>` : ''}
-                    ${isAdmin() ? `<i class="fas fa-trash action-icon" onclick="window.permanentDelete('${i.phone}')" title="永久删除"></i>` : ''}
+                    <i class="fas fa-trash action-icon" onclick="window.permanentDelete('${i.phone}')" title="永久删除"></i>
                 </td>
             </tr>`;
         });
@@ -915,24 +881,21 @@
             invInput.addEventListener('focus', function(){ if(this.value.trim().length >= 1) invResults.style.display = 'block'; });
         }
 
-        if(isAdmin()){
-            document.getElementById('invSelectAll')?.addEventListener('change', function(){
-                document.querySelectorAll('.inv-checkbox').forEach(cb => {
-                    cb.checked = this.checked;
-                    if(this.checked) selectedInventory.add(cb.dataset.phone);
-                    else selectedInventory.delete(cb.dataset.phone);
-                });
-            });
+        document.getElementById('invSelectAll')?.addEventListener('change', function(){
             document.querySelectorAll('.inv-checkbox').forEach(cb => {
-                cb.addEventListener('change', function(){
-                    if(this.checked) selectedInventory.add(this.dataset.phone);
-                    else selectedInventory.delete(this.dataset.phone);
-                });
+                cb.checked = this.checked;
+                if(this.checked) selectedInventory.add(cb.dataset.phone);
+                else selectedInventory.delete(cb.dataset.phone);
             });
-        }
+        });
+        document.querySelectorAll('.inv-checkbox').forEach(cb => {
+            cb.addEventListener('change', function(){
+                if(this.checked) selectedInventory.add(this.dataset.phone);
+                else selectedInventory.delete(this.dataset.phone);
+            });
+        });
 
         window.toggleSelectAllInventory = function(){
-            if(!isAdmin()) return;
             const allChecked = document.querySelectorAll('.inv-checkbox');
             const anyUnchecked = Array.from(allChecked).some(cb => !cb.checked);
             allChecked.forEach(cb => cb.checked = anyUnchecked);
@@ -941,21 +904,18 @@
         };
 
         window.batchDeleteInventory = function(){
-            if(!isAdmin()) { showToast('只有管理员可以批量删除', 'error'); return; }
             const toDelete = Array.from(selectedInventory);
             if(toDelete.length === 0) { showToast('请先选择要删除的库存项', 'error'); return; }
             if(confirm(`确定要永久删除 ${toDelete.length} 个库存项吗？此操作不可恢复！`)){
                 inventory = inventory.filter(i => !toDelete.includes(i.phone));
                 selectedInventory.clear();
                 saveAll();
-                addLog('批量删除库存', `永久删除了 ${toDelete.length} 个库存项`);
                 showToast(`✅ 已永久删除 ${toDelete.length} 个库存项`, 'success');
                 renderTab('inventory');
             }
         };
 
         window.restoreClient = function(){
-            if(!isAdmin()) { showToast('只有管理员可以恢复', 'error'); return; }
             const phone = prompt('输入要恢复的号码');
             const item = inventory.find(i => i.phone === phone && i.deleted);
             if(item){ 
@@ -964,7 +924,6 @@
                 syncInventoryFromClients(); 
                 computeLevelsAndPositions(); 
                 saveAll();
-                addLog('恢复客户', `从库存恢复 ${phone}`);
                 showToast('✅ 已恢复', 'success');
                 renderTab('inventory'); 
             } else {
@@ -972,7 +931,6 @@
             }
         };
         window.restoreItem = function(phone){
-            if(!isAdmin()) { showToast('只有管理员可以恢复', 'error'); return; }
             const item = inventory.find(i => i.phone === phone);
             if(item && item.deleted){ 
                 item.deleted = false; 
@@ -980,18 +938,15 @@
                 syncInventoryFromClients(); 
                 computeLevelsAndPositions(); 
                 saveAll();
-                addLog('恢复客户', `从库存恢复 ${phone}`);
                 showToast('✅ 已恢复', 'success');
                 renderTab('inventory'); 
             }
         };
         window.permanentDelete = function(phone){
-            if(!isAdmin()) { showToast('只有管理员可以永久删除', 'error'); return; }
             if(confirm('永久删除？此操作不可恢复！')){ 
                 inventory = inventory.filter(i => i.phone !== phone); 
                 selectedInventory.delete(phone); 
                 saveAll();
-                addLog('永久删除', `永久删除 ${phone}`);
                 showToast('✅ 已永久删除', 'success');
                 renderTab('inventory'); 
             }
@@ -999,7 +954,7 @@
     }
 
     // ============================================================
-    //  ORDERS (OCR + 实时搜索)
+    //  ORDERS (OCR)
     // ============================================================
     function renderOrders(area){
         const total = clients.length;
@@ -1074,7 +1029,6 @@
             </div>
         `;
 
-        // OCR 逻辑
         const dropZone = document.getElementById('ocrDropZone');
         const fileInput = document.getElementById('ocrFileInput');
         const preview = document.getElementById('ocrPreview');
@@ -1145,7 +1099,6 @@
                                     syncInventoryFromClients();
                                     computeLevelsAndPositions();
                                     saveAll();
-                                    addLog('OCR更新等级', `${detectedPhone} 等级更新为 ${detectedLevel}`);
                                 } else if (detectedLevel) {
                                     resultHTML += `<div class="result-item"><span>📊 等级：</span><span>${detectedLevel}</span></div>`;
                                 } else {
@@ -1154,7 +1107,6 @@
                                 if(!orders.find(o => o.phone === detectedPhone && o.date === new Date().toDateString())){
                                     orders.push({ phone: detectedPhone, date: new Date().toDateString(), completed: true });
                                     saveAll();
-                                    addLog('OCR完成订单', `${detectedPhone} 通过OCR完成订单`);
                                     resultHTML += `<div class="result-item"><span>✅ 订单：</span><span class="detected">今日已完成</span></div>`;
                                 } else {
                                     resultHTML += `<div class="result-item"><span>ℹ️ 订单：</span><span>今日已标记</span></div>`;
@@ -1208,7 +1160,6 @@
             };
         }
 
-        // 订单列表搜索
         document.getElementById('orderSearchRight')?.addEventListener('input', function(){
             const q = this.value.toLowerCase();
             document.querySelectorAll('#orderListRight > div').forEach(el => {
@@ -1227,11 +1178,9 @@
         };
 
         window.resetToday = function(){
-            if(!isManager()) { showToast('只有管理员或经理可以重置', 'error'); return; }
             if(confirm('重置今日所有订单？')) {
                 orders = orders.filter(o => o.date !== new Date().toDateString());
                 saveAll();
-                addLog('重置订单', '重置今日所有订单');
                 showToast('✅ 已重置今日订单', 'success');
                 renderTab('orders');
             }
@@ -1241,14 +1190,12 @@
             if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
                 orders.push({ phone, date: new Date().toDateString(), completed: true });
                 saveAll();
-                addLog('完成订单', `从订单列表完成 ${phone} 的订单`);
                 renderTab('orders');
             }
         };
         window.cancelOrderRight = function(phone){
             orders = orders.filter(o => !(o.phone === phone && o.date === new Date().toDateString()));
             saveAll();
-            addLog('取消订单', `取消 ${phone} 的订单`);
             renderTab('orders');
         };
         window.manualCompleteOrder = function(){
@@ -1259,7 +1206,6 @@
                     if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
                         orders.push({ phone, date: new Date().toDateString(), completed: true });
                         saveAll();
-                        addLog('手动完成订单', `手动完成 ${phone} 的订单`);
                         showToast(`✅ ${phone} 订单已完成`, 'success');
                         renderTab('orders');
                     } else { showToast('该客户今日已完成', 'warning'); }
@@ -1267,7 +1213,6 @@
             }
         };
         window.helpCompleteOrder = function(){
-            if(!isManager()) { showToast('只有管理员或经理可以使用此功能', 'error'); return; }
             const phone = prompt('请输入要帮助完成的账号(6-15位数字)');
             if(phone && /^\d{6,15}$/.test(phone)){
                 const client = clients.find(c => c.phone === phone);
@@ -1275,7 +1220,6 @@
                     if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
                         orders.push({ phone, date: new Date().toDateString(), completed: true });
                         saveAll();
-                        addLog('帮助完成订单', `帮助完成 ${phone} 的订单`);
                         showToast(`✅ ${phone} 已帮助完成`, 'success');
                         renderTab('orders');
                     } else { showToast('该客户今日已完成', 'warning'); }
@@ -1293,7 +1237,7 @@
     }
 
     // ============================================================
-    //  SALARY (带实时搜索 + 删除)
+    //  SALARY
     // ============================================================
     function renderSalary(area){
         area.innerHTML = `
@@ -1322,7 +1266,7 @@
                             <td>${lastImg ? `<img src="${lastImg}" class="salary-image" onclick="window.viewImage('${lastImg}')">` : '无'}</td>
                             <td>
                                 <i class="fas fa-search action-icon" onclick="window.searchSalary('${phone}')" title="查看详情"></i>
-                                ${isAdmin() ? `<i class="fas fa-trash action-icon danger" onclick="window.deleteSalaryRecord('${phone}')" title="删除记录"></i>` : ''}
+                                <i class="fas fa-trash action-icon danger" onclick="window.deleteSalaryRecord('${phone}')" title="删除记录"></i>
                             </td>
                         </tr>`;
                     }).join('')}
@@ -1330,7 +1274,6 @@
             </div>
         `;
 
-        // 实时搜索
         const salInput = document.getElementById('salarySearch');
         const salResults = document.getElementById('salarySearchResults');
         if(salInput && salResults){
@@ -1378,7 +1321,6 @@
                     if(amount && !isNaN(amount)){
                         salaryRecords.push({ phone, amount: parseFloat(amount), image: tempImage, date: new Date().toISOString() });
                         saveAll();
-                        addLog('添加提款', `${phone} 提款 ${amount}`);
                         showToast('✅ 提款记录已保存', 'success');
                         renderTab('salary');
                     }
@@ -1389,11 +1331,9 @@
 
         window.addSalaryWithImage = function(){ document.getElementById('salaryFileInput').click(); };
         window.deleteSalaryRecord = function(phone){
-            if(!isAdmin()) { showToast('只有管理员可以删除', 'error'); return; }
             if(confirm(`确定要删除账号 ${phone} 的所有提款记录吗？`)){
                 salaryRecords = salaryRecords.filter(s => s.phone !== phone);
                 saveAll();
-                addLog('删除提款', `删除 ${phone} 的提款记录`);
                 showToast(`✅ 已删除 ${phone} 的提款记录`, 'success');
                 renderTab('salary');
             }
@@ -1524,7 +1464,6 @@
                 if(!scriptTemplates[cat].templates) scriptTemplates[cat].templates = [];
                 scriptTemplates[cat].templates.push(newText.trim());
                 saveAll();
-                addLog('添加话术', `在 ${cat} 添加话术`);
                 renderTemplates(cat);
                 showToast('✅ 话术已添加', 'success');
             }
@@ -1573,8 +1512,8 @@
                     </div>
                 `).join('')}
                 <div class="pos-action">
-                    ${isAdmin() ? `<button class="btn btn-sm" style="padding:3px 10px;font-size:11px;" onclick="window.editPosition('${key}')">✏️ 编辑</button>` : ''}
-                    ${isManager() ? `<button class="btn btn-sm btn-success" style="padding:3px 10px;font-size:11px;" onclick="window.markPaid('${key}')">💰 标记发放</button>` : ''}
+                    <button class="btn btn-sm" style="padding:3px 10px;font-size:11px;" onclick="window.editPosition('${key}')">✏️ 编辑</button>
+                    <button class="btn btn-sm btn-success" style="padding:3px 10px;font-size:11px;" onclick="window.markPaid('${key}')">💰 标记发放</button>
                     <span style="font-size:11px;color:#6a8aaa;">标记发放自动记录次数</span>
                 </div>
             </div>`;
@@ -1582,7 +1521,6 @@
         html += `</div>`;
         area.innerHTML = html;
 
-        // 搜索
         const posInput = document.getElementById('posSearch');
         if(posInput){
             posInput.addEventListener('input', function(){
@@ -1597,12 +1535,10 @@
         window.togglePositionStatus = function(phone){
             positionStatus[phone] = !positionStatus[phone];
             saveAll();
-            addLog('切换发放状态', `${phone} -> ${positionStatus[phone] ? '已发放' : '未发放'}`);
             renderTab('positions');
         };
 
         window.editPosition = function(key){
-            if(!isAdmin()) { showToast('只有管理员可以编辑', 'error'); return; }
             const pos = positions[key];
             if(!pos) return;
             const newName = prompt('职位名称', pos.name);
@@ -1615,13 +1551,11 @@
             if(newPayDay && !isNaN(newPayDay) && parseInt(newPayDay) >= 1 && parseInt(newPayDay) <= 31) pos.payDay = parseInt(newPayDay);
             saveAll();
             computeLevelsAndPositions();
-            addLog('编辑职位', `编辑 ${key}`);
             showToast('✅ 职位已更新', 'success');
             renderTab('positions');
         };
 
         window.markPaid = function(key){
-            if(!isManager()) { showToast('只有管理员或经理可以标记发放', 'error'); return; }
             const members = clients.filter(c => c.position === key);
             if(members.length === 0) { showToast('该职位暂无成员', 'error'); return; }
             const today = new Date().toISOString().slice(0,10);
@@ -1632,7 +1566,6 @@
             });
             saveAll();
             computeLevelsAndPositions();
-            addLog('标记发放', `${key} 职位 ${members.length} 人已发放`);
             showToast(`✅ ${members.length} 个成员已标记发放`, 'success');
             renderTab('positions');
         };
@@ -1693,7 +1626,6 @@
             treeHTML = '<div style="color:#6a8aaa;text-align:center;padding:30px;">暂无客户数据</div>';
         }
 
-        // 统计信息
         const totalMembers = clients.length;
         const maxLevel = Math.max(...clients.map(c => c.levelNum).filter(n => n >= 0), -1);
         const levelCounts = {};
@@ -1722,7 +1654,6 @@
             </div>
         `;
 
-        // 搜索功能
         const treeInput = document.getElementById('treeSearch');
         if(treeInput){
             treeInput.addEventListener('input', function(){
@@ -1736,7 +1667,6 @@
                     return;
                 }
 
-                // 查找匹配的客户及其所有下级
                 const matchedPhones = new Set();
                 clients.forEach(c => {
                     if(c.phone.includes(q)) {
@@ -1774,110 +1704,6 @@
     }
 
     // ============================================================
-    //  USERS (管理员专用)
-    // ============================================================
-    function renderUsers(area){
-        if(!isAdmin()){
-            area.innerHTML = `<div style="color:#ff6b6b;padding:30px;text-align:center;font-size:16px;">⛔ 只有管理员可以访问此页面</div>`;
-            return;
-        }
-
-        let html = `
-            <div style="color:#e8f0fe;font-size:17px;margin-bottom:12px;">👑 用户管理 <span style="font-size:12px;color:#6a8aaa;">(${users.length} 个用户)</span></div>
-            <div class="table-wrap" style="max-height:500px;">
-                <table class="user-mgmt-table">
-                    <tr><th>手机号</th><th>角色</th><th>状态</th><th>最后登录</th><th>操作</th></tr>
-        `;
-        users.forEach(u => {
-            const status = u.locked ? '🔒 已锁定' : '🟢 正常';
-            const roleOptions = ['管理员','经理','员工'].map(r => 
-                `<option value="${r}" ${u.role === r ? 'selected' : ''}>${r}</option>`
-            ).join('');
-            const isSelf = u.phone === currentUser.phone;
-            html += `<tr>
-                <td>${u.phone} ${isSelf ? '<span class="badge" style="font-size:10px;">(当前)</span>' : ''}</td>
-                <td><select class="role-select" data-phone="${u.phone}" ${isSelf ? 'disabled' : ''}>${roleOptions}</select></td>
-                <td><span class="status-badge ${u.locked ? 'badge-danger' : 'badge-success'}">${status}</span></td>
-                <td style="font-size:12px;color:#6a8aaa;">${u.lastLogin ? new Date(u.lastLogin).toLocaleString() : '从未登录'}</td>
-                <td>
-                    ${!isSelf ? `
-                        <i class="fas ${u.locked ? 'fa-unlock' : 'fa-lock'} action-icon" onclick="window.toggleUserLock('${u.phone}')" title="${u.locked ? '解锁' : '锁定'}"></i>
-                        <i class="fas fa-trash action-icon danger" onclick="window.deleteUser('${u.phone}')" title="删除用户"></i>
-                    ` : '<span style="color:#6a8aaa;font-size:11px;">不可操作</span>'}
-                </td>
-            </tr>`;
-        });
-        html += `</table></div>`;
-        area.innerHTML = html;
-
-        // 角色更改事件
-        document.querySelectorAll('.role-select').forEach(sel => {
-            sel.addEventListener('change', function(){
-                const phone = this.dataset.phone;
-                const newRole = this.value;
-                const user = users.find(u => u.phone === phone);
-                if(user) {
-                    user.role = newRole;
-                    saveAll();
-                    addLog('更改角色', `${phone} -> ${newRole}`);
-                    showToast(`✅ ${phone} 角色已更新为 ${newRole}`, 'success');
-                }
-            });
-        });
-
-        window.toggleUserLock = function(phone){
-            const user = users.find(u => u.phone === phone);
-            if(user) {
-                user.locked = !user.locked;
-                saveAll();
-                addLog('切换锁定', `${phone} -> ${user.locked ? '锁定' : '解锁'}`);
-                showToast(`✅ ${phone} ${user.locked ? '已锁定' : '已解锁'}`, 'success');
-                renderTab('users');
-            }
-        };
-
-        window.deleteUser = function(phone){
-            if(confirm(`确定要删除用户 ${phone} 吗？此操作不可恢复！`)){
-                users = users.filter(u => u.phone !== phone);
-                // 同时删除该用户添加的客户？
-                // 保留客户数据，只删除用户账户
-                saveAll();
-                addLog('删除用户', `删除用户 ${phone}`);
-                showToast(`✅ 用户 ${phone} 已删除`, 'success');
-                renderTab('users');
-            }
-        };
-    }
-
-    // ============================================================
-    //  LOGS
-    // ============================================================
-    function renderLogs(area){
-        if(!isAdmin()){
-            area.innerHTML = `<div style="color:#ff6b6b;padding:30px;text-align:center;font-size:16px;">⛔ 只有管理员可以查看操作日志</div>`;
-            return;
-        }
-
-        const logs = operationLogs.slice().reverse().slice(0, 500);
-        let html = `
-            <div style="color:#e8f0fe;font-size:17px;margin-bottom:12px;">📋 操作日志 <span style="font-size:12px;color:#6a8aaa;">(共 ${operationLogs.length} 条)</span></div>
-            <div class="table-wrap" style="max-height:500px;">
-                <table>
-                    <tr><th style="width:170px;">时间</th><th style="width:120px;">用户</th><th>操作</th></tr>
-        `;
-        logs.forEach(log => {
-            html += `<tr>
-                <td style="font-size:12px;color:#6a8aaa;">${new Date(log.time).toLocaleString()}</td>
-                <td style="font-size:13px;">${log.user}</td>
-                <td style="font-size:13px;">${log.action} ${log.details ? ': ' + log.details : ''}</td>
-            </tr>`;
-        });
-        html += `</table></div>`;
-        if(logs.length === 0) html += `<div style="color:#6a8aaa;padding:20px;text-align:center;">暂无操作日志</div>`;
-        area.innerHTML = html;
-    }
-
-    // ============================================================
     //  INIT
     // ============================================================
     setInterval(() => { saveAll(); }, 60000);
@@ -1886,7 +1712,6 @@
         document.getElementById('authContainer').classList.add('hidden');
         document.getElementById('mainApp').classList.remove('hidden');
         document.getElementById('userDisplay').innerText = currentUser.phone;
-        document.getElementById('userRoleTag').innerText = currentUser.role || '员工';
         syncInventoryFromClients();
         computeLevelsAndPositions();
         renderTab('dashboard');
