@@ -90,8 +90,6 @@
         table { width: 100%; border-collapse: collapse; font-size: 13px; }
         th { text-align: left; padding: 10px 10px; background: #0a1a32; color: #9bb7d4; font-weight: 600; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid #1a3555; }
         td { padding: 10px 10px; border-bottom: 1px solid #1a3555; color: #d0dce8; }
-        td:first-child, th:first-child { padding-left: 14px; }
-        td:last-child, th:last-child { padding-right: 14px; }
         .badge { background: #1a3555; color: #4a8af4; padding: 3px 10px; border-radius: 40px; font-size: 11px; font-weight: 600; }
         .badge-success { background: #1a4a3a; color: #4aca7a; }
         .badge-danger { background: #4a2a2a; color: #ff6b6b; }
@@ -102,6 +100,8 @@
         .action-icon.success:hover { color: #6ada9a; }
         .action-icon.danger { color: #ff6b6b; }
         .action-icon.danger:hover { color: #ff8a8a; }
+        .action-icon.info { color: #4a8af4; }
+        .action-icon.info:hover { color: #6aaaF4; }
 
         .pagination { display: flex; gap: 8px; margin-top: 16px; align-items: center; flex-wrap: wrap; color: #9bb7d4; }
         .pagination select { padding: 4px 10px; border-radius: 30px; border: 1px solid #1a3555; background: #0a1a32; color: #e8f0fe; }
@@ -175,7 +175,9 @@
         .position-card { background: #0a1a32; border: 1px solid #1a3555; border-radius: 14px; padding: 14px; margin-bottom: 10px; transition: 0.2s; }
         .position-card:hover { border-color: #4a8af4; }
         .position-card .pos-title { color: #4a8af4; font-weight: 700; font-size: 15px; }
-        .position-card .pos-detail { color: #d0dce8; font-size: 13px; margin: 3px 0; padding: 3px 8px; background: #0a1a32; border-radius: 6px; }
+        .position-card .pos-detail { color: #d0dce8; font-size: 13px; margin: 3px 0; padding: 3px 8px; background: #0a1a32; border-radius: 6px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+        .position-card .pos-detail .pay-info { color: #e8c84a; font-size: 12px; }
+        .position-card .pos-detail .edit-btn { margin-left: auto; }
 
         .script-selector { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
         .script-selector select { padding: 8px 16px; border-radius: 40px; border: 1.5px solid #1a3555; background: #0a1a32; color: #e8f0fe; font-size: 13px; }
@@ -205,6 +207,101 @@
         .client-table-header { display: grid; grid-template-columns: 40px 1fr 0.8fr 1fr 1fr 1.2fr 1.2fr; gap: 6px; padding: 8px 14px; color: #6a8aaa; font-size: 11px; font-weight: 600; border-bottom: 1px solid #1a3555; background: #0a1a32; border-radius: 12px 12px 0 0; }
         .client-table-row { display: grid; grid-template-columns: 40px 1fr 0.8fr 1fr 1fr 1.2fr 1.2fr; gap: 6px; padding: 8px 14px; align-items: center; border-bottom: 1px solid #1a3555; }
         .client-table-row .field { color: #d0dce8; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        /* 职位薪水专用样式 */
+        .position-member-card {
+            background: #0a1a32;
+            border: 1px solid #1a3555;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin: 6px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+        .position-member-card:hover {
+            border-color: #4a8af4;
+            background: #0f2140;
+        }
+        .position-member-card .member-info {
+            flex: 1;
+            min-width: 200px;
+        }
+        .position-member-card .member-info .phone {
+            color: #e8f0fe;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .position-member-card .member-info .detail {
+            color: #9bb7d4;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+        .position-member-card .member-info .detail span {
+            margin-right: 12px;
+        }
+        .position-member-card .member-info .pay-badge {
+            display: inline-block;
+            background: #1a3555;
+            color: #e8c84a;
+            padding: 1px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            margin-left: 4px;
+        }
+        .position-member-card .member-actions {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .position-member-card .member-actions .btn-sm {
+            padding: 3px 12px;
+            font-size: 11px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .position-member-card .member-actions .btn-edit {
+            background: #1a5bbf;
+            color: white;
+        }
+        .position-member-card .member-actions .btn-edit:hover {
+            background: #2a6df4;
+        }
+        .position-member-card .member-actions .btn-pay {
+            background: #1a8a4a;
+            color: white;
+        }
+        .position-member-card .member-actions .btn-pay:hover {
+            background: #2aaa5a;
+        }
+        .position-member-card .member-actions .btn-status {
+            background: #4a3a1a;
+            color: #e8c84a;
+        }
+        .position-member-card .member-actions .btn-status:hover {
+            background: #6a5a2a;
+        }
+        .position-member-card .member-actions .btn-status.paid {
+            background: #1a4a3a;
+            color: #4aca7a;
+        }
+
+        .pay-history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 8px;
+            border-bottom: 1px solid #1a3555;
+            font-size: 12px;
+            color: #d0dce8;
+        }
+        .pay-history-item:last-child {
+            border-bottom: none;
+        }
 
         @media (max-width: 768px) { .sidebar { width: 56px; } .sidebar-item span { display: none; } .sidebar-item { padding: 10px 14px; } .top-bar { flex-direction: column; align-items: stretch; } .ocr-layout { flex-direction: column; } .stat-grid { grid-template-columns: 1fr 1fr; } .client-table-header, .client-table-row { grid-template-columns: 30px 1fr 0.6fr 0.8fr 0.8fr 1fr 1fr; font-size: 11px; gap: 4px; padding: 6px 8px; } }
 
@@ -276,8 +373,8 @@
         general: { name: '区域总经理', bonus: 20000, bonusType: '每月固定收入', members: 80, payDay: 20 }
     };
     let positionStatus = JSON.parse(localStorage.getItem('smart_position_status')) || {};
-    let positionPayCount = JSON.parse(localStorage.getItem('smart_position_pay_count')) || {};
-    let positionLastPayDate = JSON.parse(localStorage.getItem('smart_position_last_pay_date')) || {};
+    // 每个客户的发放记录 { phone: { payCount: 0, lastPayDate: '', history: [] } }
+    let positionPayRecords = JSON.parse(localStorage.getItem('smart_position_pay_records')) || {};
     let scriptTemplates = JSON.parse(localStorage.getItem('smart_script_templates')) || {
         recommend: { label: '推荐申请', templates: ['推荐申请话术-推荐恭喜话术1', '推荐申请话术-推荐恭喜话术2', '推荐申请话术-推荐恭喜话术3'] },
         lottery: { label: '抽奖申请', templates: ['抽奖申请话术-抽奖申请恭喜1', '抽奖申请话术-抽奖申请恭喜2', '抽奖申请话术-抽奖申请恭喜3'] },
@@ -299,8 +396,7 @@
         localStorage.setItem('smart_ocr_history', JSON.stringify(ocrHistory));
         localStorage.setItem('smart_positions', JSON.stringify(positions));
         localStorage.setItem('smart_position_status', JSON.stringify(positionStatus));
-        localStorage.setItem('smart_position_pay_count', JSON.stringify(positionPayCount));
-        localStorage.setItem('smart_position_last_pay_date', JSON.stringify(positionLastPayDate));
+        localStorage.setItem('smart_position_pay_records', JSON.stringify(positionPayRecords));
         localStorage.setItem('smart_script_templates', JSON.stringify(scriptTemplates));
         const now = Date.now();
         const thirtyDays = 30*24*60*60*1000;
@@ -397,8 +493,10 @@
                 c.positionBonusType = '';
                 c.positionPayDay = 1;
             }
-            c.payCount = positionPayCount[c.phone] || 0;
-            c.lastPayDate = positionLastPayDate[c.phone] || null;
+            // 发放记录
+            const rec = positionPayRecords[c.phone] || { payCount: 0, lastPayDate: '', history: [] };
+            c.payCount = rec.payCount || 0;
+            c.lastPayDate = rec.lastPayDate || '';
         });
         saveAll();
     }
@@ -612,7 +710,7 @@
     }
 
     // ============================================================
-    //  CLIENTS (带等级筛选 + 对齐)
+    //  CLIENTS
     // ============================================================
     function renderClients(area){
         let html = `
@@ -666,7 +764,6 @@
         html += `</div><div class="pagination"><span>每页 <select id="pageSize"><option>10</option><option>20</option><option>50</option><option>100</option></select></span></div>`;
         area.innerHTML = html;
 
-        // ===== 等级筛选 =====
         const levelFilter = document.getElementById('levelFilter');
         if(levelFilter){
             levelFilter.addEventListener('change', function(){
@@ -679,7 +776,6 @@
             });
         }
 
-        // ===== 实时搜索下拉 =====
         const searchInput = document.getElementById('clientSearch');
         const searchResults = document.getElementById('clientSearchResults');
         if(searchInput && searchResults){
@@ -700,7 +796,6 @@
             searchInput.addEventListener('focus', function(){ if(this.value.trim().length >= 1) searchResults.style.display = 'block'; });
         }
 
-        // ===== 全选 =====
         window.toggleSelectAllClients = function(){
             const allChecked = document.querySelectorAll('.client-checkbox');
             const anyUnchecked = Array.from(allChecked).some(cb => !cb.checked);
@@ -716,7 +811,6 @@
             });
         });
 
-        // ===== 批量删除 =====
         window.batchDeleteClients = function(){
             const toDelete = Array.from(selectedClients);
             if(toDelete.length === 0) { showToast('请先选择要删除的客户', 'error'); return; }
@@ -731,7 +825,6 @@
             }
         };
 
-        // ===== 编辑客户 =====
         window.editClient = function(phone){
             const c = clients.find(x => x.phone === phone);
             if(!c) return;
@@ -754,7 +847,6 @@
             renderTab('clients');
         };
 
-        // ===== 添加客户 =====
         window.addSingleClient = function(){
             const phone = prompt('输入工作账户(6-15位数字)');
             if(!phone || phone.length < 6 || phone.length > 15) { showToast('账号需6-15位数字', 'error'); return; }
@@ -771,7 +863,6 @@
             renderTab('clients');
         };
 
-        // ===== 批量导入 =====
         window.batchImport = function(){
             const raw = prompt(
                 '请粘贴要导入的客户数据（每5行一组）：\n\n' +
@@ -801,7 +892,6 @@
             renderTab('clients');
         };
 
-        // ===== 订单操作 =====
         window.completeOrderClient = function(phone){
             if(!orders.find(o => o.phone === phone && o.date === new Date().toDateString())){
                 orders.push({ phone, date: new Date().toDateString(), completed: true });
@@ -860,7 +950,6 @@
         html += `</table></div>`;
         area.innerHTML = html;
 
-        // 实时搜索
         const invInput = document.getElementById('invSearch');
         const invResults = document.getElementById('invSearchResults');
         if(invInput && invResults){
@@ -1485,13 +1574,13 @@
     }
 
     // ============================================================
-    //  POSITIONS
+    //  POSITIONS (每个客户可单独编辑)
     // ============================================================
     function renderPositions(area){
         computeLevelsAndPositions();
         let html = `<div style="color:#e8f0fe;padding:0 0 12px 0;font-size:17px;">💼 职位薪水管理</div>
             <div class="filter-bar"><input placeholder="搜索号码 (后4位)" id="posSearch" style="flex:1;min-width:120px;"></div>
-            <div style="max-height:520px;overflow-y:auto;">`;
+            <div style="max-height:600px;overflow-y:auto;">`;
         const posKeys = ['intern','formal','regional','market','general'];
         const posNames = { intern: '实习经理', formal: '正式经理', regional: '区域经理', market: '市场经理', general: '区域总经理' };
         posKeys.forEach(key => {
@@ -1499,40 +1588,98 @@
             const pos = positions[key];
             if(!pos) return;
             html += `<div class="position-card">
-                <div class="pos-title">${posNames[key]} (${members.length}人) | 发放日: 每月${pos.payDay}号</div>
-                ${members.map(c => `
-                    <div class="pos-detail" data-phone="${c.phone}">
-                        ${c.phone} | ${c.level || 'EM0'} | 团队 ${c.teamCount || 0}人
-                        | 已发 ${c.payCount || 0}次 | 上次: ${c.lastPayDate || '未发放'}
-                        <span style="margin-left:10px;">
-                            <i class="fas ${positionStatus[c.phone] ? 'fa-check-circle' : 'fa-circle'} action-icon ${positionStatus[c.phone] ? 'success' : ''}" 
-                               onclick="window.togglePositionStatus('${c.phone}')"></i>
-                            <span style="margin-left:3px;font-size:12px;">${positionStatus[c.phone] ? '✅发放' : '❌未发放'}</span>
-                        </span>
-                    </div>
-                `).join('')}
-                <div class="pos-action">
-                    <button class="btn btn-sm" style="padding:3px 10px;font-size:11px;" onclick="window.editPosition('${key}')">✏️ 编辑</button>
-                    <button class="btn btn-sm btn-success" style="padding:3px 10px;font-size:11px;" onclick="window.markPaid('${key}')">💰 标记发放</button>
-                    <span style="font-size:11px;color:#6a8aaa;">标记发放自动记录次数</span>
+                <div class="pos-title">${posNames[key]} (${members.length}人) | 发放日: 每月${pos.payDay}号 | 金额: ${pos.bonus} 格里夫纳</div>
+                ${members.map(c => {
+                    const rec = positionPayRecords[c.phone] || { payCount: 0, lastPayDate: '', history: [] };
+                    return `<div class="position-member-card" data-phone="${c.phone}">
+                        <div class="member-info">
+                            <div class="phone">${c.phone} <span class="badge" style="font-size:10px;">${c.level || 'EM0'}</span></div>
+                            <div class="detail">
+                                <span>团队 ${c.teamCount || 0}人</span>
+                                <span>已发 <strong style="color:#e8c84a;">${rec.payCount || 0}</strong> 次</span>
+                                <span>上次: ${rec.lastPayDate || '未发放'}</span>
+                                <span>下次: ${getNextPayDate(c.phone, pos.payDay)}</span>
+                            </div>
+                        </div>
+                        <div class="member-actions">
+                            <button class="btn-sm btn-edit" onclick="window.editMemberPay('${c.phone}')">✏️ 编辑</button>
+                            <button class="btn-sm btn-pay" onclick="window.markMemberPaid('${c.phone}')">💰 发放</button>
+                            <button class="btn-sm btn-status ${positionStatus[c.phone] ? 'paid' : ''}" onclick="window.toggleMemberStatus('${c.phone}')">
+                                ${positionStatus[c.phone] ? '✅ 已发放' : '❌ 未发放'}
+                            </button>
+                        </div>
+                    </div>`;
+                }).join('')}
+                <div class="pos-action" style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="btn btn-sm" style="padding:3px 10px;font-size:11px;" onclick="window.editPosition('${key}')">✏️ 编辑职位</button>
+                    <button class="btn btn-sm btn-success" style="padding:3px 10px;font-size:11px;" onclick="window.markAllPaid('${key}')">💰 全部标记发放</button>
+                    <span style="font-size:11px;color:#6a8aaa;">点击单个客户的💰可单独记录发放</span>
                 </div>
             </div>`;
         });
         html += `</div>`;
         area.innerHTML = html;
 
+        // 搜索过滤
         const posInput = document.getElementById('posSearch');
         if(posInput){
             posInput.addEventListener('input', function(){
                 const q = this.value.trim();
-                document.querySelectorAll('.pos-detail').forEach(el => {
-                    if(q.length < 2) { el.style.display = ''; return; }
-                    el.style.display = el.dataset.phone.includes(q) ? '' : 'none';
+                document.querySelectorAll('.position-member-card').forEach(el => {
+                    if(q.length < 2) { el.style.display = 'flex'; return; }
+                    el.style.display = el.dataset.phone.includes(q) ? 'flex' : 'none';
                 });
             });
         }
 
-        window.togglePositionStatus = function(phone){
+        function getNextPayDate(phone, payDay){
+            const rec = positionPayRecords[phone] || { lastPayDate: '' };
+            const now = new Date();
+            let year = now.getFullYear();
+            let month = now.getMonth();
+            // 如果今天已经过了发放日，则下个月
+            if(now.getDate() > payDay) {
+                month++;
+                if(month > 11) { month = 0; year++; }
+            }
+            return `${year}-${String(month+1).padStart(2,'0')}-${String(payDay).padStart(2,'0')}`;
+        }
+
+        window.editMemberPay = function(phone){
+            const c = clients.find(x => x.phone === phone);
+            if(!c) return;
+            const rec = positionPayRecords[phone] || { payCount: 0, lastPayDate: '', history: [] };
+            const newCount = prompt('已发放次数', rec.payCount || 0);
+            const newLast = prompt('上次发放日期 (YYYY-MM-DD)', rec.lastPayDate || '');
+            if(newCount !== null && !isNaN(newCount)) {
+                rec.payCount = parseInt(newCount);
+            }
+            if(newLast !== null) {
+                rec.lastPayDate = newLast;
+            }
+            positionPayRecords[phone] = rec;
+            saveAll();
+            showToast('✅ 已更新发放记录', 'success');
+            renderTab('positions');
+        };
+
+        window.markMemberPaid = function(phone){
+            const c = clients.find(x => x.phone === phone);
+            if(!c) return;
+            const today = new Date().toISOString().slice(0,10);
+            const rec = positionPayRecords[phone] || { payCount: 0, lastPayDate: '', history: [] };
+            rec.payCount = (rec.payCount || 0) + 1;
+            rec.lastPayDate = today;
+            if(!rec.history) rec.history = [];
+            rec.history.push({ date: today, action: '发放' });
+            positionPayRecords[phone] = rec;
+            positionStatus[phone] = true;
+            saveAll();
+            showToast(`✅ ${phone} 已发放第 ${rec.payCount} 次`, 'success');
+            renderTab('positions');
+        };
+
+        window.toggleMemberStatus = function(phone){
             positionStatus[phone] = !positionStatus[phone];
             saveAll();
             renderTab('positions');
@@ -1555,18 +1702,23 @@
             renderTab('positions');
         };
 
-        window.markPaid = function(key){
+        window.markAllPaid = function(key){
             const members = clients.filter(c => c.position === key);
             if(members.length === 0) { showToast('该职位暂无成员', 'error'); return; }
+            if(!confirm(`确定要标记 ${members.length} 个成员全部发放吗？`)) return;
             const today = new Date().toISOString().slice(0,10);
             members.forEach(c => {
-                positionPayCount[c.phone] = (positionPayCount[c.phone] || 0) + 1;
-                positionLastPayDate[c.phone] = today;
+                const rec = positionPayRecords[c.phone] || { payCount: 0, lastPayDate: '', history: [] };
+                rec.payCount = (rec.payCount || 0) + 1;
+                rec.lastPayDate = today;
+                if(!rec.history) rec.history = [];
+                rec.history.push({ date: today, action: '发放' });
+                positionPayRecords[c.phone] = rec;
                 positionStatus[c.phone] = true;
             });
             saveAll();
             computeLevelsAndPositions();
-            showToast(`✅ ${members.length} 个成员已标记发放`, 'success');
+            showToast(`✅ ${members.length} 个成员已全部标记发放`, 'success');
             renderTab('positions');
         };
     }
