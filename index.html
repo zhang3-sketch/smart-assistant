@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-    <title>智能助手 · 终极版</title>
+    <title>智能助手 · 优化版</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,10 +79,6 @@
         .filter-bar .btn-warning:hover { background: #e89a3a; }
         .filter-bar .btn-danger { background: #b33a3a; }
         .filter-bar .btn-danger:hover { background: #d44a4a; }
-        .filter-bar .search-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #0a1a32; border: 1px solid #1a3555; border-radius: 16px; max-height: 220px; overflow-y: auto; z-index: 50; margin-top: 4px; padding: 4px 0; display: none; }
-        .filter-bar .search-dropdown .item { padding: 8px 16px; color: #d0dce8; font-size: 13px; border-bottom: 1px solid #1a3555; cursor: pointer; display: flex; justify-content: space-between; }
-        .filter-bar .search-dropdown .item:hover { background: #0f2140; }
-        .filter-bar .search-dropdown .item .badge-sm { font-size: 10px; background: #1a3555; color: #4a8af4; padding: 2px 8px; border-radius: 12px; }
 
         .table-wrap { overflow-x: auto; max-height: 450px; overflow-y: auto; }
         .table-wrap::-webkit-scrollbar { width: 6px; }
@@ -113,12 +109,6 @@
         .drop-zone i { color: #4a8af4; font-size: 28px; }
         .drop-zone p { color: #6a8aaa; font-size: 13px; }
         .drop-zone img { max-width: 100%; max-height: 120px; margin-top: 6px; border-radius: 10px; }
-
-        .uncompleted-list { max-height: 280px; overflow-y: auto; background: #0a1a32; border-radius: 14px; padding: 10px; border: 1px solid #1a3555; }
-        .uncompleted-list::-webkit-scrollbar { width: 4px; }
-        .uncompleted-list::-webkit-scrollbar-thumb { background: #2a4a6a; border-radius: 8px; }
-        .uncompleted-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; border-bottom: 1px solid #1a3555; color: #d0dce8; font-size: 13px; }
-        .uncompleted-item:last-child { border-bottom: none; }
 
         .salary-image { max-width: 80px; max-height: 80px; border-radius: 8px; cursor: pointer; border: 1px solid #1a3555; transition: 0.2s; }
         .salary-image:hover { transform: scale(1.05); }
@@ -176,39 +166,7 @@
         .position-card:hover { border-color: #4a8af4; }
         .position-card .pos-title { color: #4a8af4; font-weight: 700; font-size: 15px; }
         .position-card .pos-detail { color: #d0dce8; font-size: 13px; margin: 3px 0; padding: 3px 8px; background: #0a1a32; border-radius: 6px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-        .position-card .pos-detail .pay-info { color: #e8c84a; font-size: 12px; }
-        .position-card .pos-detail .edit-btn { margin-left: auto; }
 
-        .script-selector { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
-        .script-selector select { padding: 8px 16px; border-radius: 40px; border: 1.5px solid #1a3555; background: #0a1a32; color: #e8f0fe; font-size: 13px; }
-        .script-template-box { background: #0a1a32; border: 1px solid #1a3555; border-radius: 14px; padding: 14px; max-height: 350px; overflow-y: auto; }
-        .script-template-item { padding: 8px 12px; border-bottom: 1px solid #1a3555; cursor: pointer; color: #d0dce8; transition: 0.2s; }
-        .script-template-item:hover { background: #0f2140; }
-        .script-template-item .label { color: #4a8af4; font-weight: 600; }
-
-        .checkbox-col { width: 28px; text-align: center; }
-        .checkbox-col input[type="checkbox"] { accent-color: #4a8af4; width: 14px; height: 14px; cursor: pointer; }
-
-        .recognition-result { background: #0a1a32; border-radius: 10px; padding: 10px; margin-top: 10px; border: 1px solid #1a3555; }
-        .recognition-result .result-item { display: flex; justify-content: space-between; padding: 3px 0; color: #d0dce8; font-size: 13px; border-bottom: 1px solid #1a3555; }
-        .recognition-result .result-item:last-child { border-bottom: none; }
-        .recognition-result .detected { color: #4aca7a; }
-        .recognition-result .mismatch { color: #ff6b6b; }
-        .recognition-result .ocr-loading { color: #e8c84a; font-style: italic; }
-
-        .toast { position: fixed; bottom: 24px; right: 24px; background: #1a2f4f; color: #e8f0fe; padding: 14px 20px; border-radius: 14px; border: 1px solid #2a4a6a; box-shadow: 0 8px 30px rgba(0,0,0,0.5); z-index: 1000; animation: slideUp 0.3s; max-width: 380px; font-size: 14px; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .toast .close { float: right; cursor: pointer; color: #6a8aaa; margin-left: 14px; }
-
-        .tree-stats { display: flex; flex-wrap: wrap; gap: 12px; background: #0a1a32; border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; border: 1px solid #1a3555; }
-        .tree-stats .stat-item { font-size: 13px; color: #d0dce8; }
-        .tree-stats .stat-item strong { color: #e8f0fe; }
-
-        .client-table-header { display: grid; grid-template-columns: 40px 1fr 0.8fr 1fr 1fr 1.2fr 1.2fr; gap: 6px; padding: 8px 14px; color: #6a8aaa; font-size: 11px; font-weight: 600; border-bottom: 1px solid #1a3555; background: #0a1a32; border-radius: 12px 12px 0 0; }
-        .client-table-row { display: grid; grid-template-columns: 40px 1fr 0.8fr 1fr 1fr 1.2fr 1.2fr; gap: 6px; padding: 8px 14px; align-items: center; border-bottom: 1px solid #1a3555; }
-        .client-table-row .field { color: #d0dce8; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-        /* 职位薪水专用样式 */
         .position-member-card {
             background: #0a1a32;
             border: 1px solid #1a3555;
@@ -241,15 +199,6 @@
         }
         .position-member-card .member-info .detail span {
             margin-right: 12px;
-        }
-        .position-member-card .member-info .pay-badge {
-            display: inline-block;
-            background: #1a3555;
-            color: #e8c84a;
-            padding: 1px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            margin-left: 4px;
         }
         .position-member-card .member-actions {
             display: flex;
@@ -291,21 +240,40 @@
             color: #4aca7a;
         }
 
-        .pay-history-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 8px;
-            border-bottom: 1px solid #1a3555;
-            font-size: 12px;
-            color: #d0dce8;
-        }
-        .pay-history-item:last-child {
-            border-bottom: none;
-        }
+        .script-selector { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+        .script-selector select { padding: 8px 16px; border-radius: 40px; border: 1.5px solid #1a3555; background: #0a1a32; color: #e8f0fe; font-size: 13px; }
+        .script-template-box { background: #0a1a32; border: 1px solid #1a3555; border-radius: 14px; padding: 14px; max-height: 350px; overflow-y: auto; }
+        .script-template-item { padding: 8px 12px; border-bottom: 1px solid #1a3555; cursor: pointer; color: #d0dce8; transition: 0.2s; }
+        .script-template-item:hover { background: #0f2140; }
+        .script-template-item .label { color: #4a8af4; font-weight: 600; }
+
+        .checkbox-col { width: 28px; text-align: center; }
+        .checkbox-col input[type="checkbox"] { accent-color: #4a8af4; width: 14px; height: 14px; cursor: pointer; }
+
+        .recognition-result { background: #0a1a32; border-radius: 10px; padding: 10px; margin-top: 10px; border: 1px solid #1a3555; }
+        .recognition-result .result-item { display: flex; justify-content: space-between; padding: 3px 0; color: #d0dce8; font-size: 13px; border-bottom: 1px solid #1a3555; }
+        .recognition-result .result-item:last-child { border-bottom: none; }
+        .recognition-result .detected { color: #4aca7a; }
+        .recognition-result .mismatch { color: #ff6b6b; }
+        .recognition-result .ocr-loading { color: #e8c84a; font-style: italic; }
+
+        .toast { position: fixed; bottom: 24px; right: 24px; background: #1a2f4f; color: #e8f0fe; padding: 14px 20px; border-radius: 14px; border: 1px solid #2a4a6a; box-shadow: 0 8px 30px rgba(0,0,0,0.5); z-index: 1000; animation: slideUp 0.3s; max-width: 380px; font-size: 14px; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .toast .close { float: right; cursor: pointer; color: #6a8aaa; margin-left: 14px; }
+
+        .tree-stats { display: flex; flex-wrap: wrap; gap: 12px; background: #0a1a32; border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; border: 1px solid #1a3555; }
+        .tree-stats .stat-item { font-size: 13px; color: #d0dce8; }
+        .tree-stats .stat-item strong { color: #e8f0fe; }
+
+        .client-table-header { display: grid; grid-template-columns: 40px 1fr 0.8fr 1fr 1fr 1.2fr 1.2fr; gap: 6px; padding: 8px 14px; color: #6a8aaa; font-size: 11px; font-weight: 600; border-bottom: 1px solid #1a3555; background: #0a1a32; border-radius: 12px 12px 0 0; }
+        .client-table-row { display: grid; grid-template-columns: 40px 1fr 0.8fr 1fr 1fr 1.2fr 1.2fr; gap: 6px; padding: 8px 14px; align-items: center; border-bottom: 1px solid #1a3555; }
+        .client-table-row .field { color: #d0dce8; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .ocr-progress { background: #0a1a32; border-radius: 8px; padding: 8px 12px; margin-top: 8px; font-size: 12px; color: #e8c84a; display: flex; align-items: center; gap: 8px; }
+        .ocr-progress .bar { flex: 1; height: 4px; background: #1a3555; border-radius: 4px; overflow: hidden; }
+        .ocr-progress .bar .fill { height: 100%; background: #4a8af4; transition: width 0.3s; }
 
         @media (max-width: 768px) { .sidebar { width: 56px; } .sidebar-item span { display: none; } .sidebar-item { padding: 10px 14px; } .top-bar { flex-direction: column; align-items: stretch; } .ocr-layout { flex-direction: column; } .stat-grid { grid-template-columns: 1fr 1fr; } .client-table-header, .client-table-row { grid-template-columns: 30px 1fr 0.6fr 0.8fr 0.8fr 1fr 1fr; font-size: 11px; gap: 4px; padding: 6px 8px; } }
-
-        .search-dropdown .item .highlight { color: #4a8af4; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -324,7 +292,7 @@
 
     <div id="mainApp" class="main-layout hidden">
         <div class="top-bar">
-            <div class="brand"><i class="fas fa-robot"></i> 智能助手 <span style="font-size:11px;color:#4a8af4;">终极版</span></div>
+            <div class="brand"><i class="fas fa-robot"></i> 智能助手 <span style="font-size:11px;color:#4a8af4;">优化版</span></div>
             <div class="top-search" id="globalSearchContainer">
                 <i class="fas fa-search"></i>
                 <input id="globalSearch" placeholder="全局搜索 号码后4位...">
@@ -373,7 +341,6 @@
         general: { name: '区域总经理', bonus: 20000, bonusType: '每月固定收入', members: 80, payDay: 20 }
     };
     let positionStatus = JSON.parse(localStorage.getItem('smart_position_status')) || {};
-    // 每个客户的发放记录 { phone: { payCount: 0, lastPayDate: '', history: [] } }
     let positionPayRecords = JSON.parse(localStorage.getItem('smart_position_pay_records')) || {};
     let scriptTemplates = JSON.parse(localStorage.getItem('smart_script_templates')) || {
         recommend: { label: '推荐申请', templates: ['推荐申请话术-推荐恭喜话术1', '推荐申请话术-推荐恭喜话术2', '推荐申请话术-推荐恭喜话术3'] },
@@ -386,6 +353,8 @@
     let selectedInventory = new Set();
     let isProcessingOCR = false;
     let toastTimer = null;
+    let ocrQueue = [];
+    let ocrProcessing = false;
 
     function saveAll(){
         localStorage.setItem('smart_users', JSON.stringify(users));
@@ -493,7 +462,6 @@
                 c.positionBonusType = '';
                 c.positionPayDay = 1;
             }
-            // 发放记录
             const rec = positionPayRecords[c.phone] || { payCount: 0, lastPayDate: '', history: [] };
             c.payCount = rec.payCount || 0;
             c.lastPayDate = rec.lastPayDate || '';
@@ -585,7 +553,7 @@
     }
 
     // ============================================================
-    //  GLOBAL SEARCH
+    //  GLOBAL SEARCH (行内过滤)
     // ============================================================
     const globalInput = document.getElementById('globalSearch');
     const globalResults = document.getElementById('globalSearchResults');
@@ -710,13 +678,12 @@
     }
 
     // ============================================================
-    //  CLIENTS
+    //  CLIENTS (行内过滤搜索 + 等级筛选)
     // ============================================================
     function renderClients(area){
         let html = `
-            <div class="filter-bar" style="position:relative;">
+            <div class="filter-bar">
                 <input placeholder="搜索名字/账号/等级" id="clientSearch" style="flex:1;min-width:120px;">
-                <div class="search-dropdown" id="clientSearchResults"></div>
                 <select id="levelFilter" style="min-width:100px;">
                     <option value="">全部等级</option>
                     <option value="EM0">EM0</option>
@@ -764,37 +731,24 @@
         html += `</div><div class="pagination"><span>每页 <select id="pageSize"><option>10</option><option>20</option><option>50</option><option>100</option></select></span></div>`;
         area.innerHTML = html;
 
-        const levelFilter = document.getElementById('levelFilter');
-        if(levelFilter){
-            levelFilter.addEventListener('change', function(){
-                const val = this.value;
-                document.querySelectorAll('.client-table-row').forEach(row => {
-                    if(val === '') { row.style.display = 'grid'; return; }
-                    const rowLevel = row.dataset.level || '';
-                    row.style.display = rowLevel === val ? 'grid' : 'none';
-                });
+        // ===== 行内过滤搜索 =====
+        document.getElementById('clientSearch')?.addEventListener('input', function(){
+            const q = this.value.trim().toLowerCase();
+            document.querySelectorAll('.client-table-row').forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(q) ? 'grid' : 'none';
             });
-        }
+        });
 
-        const searchInput = document.getElementById('clientSearch');
-        const searchResults = document.getElementById('clientSearchResults');
-        if(searchInput && searchResults){
-            searchInput.addEventListener('input', function(){
-                const q = this.value.trim().toLowerCase();
-                if(q.length < 1) { searchResults.style.display = 'none'; return; }
-                const results = clients.filter(c => c.phone.includes(q) || c.name?.toLowerCase().includes(q) || c.level?.toLowerCase().includes(q));
-                if(results.length === 0) { searchResults.style.display = 'none'; return; }
-                searchResults.innerHTML = results.slice(0, 8).map(c => `
-                    <div class="item" onclick="document.getElementById('clientSearch').value='${c.phone}';searchResults.style.display='none';">
-                        <span>${c.phone} <span class="badge-sm">${c.level||'EM0'}</span> ${c.name ? '| '+c.name : ''}</span>
-                        <span style="color:#6a8aaa;font-size:11px;">上级: ${c.superior||'无'}</span>
-                    </div>
-                `).join('');
-                searchResults.style.display = 'block';
+        // ===== 等级筛选 =====
+        document.getElementById('levelFilter')?.addEventListener('change', function(){
+            const val = this.value;
+            document.querySelectorAll('.client-table-row').forEach(row => {
+                if(val === '') { row.style.display = 'grid'; return; }
+                const rowLevel = row.dataset.level || '';
+                row.style.display = rowLevel === val ? 'grid' : 'none';
             });
-            searchInput.addEventListener('blur', function(){ setTimeout(() => { searchResults.style.display = 'none'; }, 300); });
-            searchInput.addEventListener('focus', function(){ if(this.value.trim().length >= 1) searchResults.style.display = 'block'; });
-        }
+        });
 
         window.toggleSelectAllClients = function(){
             const allChecked = document.querySelectorAll('.client-checkbox');
@@ -918,13 +872,12 @@
     }
 
     // ============================================================
-    //  INVENTORY
+    //  INVENTORY (行内过滤搜索)
     // ============================================================
     function renderInventory(area){
         let html = `
-            <div class="filter-bar" style="position:relative;">
+            <div class="filter-bar">
                 <input placeholder="搜索号码/名字/等级" id="invSearch" style="flex:1;min-width:120px;">
-                <div class="search-dropdown" id="invSearchResults"></div>
                 <button class="btn" onclick="window.restoreClient()">♻️ 恢复</button>
                 <button class="btn btn-danger" onclick="window.batchDeleteInventory()">🗑️ 批量删除</button>
                 <button class="btn btn-warning" onclick="window.toggleSelectAllInventory()">☑️ 全选</button>
@@ -934,7 +887,7 @@
         inventory.forEach(i => {
             const status = i.deleted ? '已删除' : '正常';
             const checked = selectedInventory.has(i.phone) ? 'checked' : '';
-            html += `<tr>
+            html += `<tr class="inv-row" data-phone="${i.phone}">
                 <td><input type="checkbox" class="inv-checkbox" data-phone="${i.phone}" ${checked} style="accent-color:#4a8af4;cursor:pointer;"></td>
                 <td>${i.phone}</td>
                 <td>${i.level || 'EM0'}</td>
@@ -950,25 +903,14 @@
         html += `</table></div>`;
         area.innerHTML = html;
 
-        const invInput = document.getElementById('invSearch');
-        const invResults = document.getElementById('invSearchResults');
-        if(invInput && invResults){
-            invInput.addEventListener('input', function(){
-                const q = this.value.trim().toLowerCase();
-                if(q.length < 1) { invResults.style.display = 'none'; return; }
-                const results = inventory.filter(i => i.phone.includes(q) || i.name?.toLowerCase().includes(q) || i.level?.toLowerCase().includes(q));
-                if(results.length === 0) { invResults.style.display = 'none'; return; }
-                invResults.innerHTML = results.slice(0, 8).map(i => `
-                    <div class="item" onclick="document.getElementById('invSearch').value='${i.phone}';invResults.style.display='none';">
-                        <span>${i.phone} <span class="badge-sm">${i.level||'EM0'}</span> ${i.name ? '| '+i.name : ''}</span>
-                        <span style="color:#6a8aaa;font-size:11px;">${i.deleted ? '已删除' : '正常'}</span>
-                    </div>
-                `).join('');
-                invResults.style.display = 'block';
+        // ===== 行内过滤搜索 =====
+        document.getElementById('invSearch')?.addEventListener('input', function(){
+            const q = this.value.trim().toLowerCase();
+            document.querySelectorAll('.inv-row').forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(q) ? '' : 'none';
             });
-            invInput.addEventListener('blur', function(){ setTimeout(() => { invResults.style.display = 'none'; }, 300); });
-            invInput.addEventListener('focus', function(){ if(this.value.trim().length >= 1) invResults.style.display = 'block'; });
-        }
+        });
 
         document.getElementById('invSelectAll')?.addEventListener('change', function(){
             document.querySelectorAll('.inv-checkbox').forEach(cb => {
@@ -1043,7 +985,7 @@
     }
 
     // ============================================================
-    //  ORDERS (OCR)
+    //  ORDERS (优化版 OCR + 行内过滤)
     // ============================================================
     function renderOrders(area){
         const total = clients.length;
@@ -1100,7 +1042,7 @@
                         ${clients.map(c => {
                             const done = getTodayCompleted(c.phone);
                             const lv = c.levelTag || '?';
-                            return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #1a3555;font-size:12px;color:#d0dce8;" data-phone="${c.phone}" data-done="${done}">
+                            return `<div class="order-row" style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #1a3555;font-size:12px;color:#d0dce8;" data-phone="${c.phone}" data-done="${done}">
                                 <span><span class="badge" style="font-size:9px;padding:1px 6px;">${lv}</span> ${c.name || c.phone}</span>
                                 <span>${c.phone}</span>
                                 <span>${c.level}</span>
@@ -1123,57 +1065,153 @@
         const preview = document.getElementById('ocrPreview');
         const resultDetails = document.getElementById('recognitionDetails');
 
+        // 点击上传
         dropZone.addEventListener('click', () => fileInput.click());
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+
+        // 拖拽事件
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+        });
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.add('dragover');
+            });
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.remove('dragover');
+            });
+        });
         dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            if(e.dataTransfer.files.length > 0) {
-                for(let f of e.dataTransfer.files) {
-                    if(f.type.startsWith('image/')) handleOCRFile(f);
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length === 0) {
+                showToast('未检测到文件', 'warning');
+                return;
+            }
+            let imageCount = 0;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file.type.startsWith('image/')) {
+                    imageCount++;
+                    addToOCRQueue(file);
                 }
             }
+            if (imageCount === 0) showToast('请拖拽图片文件', 'error');
         });
         fileInput.addEventListener('change', (e) => {
             if(e.target.files.length > 0) {
                 for(let f of e.target.files) {
-                    if(f.type.startsWith('image/')) handleOCRFile(f);
+                    if(f.type.startsWith('image/')) addToOCRQueue(f);
                 }
             }
             fileInput.value = '';
         });
 
+        // 阻止页面默认拖拽
+        document.addEventListener('dragover', (e) => e.preventDefault());
+        document.addEventListener('drop', (e) => e.preventDefault());
+
+        // ===== OCR 队列处理 =====
+        function addToOCRQueue(file) {
+            ocrQueue.push(file);
+            if (!ocrProcessing) processOCRQueue();
+        }
+
+        async function processOCRQueue() {
+            if (ocrQueue.length === 0) { ocrProcessing = false; return; }
+            ocrProcessing = true;
+            const file = ocrQueue.shift();
+            await handleOCRFile(file);
+            // 稍微延迟，避免阻塞
+            setTimeout(() => processOCRQueue(), 100);
+        }
+
+        // ===== 图片预处理（优化准确率） =====
+        async function preprocessImage(imageData) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.src = imageData;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const d = data.data;
+                    // 灰度化 + 对比度增强
+                    for (let i = 0; i < d.length; i += 4) {
+                        const gray = 0.299 * d[i] + 0.587 * d[i+1] + 0.114 * d[i+2];
+                        // 对比度增强：小于 100 的变黑，大于 155 的变白
+                        let val = gray;
+                        if (val < 100) val = 0;
+                        else if (val > 155) val = 255;
+                        else val = (val - 100) * 255 / 55;
+                        d[i] = d[i+1] = d[i+2] = val;
+                    }
+                    ctx.putImageData(data, 0, 0);
+                    resolve(canvas.toDataURL('image/png'));
+                };
+                img.onerror = function() { resolve(imageData); };
+            });
+        }
+
         async function handleOCRFile(file){
-            if (isProcessingOCR) {
-                showToast('正在处理上一张图片，请稍候...', 'warning');
-                return;
-            }
+            if (isProcessingOCR) return;
             isProcessingOCR = true;
 
             const reader = new FileReader();
             reader.onload = async function(e) {
-                const imageData = e.target.result;
+                const rawImage = e.target.result;
+                const time = new Date().toLocaleString();
+
+                // 显示缩略图
                 const img = document.createElement('img');
-                img.src = imageData;
+                img.src = rawImage;
                 img.style.maxWidth = '60px';
                 img.style.maxHeight = '60px';
                 img.style.borderRadius = '6px';
                 img.style.border = '1px solid #1a3555';
                 preview.appendChild(img);
 
-                const time = new Date().toLocaleString();
+                // 更新进度
+                resultDetails.innerHTML = `<div class="ocr-loading">🔍 正在预处理图片...</div>`;
+
                 let detectedPhone = null;
                 let detectedLevel = null;
                 let matched = false;
                 let levelUpdated = false;
 
                 try {
-                    const recognizedText = await performOCR(imageData);
+                    // 1. 图片预处理
+                    const processedImage = await preprocessImage(rawImage);
+                    
+                    resultDetails.innerHTML = `<div class="ocr-loading">🔍 正在识别中... (0%)</div>`;
+
+                    // 2. OCR 识别（只识别数字和 EM 字母，提升速度）
+                    const result = await Tesseract.recognize(processedImage, 'eng', {
+                        tessedit_char_whitelist: '0123456789EMem',
+                        tessedit_pageseg_mode: '6',
+                        logger: m => {
+                            if (m.status === 'recognizing text') {
+                                resultDetails.innerHTML = `<div class="ocr-loading">🔍 正在识别中... (${Math.round(m.progress * 100)}%)</div>`;
+                            }
+                        }
+                    });
+
+                    const recognizedText = result.data.text;
+                    console.log('识别结果:', recognizedText);
+
                     if (recognizedText) {
-                        const result = extractPhoneAndLevel(recognizedText);
-                        detectedPhone = result.phone;
-                        detectedLevel = result.level;
+                        // 3. 提取账号和等级
+                        const phoneMatch = recognizedText.match(/\d{6,15}/);
+                        const levelMatch = recognizedText.match(/EM[0-3]/i);
+                        detectedPhone = phoneMatch ? phoneMatch[0] : null;
+                        detectedLevel = levelMatch ? levelMatch[0].toUpperCase() : null;
 
                         let resultHTML = '';
                         if (detectedPhone) {
@@ -1206,12 +1244,16 @@
                             }
                         } else {
                             resultHTML = `<div style="color:#6a8aaa;padding:6px;">未识别到有效号码（需要6-15位数字）</div>`;
+                            if (recognizedText.trim()) {
+                                resultHTML += `<div style="font-size:11px;color:#6a8aaa;margin-top:4px;">识别文本: ${recognizedText.substring(0, 80)}${recognizedText.length > 80 ? '...' : ''}</div>`;
+                            }
                         }
                         resultDetails.innerHTML = resultHTML;
                     } else {
                         resultDetails.innerHTML = `<div style="color:#ff6b6b;padding:6px;">❌ OCR识别失败</div>`;
                     }
                 } catch (error) {
+                    console.error('OCR处理错误:', error);
                     resultDetails.innerHTML = `<div style="color:#ff6b6b;padding:6px;">❌ 识别出错: ${error.message}</div>`;
                 }
 
@@ -1223,42 +1265,17 @@
             reader.readAsDataURL(file);
         }
 
-        async function performOCR(imageData) {
-            try {
-                const result = await Tesseract.recognize(imageData, 'ukr+eng', {
-                    logger: m => {
-                        if (m.status === 'recognizing text') {
-                            const detail = document.getElementById('recognitionDetails');
-                            if(detail) detail.innerHTML = `<div class="ocr-loading">🔍 识别中... ${Math.round(m.progress * 100)}%</div>`;
-                        }
-                    }
-                });
-                return result.data.text;
-            } catch (error) {
-                console.error('OCR识别失败:', error);
-                return null;
-            }
-        }
-
-        function extractPhoneAndLevel(text) {
-            const phoneMatch = text.match(/\b\d{6,15}\b/);
-            const levelMatch = text.match(/EM[0-3]/i);
-            return {
-                phone: phoneMatch ? phoneMatch[0] : null,
-                level: levelMatch ? levelMatch[0].toUpperCase() : null
-            };
-        }
-
+        // ===== 行内过滤搜索 =====
         document.getElementById('orderSearchRight')?.addEventListener('input', function(){
             const q = this.value.toLowerCase();
-            document.querySelectorAll('#orderListRight > div').forEach(el => {
+            document.querySelectorAll('.order-row').forEach(el => {
                 const text = el.innerText.toLowerCase();
                 el.style.display = text.includes(q) ? '' : 'none';
             });
         });
 
         window.filterOrders = function(filter){
-            document.querySelectorAll('#orderListRight > div').forEach(el => {
+            document.querySelectorAll('.order-row').forEach(el => {
                 const done = el.dataset.done === 'true';
                 if(filter === 'all') el.style.display = '';
                 else if(filter === 'done') el.style.display = done ? '' : 'none';
@@ -1326,13 +1343,12 @@
     }
 
     // ============================================================
-    //  SALARY
+    //  SALARY (行内过滤搜索)
     // ============================================================
     function renderSalary(area){
         area.innerHTML = `
-            <div class="filter-bar" style="position:relative;">
-                <input placeholder="搜索客户号码 (输入后4位)" id="salarySearch" style="flex:1;min-width:120px;">
-                <div class="search-dropdown" id="salarySearchResults"></div>
+            <div class="filter-bar">
+                <input placeholder="搜索客户号码" id="salarySearch" style="flex:1;min-width:120px;">
                 <button class="btn btn-primary" onclick="window.addSalaryWithImage()">💰 添加提款</button>
             </div>
             <div class="drop-zone" id="salaryDropZone" style="margin-bottom:12px;">
@@ -1348,7 +1364,7 @@
                         const records = salaryRecords.filter(s => s.phone === phone);
                         const total = records.reduce((a,b) => a + parseFloat(b.amount || 0), 0);
                         const lastImg = records[records.length-1]?.image || '';
-                        return `<tr>
+                        return `<tr class="salary-row" data-phone="${phone}">
                             <td>${phone}</td>
                             <td>${records.length}</td>
                             <td>${total.toFixed(2)}</td>
@@ -1363,25 +1379,14 @@
             </div>
         `;
 
-        const salInput = document.getElementById('salarySearch');
-        const salResults = document.getElementById('salarySearchResults');
-        if(salInput && salResults){
-            salInput.addEventListener('input', function(){
-                const q = this.value.trim();
-                if(q.length < 2) { salResults.style.display = 'none'; return; }
-                const results = [...new Set(salaryRecords.map(s => s.phone))].filter(p => p.includes(q));
-                if(results.length === 0) { salResults.style.display = 'none'; return; }
-                salResults.innerHTML = results.slice(0, 8).map(p => `
-                    <div class="item" onclick="document.getElementById('salarySearch').value='${p}';salResults.style.display='none';">
-                        <span>${p}</span>
-                        <span style="color:#6a8aaa;font-size:11px;">${salaryRecords.filter(s=>s.phone===p).length} 条记录</span>
-                    </div>
-                `).join('');
-                salResults.style.display = 'block';
+        // 行内过滤
+        document.getElementById('salarySearch')?.addEventListener('input', function(){
+            const q = this.value.trim().toLowerCase();
+            document.querySelectorAll('.salary-row').forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(q) ? '' : 'none';
             });
-            salInput.addEventListener('blur', function(){ setTimeout(() => { salResults.style.display = 'none'; }, 300); });
-            salInput.addEventListener('focus', function(){ if(this.value.trim().length >= 2) salResults.style.display = 'block'; });
-        }
+        });
 
         const dropZone = document.getElementById('salaryDropZone');
         const fileInput = document.getElementById('salaryFileInput');
@@ -1598,7 +1603,6 @@
                                 <span>团队 ${c.teamCount || 0}人</span>
                                 <span>已发 <strong style="color:#e8c84a;">${rec.payCount || 0}</strong> 次</span>
                                 <span>上次: ${rec.lastPayDate || '未发放'}</span>
-                                <span>下次: ${getNextPayDate(c.phone, pos.payDay)}</span>
                             </div>
                         </div>
                         <div class="member-actions">
@@ -1613,37 +1617,20 @@
                 <div class="pos-action" style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
                     <button class="btn btn-sm" style="padding:3px 10px;font-size:11px;" onclick="window.editPosition('${key}')">✏️ 编辑职位</button>
                     <button class="btn btn-sm btn-success" style="padding:3px 10px;font-size:11px;" onclick="window.markAllPaid('${key}')">💰 全部标记发放</button>
-                    <span style="font-size:11px;color:#6a8aaa;">点击单个客户的💰可单独记录发放</span>
                 </div>
             </div>`;
         });
         html += `</div>`;
         area.innerHTML = html;
 
-        // 搜索过滤
-        const posInput = document.getElementById('posSearch');
-        if(posInput){
-            posInput.addEventListener('input', function(){
-                const q = this.value.trim();
-                document.querySelectorAll('.position-member-card').forEach(el => {
-                    if(q.length < 2) { el.style.display = 'flex'; return; }
-                    el.style.display = el.dataset.phone.includes(q) ? 'flex' : 'none';
-                });
+        // 行内过滤
+        document.getElementById('posSearch')?.addEventListener('input', function(){
+            const q = this.value.trim().toLowerCase();
+            document.querySelectorAll('.position-member-card').forEach(el => {
+                if(q.length < 2) { el.style.display = 'flex'; return; }
+                el.style.display = el.innerText.toLowerCase().includes(q) ? 'flex' : 'none';
             });
-        }
-
-        function getNextPayDate(phone, payDay){
-            const rec = positionPayRecords[phone] || { lastPayDate: '' };
-            const now = new Date();
-            let year = now.getFullYear();
-            let month = now.getMonth();
-            // 如果今天已经过了发放日，则下个月
-            if(now.getDate() > payDay) {
-                month++;
-                if(month > 11) { month = 0; year++; }
-            }
-            return `${year}-${String(month+1).padStart(2,'0')}-${String(payDay).padStart(2,'0')}`;
-        }
+        });
 
         window.editMemberPay = function(phone){
             const c = clients.find(x => x.phone === phone);
@@ -1651,12 +1638,8 @@
             const rec = positionPayRecords[phone] || { payCount: 0, lastPayDate: '', history: [] };
             const newCount = prompt('已发放次数', rec.payCount || 0);
             const newLast = prompt('上次发放日期 (YYYY-MM-DD)', rec.lastPayDate || '');
-            if(newCount !== null && !isNaN(newCount)) {
-                rec.payCount = parseInt(newCount);
-            }
-            if(newLast !== null) {
-                rec.lastPayDate = newLast;
-            }
+            if(newCount !== null && !isNaN(newCount)) rec.payCount = parseInt(newCount);
+            if(newLast !== null) rec.lastPayDate = newLast;
             positionPayRecords[phone] = rec;
             saveAll();
             showToast('✅ 已更新发放记录', 'success');
@@ -1664,8 +1647,6 @@
         };
 
         window.markMemberPaid = function(phone){
-            const c = clients.find(x => x.phone === phone);
-            if(!c) return;
             const today = new Date().toISOString().slice(0,10);
             const rec = positionPayRecords[phone] || { payCount: 0, lastPayDate: '', history: [] };
             rec.payCount = (rec.payCount || 0) + 1;
