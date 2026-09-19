@@ -1599,11 +1599,35 @@
                     return `<div class="position-member-card" data-phone="${c.phone}">
                         <div class="member-info">
                             <div class="phone">${c.phone} <span class="badge" style="font-size:10px;">${c.level || 'EM0'}</span></div>
-                            <div class="detail">
-                                <span>团队 ${c.teamCount || 0}人</span>
-                                <span>已发 <strong style="color:#e8c84a;">${rec.payCount || 0}</strong> 次</span>
-                                <span>上次: ${rec.lastPayDate || '未发放'}</span>
-                            </div>
+                           <div class="detail">
+    <span>团队 ${c.teamCount || 0}人</span>
+    <span>已发 <strong style="color:#e8c84a;">${rec.payCount || 0}</strong> 次</span>
+    <span>上次: ${rec.lastPayDate || '未发放'}</span>
+    ${rec.lastPayDate ? (() => {
+        const lastDate = new Date(rec.lastPayDate);
+        const nextDate = new Date(lastDate);
+        nextDate.setMonth(nextDate.getMonth() + 1);
+        const today = new Date();
+        const diffDays = Math.ceil((nextDate - today) / (1000 * 60 * 60 * 24));
+        let statusText = '';
+        let statusColor = '#4aca7a';
+        if (diffDays < 0) {
+            statusText = `已逾期 ${Math.abs(diffDays)} 天`;
+            statusColor = '#ff6b6b';
+        } else if (diffDays === 0) {
+            statusText = '今天发放';
+            statusColor = '#e8c84a';
+        } else if (diffDays <= 3) {
+            statusText = `还有 ${diffDays} 天`;
+            statusColor = '#e8c84a';
+        } else {
+            statusText = `还有 ${diffDays} 天`;
+            statusColor = '#4aca7a';
+        }
+        const nextDateStr = nextDate.toISOString().slice(0, 10);
+        return `<span style="color:${statusColor};">下次: ${nextDateStr} (${statusText})</span>`;
+    })() : '<span style="color:#6a8aaa;">下次: 待发放</span>'}
+</div>
                         </div>
                         <div class="member-actions">
                             <button class="btn-sm btn-edit" onclick="window.editMemberPay('${c.phone}')">✏️ 编辑</button>
